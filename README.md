@@ -1,7 +1,7 @@
 # CodeStates-Seb-Team-045
 
 ## Main Project Name 
-###  『 TBD.. 』
+###  『 TBD... 』
 
 
 ## Main Project Member 
