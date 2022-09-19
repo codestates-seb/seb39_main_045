@@ -1,9 +1,11 @@
-# CodeStates-Seb-Team-045
+# 👥 Main Project Team Name
+## CodeStates-Seb-Team-045
+## 황야의 무법자 🔫 🤠
 
 ---
 
-## 🏠 Main Project Name
-# 🌵선인장 키우기🌵
+# 🏠 Main Project Name
+## 🌵선인장 키우기🌵
 
 ---
 
