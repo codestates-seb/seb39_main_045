@@ -8,6 +8,7 @@ import Intro from 'views/pages/Intro';
 import Login from 'views/pages/Login';
 import Mypage from 'views/pages/Mypage';
 import Signup from 'views/pages/Signup';
+import Nav from 'views/components/common/Nav';
 
 const Div = styled.div`
   width: 100vw;
@@ -49,6 +50,7 @@ const App = () => {
               element={<Signup />}
             />
           </Routes>
+          <Nav/>
         </Div>
       </BrowserRouter>
     </div>
