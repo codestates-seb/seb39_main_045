@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import GlobalStyle from 'assets/style/GlobalStyle';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import styled from 'styled-components';
@@ -23,6 +22,7 @@ const App = () => {
     <div className='App'>
       <GlobalStyle />
       <BrowserRouter>
+      <Podium />
         <Div>
           <Routes>
             <Route
