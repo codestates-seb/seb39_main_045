@@ -22,7 +22,6 @@ const App = () => {
     <div className='App'>
       <GlobalStyle />
       <BrowserRouter>
-      <Podium />
         <Div>
           <Routes>
             <Route
