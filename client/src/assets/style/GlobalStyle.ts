@@ -22,12 +22,19 @@ html,body{
 
 }
 
+a {
+    text-decoration: none;
+    &:link,
+    &:visited {
+      color: inherit;
+    }
+}
 
 button {
     cursor: pointer;
     font-weight: 700;
     font-family: 'ChosunGu';
-
+    border: none;
 }
 input{
     font-family: 'ChosunGu';
