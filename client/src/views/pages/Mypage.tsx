@@ -6,8 +6,12 @@ import Garden from 'views/components/icons/mypage/Garden';
 import Notebook from 'views/components/icons/mypage/Notebook';
 import Rank from 'views/components/icons/mypage/Rank';
 import Credit from 'views/components/icons/mypage/Credit';
+// import NowChallenge from './MypageNowChallenge';
+import { useNavigate } from 'react-router-dom';
 
 const Mypage = () => {
+  const navigate = useNavigate();
+
   return (
     <Container>
       <TapHome>마이페이지</TapHome>
@@ -20,12 +24,12 @@ const Mypage = () => {
           <Arrow />
         </Right>
       </TapInfo>
-      <TapMenu>
-        <Icon>
-          <Garden />
-        </Icon>
-        진행중인 챌린지
-      </TapMenu>
+        <TapMenu onClick={() => navigate('now')}>
+          <Icon>
+            <Garden />
+          </Icon>
+          진행중인 챌린지
+        </TapMenu>
       <TapMenu>
         <Icon>
           <Notebook />
@@ -42,7 +46,8 @@ const Mypage = () => {
         <Icon>
           <Credit />
         </Icon>
-        선인장 키우기를 만든 사람들</TapMenu>
+        선인장 키우기를 만든 사람들
+        </TapMenu>
     </Container>
   );
 };
