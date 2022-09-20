@@ -21,7 +21,7 @@ const Nav = () => {
 const Menu = styled.nav`
 position: fixed;
 bottom: 0;
-z-index: 1000;
+z-index: 4;
 height: 70px;
 width: 100%;
 max-width: 800px;
