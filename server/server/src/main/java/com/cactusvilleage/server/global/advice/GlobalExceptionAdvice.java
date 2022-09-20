@@ -28,6 +28,7 @@ public class GlobalExceptionAdvice {
         final ErrorResponse response = ErrorResponse.of(HttpStatus.BAD_REQUEST,
                 "Required request body is missing");
         log.warn("Required Request Body is Missing", e);
+
         return response;
     }
 
@@ -38,6 +39,7 @@ public class GlobalExceptionAdvice {
 
         final ErrorResponse response = ErrorResponse.of(e.getBindingResult());
         log.warn("Valid Error", e);
+
         return response;
     }
 
@@ -53,6 +55,7 @@ public class GlobalExceptionAdvice {
         	(isMissingAfterConversion() ? "present but converted to null" : "not present");
         */
         log.warn("Required Request Parameter is not present", e);
+
         return response;
     }
 
@@ -63,6 +66,7 @@ public class GlobalExceptionAdvice {
 
         final ErrorResponse response = ErrorResponse.of(HttpStatus.METHOD_NOT_ALLOWED);
         log.warn("Method Not Allowed", e);
+
         return response;
     }
 
@@ -73,6 +77,7 @@ public class GlobalExceptionAdvice {
 
         final ErrorResponse response = ErrorResponse.of(e.getConstraintViolations());
         log.warn("ConstraintViolation", e);
+
         return response;
     }
 
@@ -82,6 +87,7 @@ public class GlobalExceptionAdvice {
 
         final ErrorResponse response = ErrorResponse.of(e.getExceptionCode());
         log.warn("BusinessLogicException", e);
+
         return new ResponseEntity<>(response, HttpStatus.valueOf(e.getExceptionCode().getStatus()));
     }
 
@@ -91,6 +97,7 @@ public class GlobalExceptionAdvice {
 
         final ErrorResponse response = ErrorResponse.of(HttpStatus.INTERNAL_SERVER_ERROR);
         log.warn("Internal Server Error", e);
+
         return response;
     }
 }
