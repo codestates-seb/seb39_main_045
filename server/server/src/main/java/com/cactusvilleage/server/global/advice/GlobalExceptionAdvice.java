@@ -2,6 +2,7 @@ package com.cactusvilleage.server.global.advice;
 
 import com.cactusvilleage.server.global.exception.BusinessLogicException;
 import com.cactusvilleage.server.global.response.ErrorResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -16,6 +17,7 @@ import javax.validation.ConstraintViolationException;
 
 
 @RestControllerAdvice
+@Slf4j
 public class GlobalExceptionAdvice {
 
     @ExceptionHandler
@@ -25,6 +27,7 @@ public class GlobalExceptionAdvice {
 
         final ErrorResponse response = ErrorResponse.of(HttpStatus.BAD_REQUEST,
                 "Required request body is missing");
+        log.warn("Required Request Body is Missing", e);
 
         return response;
     }
@@ -35,6 +38,7 @@ public class GlobalExceptionAdvice {
         // @Valid 유효성 검사 통과하지 못했을 때 발생하는 에러
 
         final ErrorResponse response = ErrorResponse.of(e.getBindingResult());
+        log.warn("Valid Error", e);
 
         return response;
     }
@@ -50,6 +54,7 @@ public class GlobalExceptionAdvice {
         	this.parameterType + " is " +
         	(isMissingAfterConversion() ? "present but converted to null" : "not present");
         */
+        log.warn("Required Request Parameter is not present", e);
 
         return response;
     }
@@ -60,6 +65,7 @@ public class GlobalExceptionAdvice {
         // 유효하지 않은 HTTP 메소드
 
         final ErrorResponse response = ErrorResponse.of(HttpStatus.METHOD_NOT_ALLOWED);
+        log.warn("Method Not Allowed", e);
 
         return response;
     }
@@ -70,6 +76,7 @@ public class GlobalExceptionAdvice {
         // JPA 관련 제약 조건 위배되었을 때 발생하는 예외
 
         final ErrorResponse response = ErrorResponse.of(e.getConstraintViolations());
+        log.warn("ConstraintViolation", e);
 
         return response;
     }
@@ -79,6 +86,7 @@ public class GlobalExceptionAdvice {
         // BusinessLogicException
 
         final ErrorResponse response = ErrorResponse.of(e.getExceptionCode());
+        log.warn("BusinessLogicException", e);
 
         return new ResponseEntity<>(response, HttpStatus.valueOf(e.getExceptionCode().getStatus()));
     }
@@ -88,6 +96,7 @@ public class GlobalExceptionAdvice {
     public ErrorResponse handleException(Exception e) {
 
         final ErrorResponse response = ErrorResponse.of(HttpStatus.INTERNAL_SERVER_ERROR);
+        log.warn("Internal Server Error", e);
 
         return response;
     }
