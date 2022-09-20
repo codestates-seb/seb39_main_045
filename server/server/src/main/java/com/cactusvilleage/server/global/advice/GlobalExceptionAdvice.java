@@ -29,7 +29,6 @@ public class GlobalExceptionAdvice {
                 "Required request body is missing");
         log.error("Required Request Body is Missing", e);
 
-
         return response;
     }
 
@@ -68,7 +67,6 @@ public class GlobalExceptionAdvice {
         final ErrorResponse response = ErrorResponse.of(HttpStatus.METHOD_NOT_ALLOWED);
         log.error("Method Not Allowed", e);
 
-
         return response;
     }
 
@@ -84,6 +82,16 @@ public class GlobalExceptionAdvice {
     }
 
     @ExceptionHandler
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorResponse handleException(Exception e) {
+
+        final ErrorResponse response = ErrorResponse.of(HttpStatus.INTERNAL_SERVER_ERROR);
+        log.error("Internal Server Error", e);
+
+        return response;
+    }
+
+    @ExceptionHandler
     public ResponseEntity handleBusinessLogicException(BusinessLogicException e) {
         // BusinessLogicException
 
@@ -92,15 +100,5 @@ public class GlobalExceptionAdvice {
 
 
         return new ResponseEntity<>(response, HttpStatus.valueOf(e.getExceptionCode().getStatus()));
-    }
-
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorResponse handleException(Exception e) {
-
-        final ErrorResponse response = ErrorResponse.of(HttpStatus.INTERNAL_SERVER_ERROR);
-        log.error("Internal Server Error", e);
-
-        return response;
     }
 }
