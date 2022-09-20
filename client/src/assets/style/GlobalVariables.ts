@@ -7,6 +7,7 @@ const variables = css`
   --intro-btn-yellow: #f1eaa5;
   --intro-form-beige: #f7f8e1;
   --intro-form-darkgreen: #3c685e;
+  --intro-form-emp: #ffbe28;
   --main-bg-skyblue: #c5ebfd;
   --main-btn-brown: #301616;
   --main-btn-green: #51b46c;
@@ -17,6 +18,7 @@ const variables = css`
   --modal-gray: #bcbcbc;
   --mypage-bg-beige: #fffbe5;
   --mypage-btn-yellow: #fff2ac;
+  --mypage-btn-beige: hsla(51, 100%, 84%, 0.5);
   --mypage-btn-gray: #89a594;
   --graph-bg-green: #98ebaa;
   --shadow-beige-01: #f9ca85;
