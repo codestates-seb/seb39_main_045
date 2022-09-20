@@ -1,10 +1,21 @@
 import { CactusWrapper, NavBtns } from './MainNoCactus';
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { ReactComponent as Cactus } from '../components/icons/cactus/7.svg';
 interface Data {
   name: string
   percent: number
 }
+
+const CactusWithWrapper = styled(CactusWrapper)`
+  .cactus {
+    position: absolute;
+    bottom: 70px;
+    width: 90%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+`;
 const Messages = styled.div`
   width: 90%;
   padding: 20px;
@@ -19,15 +30,20 @@ const Messages = styled.div`
   letter-spacing: 2px;
   line-height: 20px;
   animation: animate 1.2s forwards 1 ease-out;
+  position: absolute;
+  top: 130px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
   @keyframes animate {
     0% {
-      transform: scale(0.8);
+      transform: translateX(-50%) scale(0.8);
       opacity: 0.5;
     }
     30%,
     50%,
     80% {
-      transform: scale(1);
+      transform: translateX(-50%) scale(1);
       opacity: 1;
     }
 
@@ -68,16 +84,17 @@ const MainCactus = () => {
 
   const data: Data = {
     name: '기상',
-    percent: 83
+    percent: Math.floor(Math.random() * 100)
   };
   const handleGiveWater = () => {
+    console.log('test');
     setGiveWater(true);
     setTimeout(() => {
       setGiveWater(false);
     }, 1200);
   };
   return (
-    <CactusWrapper>
+    <CactusWithWrapper>
       <GiveUp>
         <span>챌린지 포기하기 </span>
         <span className="material-icons">delete</span>
@@ -104,7 +121,8 @@ const MainCactus = () => {
           ✨오늘 하루가 반짝반짝하길!!
         </Messages>
       )}
-    </CactusWrapper>
+      <Cactus className="cactus" />
+    </CactusWithWrapper>
   );
 };
 

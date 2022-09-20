@@ -11,7 +11,10 @@ export const NavBtns = styled.div`
   justify-content: space-between;
   padding: 20px;
   align-items: flex-start;
-
+  position: absolute;
+  top: 0;
+  z-index: 3;
+  width: 100%;
   button {
     border: none;
     background-color: var(--main-btn-brown);
