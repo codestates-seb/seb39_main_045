@@ -29,7 +29,6 @@ public class GlobalExceptionAdvice {
                 "Required request body is missing");
         log.error("Required Request Body is Missing", e);
 
-
         return response;
     }
 
@@ -68,7 +67,6 @@ public class GlobalExceptionAdvice {
         final ErrorResponse response = ErrorResponse.of(HttpStatus.METHOD_NOT_ALLOWED);
         log.error("Method Not Allowed", e);
 
-
         return response;
     }
 
@@ -89,7 +87,6 @@ public class GlobalExceptionAdvice {
 
         final ErrorResponse response = ErrorResponse.of(e.getExceptionCode());
         log.error("BusinessLogicException", e);
-
 
         return new ResponseEntity<>(response, HttpStatus.valueOf(e.getExceptionCode().getStatus()));
     }
