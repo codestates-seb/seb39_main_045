@@ -22,21 +22,24 @@ const Menu = styled.nav`
 position: fixed;
 bottom: 0;
 z-index: 1000;
-background-color: var(--nav-bg-green);
 height: 70px;
 width: 100%;
+max-width: 800px;
 display: flex;
 align-items: center;
 border-top: 1 solid var(--nav-stroke-green);
 `;
 
-const Wrapper = styled.div`
+const Wrapper = styled.button`
 flex: 1;
-height: 100px;
+height: 70px;
 display: flex;
 align-items: center;
 justify-content: center;
-/* box-shadow: 0 0 10px 2px var(--nav-stroke-green) inset; */
+background-color: var(--nav-bg-green);
+&:hover, &:active {
+  box-shadow: 0 0 1px 1px var(--nav-stroke-green) inset;
+}
 `;
 
 export default Nav;
