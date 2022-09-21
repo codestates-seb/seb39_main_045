@@ -82,16 +82,6 @@ public class GlobalExceptionAdvice {
     }
 
     @ExceptionHandler
-    public ResponseEntity handleBusinessLogicException(BusinessLogicException e) {
-        // BusinessLogicException
-
-        final ErrorResponse response = ErrorResponse.of(e.getExceptionCode());
-        log.error("BusinessLogicException", e);
-
-        return new ResponseEntity<>(response, HttpStatus.valueOf(e.getExceptionCode().getStatus()));
-    }
-
-    @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponse handleException(Exception e) {
 
@@ -99,5 +89,15 @@ public class GlobalExceptionAdvice {
         log.error("Internal Server Error", e);
 
         return response;
+    }
+
+    @ExceptionHandler
+    public ResponseEntity handleBusinessLogicException(BusinessLogicException e) {
+        // BusinessLogicException
+
+        final ErrorResponse response = ErrorResponse.of(e.getExceptionCode());
+        log.error("BusinessLogicException", e);
+
+        return new ResponseEntity<>(response, HttpStatus.valueOf(e.getExceptionCode().getStatus()));
     }
 }

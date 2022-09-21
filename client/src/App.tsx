@@ -38,7 +38,7 @@ const App = () => {
               element={<MainCactus />}
             />
             <Route
-              path='/mypage'
+              path='/mypage/*'
               element={<Mypage />}
             />
             <Route
