@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-import { Container, TapHome, Title, ContentBox, Words } from 'views/components/mypage/mypage';
+import { Title, ContentBox, Words, ContentWrapper } from 'views/components/mypage/mypage';
 import GraphL from 'views/components/icons/mypage/GraphL';
 import GraphM from 'views/components/icons/mypage/GraphM';
 import GraphR from 'views/components/icons/mypage/GraphR';
@@ -16,18 +15,10 @@ import Day7 from 'views/components/icons/mypage/Day7';
 const iconMap = [<Day1 key='day1'/>, <Day2 key='day2'/>, <Day3 key='day3' />, <Day4 key='day4'/>, <Day5 key='day5' />, <Day6 key='day6'/>, <Day7 key='day7'/>];
 
 const NowChallenge = () => {
-  const navigate = useNavigate();
   const dummy = [{ day: 1, content: 'hi' }, { day: 2, content: 'hi2' },
-    { day: 2, content: 'hi2' }, { day: 2, content: 'hi2' }, { day: 2, content: 'hi2' }];
-
+    { day: 3, content: 'hi2' }, { day: 4, content: 'hi2' }, { day: 5, content: 'hi2' }];
   return (
-    <Container>
-      <TapHome onClick={() => navigate('/mypage')}>
-        <span className="material-symbols-outlined">
-        keyboard_backspace
-        </span>
-        마이페이지
-      </TapHome>
+    <>
       <Title size='title'>
         진행중인 챌린지
       </Title>
@@ -45,21 +36,21 @@ const NowChallenge = () => {
         </GraphWrapper>
         <Words>화이팅! 챌린지 성공까지 2일 남았어요</Words>
       </ContentBox>
-      <DayContentWrapper>
+      <ContentWrapper>
         {dummy.map((el, idx) => {
           return (
             <Content key={idx}>
-              {iconMap[idx]}
+              {iconMap[el.day - 1]}
               <EachDay>
-                <div>2022년 9월 16일 금요일</div>
-                <div>7시 10분 기상</div>
+                <div>{el.day}</div>
+                <div>{el.content}</div>
                 {/* <img src=''></img> */}
               </EachDay>
           </Content>
           );
         })}
-      </DayContentWrapper>
-    </Container>
+      </ContentWrapper>
+    </>
   );
 };
 
@@ -89,28 +80,6 @@ const GraphWrapper = styled.div`
 width: 100%;
 height: 35px;
 margin: 28px 0;
-`;
-
-const DayContentWrapper = styled.div`
-padding: 0 30px;
-margin-bottom: 30px;
-overflow-y: scroll;
-display: flex;
-flex-direction: column;
-//스크롤바 너비
-::-webkit-scrollbar {
-width: 8px;
-}
-//스크롤바
-::-webkit-scrollbar-thumb {
-  height: 30%;
-  background: var(--shadow-beige-03);
-  border-radius: 10px;
-}
-//스크롤바 배경
-/* ::-webkit-scrollbar-track {
-background: blue;
-} */
 `;
 
 const Content = styled.div`

@@ -9,7 +9,6 @@ import Login from 'views/pages/Login';
 import Mypage from 'views/pages/Mypage';
 import Signup from 'views/pages/Signup';
 import Nav from 'views/components/common/Nav';
-import NowChallenge from 'views/pages/MypageNowChallenge';
 
 const Div = styled.div`
   width: 100vw;
@@ -42,7 +41,6 @@ const App = () => {
               path='/mypage/*'
               element={<Mypage />}
             />
-            <Route path='now' element={<NowChallenge />} />
             <Route
               path='/login'
               element={<Login />}
