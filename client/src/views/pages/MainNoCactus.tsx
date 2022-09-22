@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Logout from 'views/components/mainpage/Logout';
 export const CactusWrapper = styled.div`
   background-color: var(--main-bg-skyblue);
   height: 100vh;
@@ -45,12 +46,6 @@ export const NavBtns = styled.div`
       font-weight: 400;
     }
   }
-
-  #logout {
-    border-radius: 50%;
-    margin: 5px;
-    background-color: var(--main-btn-green);
-  }
 `;
 const MainNoCactus = () => {
   return (
@@ -63,9 +58,7 @@ const MainNoCactus = () => {
           </div>
           <button className="choose">챌린지 선택하기</button>
         </div>
-        <button className="material-icons" id="logout">
-          logout
-        </button>
+        <Logout />
       </NavBtns>
     </CactusWrapper>
   );

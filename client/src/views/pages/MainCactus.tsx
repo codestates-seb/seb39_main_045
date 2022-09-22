@@ -1,7 +1,10 @@
 import { CactusWrapper, NavBtns } from './MainNoCactus';
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { ReactComponent as Cactus } from '../components/icons/cactus/7.svg';
+import Logout from 'views/components/mainpage/Logout';
+import GiveUpChall from 'views/components/mainpage/GiveUpChall';
+import { ReactComponent as Cactus } from '../components/icons/cactus/cactus1.svg';
+// import Cactus from '../components/mainpage/Cactus';
 interface Data {
   name: string
   percent: number
@@ -11,7 +14,7 @@ const CactusWithWrapper = styled(CactusWrapper)`
   .cactus {
     position: absolute;
     bottom: 70px;
-    width: 90%;
+    width: 80%;
     left: 50%;
     transform: translateX(-50%);
   }
@@ -52,33 +55,7 @@ const Messages = styled.div`
     }
   }
 `;
-const GiveUp = styled.span`
-  position: absolute;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  font-weight: 700;
-  color: white;
-  background-color: var(--main-btn-green);
-  padding: 10px;
-  font-size: 14px;
-  border-radius: 0 20px 20px 0;
-  z-index: 3;
-  left: -110px;
-  span:first-child {
-    margin-right: 10px;
-  }
-  top: 40%;
-  transform: translate(0, -50%);
-  transition: transform ease-out 0.8s;
 
-  :active {
-    transform: translate(110px, -50%);
-  }
-  :hover {
-    transform: translate(110px, -50%);
-  }
-`;
 const MainCactus = () => {
   const [giveWater, setGiveWater] = useState(false);
 
@@ -95,10 +72,7 @@ const MainCactus = () => {
   };
   return (
     <CactusWithWrapper>
-      <GiveUp>
-        <span>챌린지 포기하기 </span>
-        <span className="material-icons">delete</span>
-      </GiveUp>
+      <GiveUpChall />
       <NavBtns>
         <div className="leftBtns">
           <div className="waterNsun">
@@ -111,9 +85,7 @@ const MainCactus = () => {
             {data.name}챌린지 {data.percent}%
           </button>
         </div>
-        <button className="material-icons" id="logout">
-          logout
-        </button>
+        <Logout />
       </NavBtns>
       {giveWater && (
         <Messages>

@@ -1,10 +1,14 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import SadCactus from '../icons/modal/SadCactus';
+import ModalPortal from './ModalPortal';
+import { AlertProps } from './types';
+
 const AlertWrapper = styled.div`
   .bg {
     content: "";
-    position: absolute;
+    position: fixed;
     /* 우선앱솔루트줬긴했늗네 모르겠다ㅣㅇ... */
     top: 0;
     left: 0;
@@ -16,7 +20,6 @@ const AlertWrapper = styled.div`
   }
 `;
 const ModalConents = styled.div`
-  position: absolute;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -27,12 +30,15 @@ const ModalConents = styled.div`
   height: 250px;
   top: 50%;
   left: 50%;
+  position: fixed;
+
   transform: translate(-50%, -50%);
   background-color: rgba(255, 255, 255, 0.8);
   z-index: 7;
   border-radius: 10px;
   .material-icons {
     position: absolute;
+
     top: 5px;
     right: 0;
     background-color: transparent;
@@ -40,6 +46,7 @@ const ModalConents = styled.div`
     color: var(--modal-gray);
     cursor: pointer;
     border: none;
+    box-shadow: none;
   }
   .contents {
     margin: 10px;
@@ -79,29 +86,26 @@ const ModalConents = styled.div`
     }
   }
 `;
-const AlertModal = () => {
-  return (
-    <AlertWrapper>
-      <div className="bg"></div>
-      <ModalConents>
-        <button className="material-icons">close</button>
 
-        <SadCactus />
-        <div className="contents">
-          도중 포기를 할 경우
-          <br /> 이번 챌린지의 내용들이
-          <br />
-          모두 삭제되고
-          <br />
-          선인장이 죽게됩니다.
-          <br /> 그래도 포기하시겠습니까?
-        </div>
-        <div className="btns">
-          <button>확인</button>
-          <button>돌아가기</button>
-        </div>
-      </ModalConents>
-    </AlertWrapper>
+const AlertModal: React.FC<AlertProps> = ({ setIsOpen, status }) => {
+  return (
+    <ModalPortal>
+      <AlertWrapper>
+        <div className="bg"></div>
+        <ModalConents>
+          <button className="material-icons" onClick={() => setIsOpen(false)}>
+            close
+          </button>
+
+          <SadCactus />
+          <div className="contents">gkdl</div>
+          <div className="btns">
+            <button>확인</button>
+            <button onClick={() => setIsOpen(false)}>돌아가기</button>
+          </div>
+        </ModalConents>
+      </AlertWrapper>
+    </ModalPortal>
   );
 };
 export default AlertModal;
