@@ -1,11 +1,38 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import SadCactus from '../icons/modal/SadCactus';
 import ModalPortal from './ModalPortal';
 import { AlertProps, AlertMsg } from './types';
+const msg: AlertMsg = {
+  giveup:
+    '도중 포기를 할 경우\n 이번 챌린지의 내용들이\n 모두 삭제되고\n 선인장이 죽게됩니다.\n 그래도 포기하시겠습니까?',
+  logout: '로그아웃 하시겠습니까?',
+  resign:
+    '정말 떠나실 건가요?\n탈퇴하시면 회원 정보와 함께\n지금까지의 챌린지 기록이\n 모두 삭제됩니다.'
+};
+const AlertModal = ({ setIsOpen, status }: AlertProps) => {
+  return (
+    <ModalPortal>
+      <ModalWrapper>
+        <div className="bg" onClick={() => setIsOpen(false)}></div>
+        <ModalConents>
+          <button className="material-icons" onClick={() => setIsOpen(false)}>
+            close
+          </button>
 
-const AlertWrapper = styled.div`
+          <SadCactus />
+          <div className="contents">{msg[status]}</div>
+          <div className="btns">
+            <button>확인</button>
+            <button onClick={() => setIsOpen(false)}>돌아가기</button>
+          </div>
+        </ModalConents>
+      </ModalWrapper>
+    </ModalPortal>
+  );
+};
+
+export const ModalWrapper = styled.div`
   .bg {
     content: "";
     position: fixed;
@@ -29,11 +56,11 @@ const ModalConents = styled.div`
   height: 250px;
   top: calc(50% - 70px);
   left: 50%;
-  position: fixed;
-
   transform: translate(-50%, -50%);
-  background-color: rgba(255, 255, 255, 0.8);
+  position: fixed;
   z-index: 7;
+  animation: open 0.4s forwards 1 ease-out;
+  background-color: rgba(255, 255, 255, 0.8);
   border-radius: 10px;
   .material-icons {
     position: absolute;
@@ -81,35 +108,14 @@ const ModalConents = styled.div`
       }
     }
   }
+  @keyframes open {
+    to {
+      transform: translate(-50%, -50%) scale(1);
+    }
+    from {
+      transform: translate(-50%, -50%) scale(0.5);
+    }
+  }
 `;
-type ModalType = 'giveup' | 'logout' | 'resign';
-const msg: AlertMsg = {
-  giveup:
-    '도중 포기를 할 경우\n 이번 챌린지의 내용들이\n 모두 삭제되고\n 선인장이 죽게됩니다.\n 그래도 포기하시겠습니까?',
-  logout: '로그아웃 하시겠습니까?',
-  resign:
-    '정말 떠나실 건가요?\n탈퇴하시면 회원 정보와 함께\n지금까지의 챌린지 기록이\n 모두 삭제됩니다.'
-};
 
-const AlertModal: React.FC<AlertProps> = ({ setIsOpen, status }) => {
-  return (
-    <ModalPortal>
-      <AlertWrapper>
-        <div className="bg"></div>
-        <ModalConents>
-          <button className="material-icons" onClick={() => setIsOpen(false)}>
-            close
-          </button>
-
-          <SadCactus />
-          <div className="contents">{msg[status]}</div>
-          <div className="btns">
-            <button>확인</button>
-            <button onClick={() => setIsOpen(false)}>돌아가기</button>
-          </div>
-        </ModalConents>
-      </AlertWrapper>
-    </ModalPortal>
-  );
-};
 export default AlertModal;

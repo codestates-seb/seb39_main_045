@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Logout from 'views/components/mainpage/Logout';
 import { ReactComponent as Cactus } from '../components/icons/cactus/noCactus.svg';
+import ChooseChall from 'views/components/mainpage/ChooseChall';
 export const CactusWrapper = styled.div`
   background-color: var(--main-bg-skyblue);
   height: 100vh;
@@ -64,7 +65,7 @@ const MainNoCactus = () => {
             <button className="material-icons">water_drop</button>
             <button className="material-icons">wb_sunny</button>
           </div>
-          <button className="choose">챌린지 선택하기</button>
+          <ChooseChall />
         </div>
         <Logout />
       </NavBtns>

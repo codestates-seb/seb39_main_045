@@ -1,14 +1,5 @@
-import { CactusWrapper, NavBtns } from './MainNoCactus';
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import Logout from 'views/components/mainpage/Logout';
-import GiveUpChall from 'views/components/mainpage/GiveUpChall';
-import { ReactComponent as Cactus } from '../components/icons/cactus/cactus7.svg';
-// import Cactus from '../components/mainpage/Cactus';
-interface Data {
-  name: string
-  percent: number
-}
 const Messages = styled.div`
   width: 90%;
   padding: 20px;
@@ -45,14 +36,8 @@ const Messages = styled.div`
     }
   }
 `;
-
-const MainCactus = () => {
+const GiveWater = () => {
   const [giveWater, setGiveWater] = useState(false);
-
-  const data: Data = {
-    name: '기상',
-    percent: Math.floor(Math.random() * 100)
-  };
   const handleGiveWater = () => {
     console.log('test');
     setGiveWater(true);
@@ -61,31 +46,17 @@ const MainCactus = () => {
     }, 1200);
   };
   return (
-    <CactusWrapper>
-      <GiveUpChall />
-      <NavBtns>
-        <div className="leftBtns">
-          <div className="waterNsun">
-            <button className="material-icons" onClick={handleGiveWater}>
-              water_drop
-            </button>
-            <button className="material-icons">wb_sunny</button>
-          </div>
-          <button className="choose">
-            {data.name}챌린지 {data.percent}%
-          </button>
-        </div>
-        <Logout />
-      </NavBtns>
+    <>
+      <button className="material-icons" onClick={handleGiveWater}>
+        water_drop
+      </button>
       {giveWater && (
         <Messages>
           오늘도 화잇팅입니다~! <br />
           ✨오늘 하루가 반짝반짝하길!!
         </Messages>
       )}
-      <Cactus className="cactus" />
-    </CactusWrapper>
+    </>
   );
 };
-
-export default MainCactus;
+export default GiveWater;
