@@ -37,7 +37,7 @@ const GiveUpChall = () => {
         <span onClick={() => setIsOpen(true)}>챌린지 포기하기 </span>
         <span className="material-icons">delete</span>
       </GiveUp>
-      {isOpen && <AlertModal setIsOpen={setIsOpen} status={'logout'} />}
+      {isOpen && <AlertModal setIsOpen={setIsOpen} status={'giveup'} />}
     </>
   );
 };

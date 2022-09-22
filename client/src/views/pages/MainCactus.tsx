@@ -9,16 +9,6 @@ interface Data {
   name: string
   percent: number
 }
-
-const CactusWithWrapper = styled(CactusWrapper)`
-  .cactus {
-    position: absolute;
-    bottom: 70px;
-    width: 80%;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-`;
 const Messages = styled.div`
   width: 90%;
   padding: 20px;
@@ -71,7 +61,7 @@ const MainCactus = () => {
     }, 1200);
   };
   return (
-    <CactusWithWrapper>
+    <CactusWrapper>
       <GiveUpChall />
       <NavBtns>
         <div className="leftBtns">
@@ -94,7 +84,7 @@ const MainCactus = () => {
         </Messages>
       )}
       <Cactus className="cactus" />
-    </CactusWithWrapper>
+    </CactusWrapper>
   );
 };
 

@@ -3,13 +3,12 @@ import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import SadCactus from '../icons/modal/SadCactus';
 import ModalPortal from './ModalPortal';
-import { AlertProps } from './types';
+import { AlertProps, AlertMsg } from './types';
 
 const AlertWrapper = styled.div`
   .bg {
     content: "";
     position: fixed;
-    /* 우선앱솔루트줬긴했늗네 모르겠다ㅣㅇ... */
     top: 0;
     left: 0;
     right: 0;
@@ -28,7 +27,7 @@ const ModalConents = styled.div`
   width: 80%;
   max-width: 350px;
   height: 250px;
-  top: 50%;
+  top: calc(50% - 70px);
   left: 50%;
   position: fixed;
 
@@ -67,9 +66,6 @@ const ModalConents = styled.div`
     width: 80%;
 
     button {
-      /* display: inline-block; */
-      /* flex: 50%; */
-
       border-radius: 15px;
       border: none;
       color: white;
@@ -86,6 +82,14 @@ const ModalConents = styled.div`
     }
   }
 `;
+type ModalType = 'giveup' | 'logout' | 'resign';
+const msg: AlertMsg = {
+  giveup:
+    '도중 포기를 할 경우\n 이번 챌린지의 내용들이\n 모두 삭제되고\n 선인장이 죽게됩니다.\n 그래도 포기하시겠습니까?',
+  logout: '로그아웃 하시겠습니까?',
+  resign:
+    '정말 떠나실 건가요?\n탈퇴하시면 회원 정보와 함께\n지금까지의 챌린지 기록이\n 모두 삭제됩니다.'
+};
 
 const AlertModal: React.FC<AlertProps> = ({ setIsOpen, status }) => {
   return (
@@ -98,7 +102,7 @@ const AlertModal: React.FC<AlertProps> = ({ setIsOpen, status }) => {
           </button>
 
           <SadCactus />
-          <div className="contents">gkdl</div>
+          <div className="contents">{msg[status]}</div>
           <div className="btns">
             <button>확인</button>
             <button onClick={() => setIsOpen(false)}>돌아가기</button>

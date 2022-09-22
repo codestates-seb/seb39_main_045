@@ -1,11 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
 import Logout from 'views/components/mainpage/Logout';
+import { ReactComponent as Cactus } from '../components/icons/cactus/noCactus.svg';
 export const CactusWrapper = styled.div`
   background-color: var(--main-bg-skyblue);
   height: 100vh;
   overflow: hidden;
   position: relative;
+  .cactus {
+    position: absolute;
+    bottom: 70px;
+    width: 80%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 `;
 export const NavBtns = styled.div`
   display: flex;
@@ -60,6 +68,7 @@ const MainNoCactus = () => {
         </div>
         <Logout />
       </NavBtns>
+      <Cactus className="cactus" />
     </CactusWrapper>
   );
 };
