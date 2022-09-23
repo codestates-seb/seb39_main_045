@@ -109,9 +109,10 @@ const SelectModal = ({ setIsOpen }: DefaultProps) => {
   );
 };
 export const Label = styled.span`
+  display: inline-block;
   font-weight: 600;
   font-size: 0.88rem;
-  margin: 5px 0px;
+  margin-bottom : 5px;
 `;
 const ChooseModal = styled.div`
   display: flex;
@@ -137,8 +138,8 @@ const ChooseModal = styled.div`
   }
   .material-icons {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 10px;
+    right: 10px;
     background-color: transparent;
     font-weight: 600;
     color: var(--modal-gray);
