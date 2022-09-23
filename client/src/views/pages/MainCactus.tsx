@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Logout from 'views/components/mainpage/Logout';
 import GiveUpChall from 'views/components/mainpage/GiveUpChall';
-import { ReactComponent as Cactus } from '../components/icons/cactus/cactus7.svg';
-// import Cactus from '../components/mainpage/Cactus';
+import Cactus from 'views/components/mainpage/Cactus';
 interface Data {
+  [index: string]: string | number
   name: string
   percent: number
 }
@@ -83,7 +83,7 @@ const MainCactus = () => {
           ✨오늘 하루가 반짝반짝하길!!
         </Messages>
       )}
-      <Cactus className="cactus" />
+      <Cactus percent={data.percent} />
     </CactusWrapper>
   );
 };
