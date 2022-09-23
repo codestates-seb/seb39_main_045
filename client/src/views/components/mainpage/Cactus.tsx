@@ -7,18 +7,18 @@ import { ReactComponent as Cactus5 } from '../../components/icons/cactus/cactus5
 import { ReactComponent as Cactus6 } from '../../components/icons/cactus/cactus6.svg';
 import { ReactComponent as Cactus7 } from '../../components/icons/cactus/cactus7.svg';
 
-const Cactus = (props: { percent: number }) => {
-  if (props.percent >= (6 / 7) * 100) {
+const Cactus = ({ percent }: { percent: number }) => {
+  if (percent >= (6 / 7) * 100) {
     return <Cactus7 className="cactus" />;
-  } else if (props.percent >= (5 / 7) * 100) {
+  } else if (percent >= (5 / 7) * 100) {
     return <Cactus6 className="cactus" />;
-  } else if (props.percent >= (4 / 7) * 100) {
+  } else if (percent >= (4 / 7) * 100) {
     return <Cactus5 className="cactus" />;
-  } else if (props.percent >= (3 / 7) * 100) {
+  } else if (percent >= (3 / 7) * 100) {
     return <Cactus4 className="cactus" />;
-  } else if (props.percent >= (2 / 7) * 100) {
+  } else if (percent >= (2 / 7) * 100) {
     return <Cactus3 className="cactus" />;
-  } else if (props.percent >= (1 / 7) * 100) {
+  } else if (percent >= (1 / 7) * 100) {
     return <Cactus2 className="cactus" />;
   } else {
     return <Cactus1 className="cactus" />;
