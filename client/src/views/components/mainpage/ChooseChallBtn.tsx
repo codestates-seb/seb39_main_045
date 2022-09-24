@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { MainBtn } from './MainStyles';
 import SelectModal from './SelectModal';
-const ChooseBtn = styled.button`
-  border: none;
-  background-color: var(--main-btn-brown);
-  color: white;
-  padding: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+const ChooseBtn = styled(MainBtn)`
   margin-top: 5px;
   border-radius: 10px;
   font-size: 14px;

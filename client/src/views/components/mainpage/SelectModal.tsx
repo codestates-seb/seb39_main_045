@@ -1,9 +1,9 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
-import { ModalWrapper } from './AlertModal';
 import ShowTimeInput from './ShowTimeInput';
 import ModalPortal from './ModalPortal';
 import { DefaultProps, Choose } from './types';
+import { ModalWrapper, ModalContentWrapper } from './MainStyles';
 
 const defaultData: Choose = { challenge: null, day: null };
 
@@ -19,20 +19,35 @@ const SelectModal = ({ setIsOpen }: DefaultProps) => {
     setChallenge({ ...challenge, challenge: target.name });
   }; // 이부분 수정하기
   const handleSubmit = () => {
-    if (challenge.challenge === null || challenge.day === null) {
+    const name: string | null = challenge.challenge;
+    const days: string | null = challenge.day;
+    if (name === null || days === null) {
       return alert('챌린지를 선택해주세요');
     } else {
-      if (challenge.challenge !== 'thanks') {
+      if (name !== 'thanks') {
         if (getTime.current !== null) {
           if (getTime.current.value === '') {
             return alert('시간을 입력해주세요');
+          } else {
+            const time = Number(getTime.current.value);
+            if (name === 'morning') {
+              if (time < 5 || time > 8) {
+                return alert('선택 가능한 시간을 입력해주세요');
+              } else {
+                // axios
+                alert(`${name} ${days} ${time}`);
+              }
+            } else {
+              if (time < 0 || time > 23) {
+                return alert('선택 가능한 시간을 입력해주세요');
+              } else {
+                alert(`${name} ${days} ${time}`);
+              }
+            }
           }
-          alert(
-            `${challenge.challenge} ${challenge.day} ${getTime.current.value}`
-          );
         }
       } else {
-        alert(`${challenge.challenge} ${challenge.day}`);
+        alert(`${name} ${days}`);
       }
     }
   };
@@ -40,7 +55,7 @@ const SelectModal = ({ setIsOpen }: DefaultProps) => {
     <ModalPortal>
       <ModalWrapper>
         <div className="bg" onClick={() => setIsOpen(false)}></div>
-        <ChooseModal>
+        <ModalContentWrapper>
           <span className="title">챌린지 선택하기</span>
           <button className="material-icons" onClick={() => setIsOpen(false)}>
             close
@@ -103,7 +118,7 @@ const SelectModal = ({ setIsOpen }: DefaultProps) => {
             <ShowTimeInput status={challenge.challenge} ref={getTime} />
           </ModalContent>
           <ModalSubmitBtn onClick={handleSubmit}>선택하기</ModalSubmitBtn>
-        </ChooseModal>
+        </ModalContentWrapper>
       </ModalWrapper>
     </ModalPortal>
   );
@@ -112,7 +127,7 @@ export const Label = styled.span`
   display: inline-block;
   font-weight: 600;
   font-size: 0.88rem;
-  margin-bottom : 5px;
+  margin-bottom: 5px;
 `;
 const ChooseModal = styled.div`
   display: flex;

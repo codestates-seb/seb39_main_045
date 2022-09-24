@@ -1,19 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import AlertModal from './AlertModal';
-const LogoutBtn = styled.button`
-  &#logout {
-    border-radius: 50%;
-    margin: 5px;
-    background-color: var(--main-btn-green);
-    :active {
-      background-color: var(--main-emp-green);
-    }
-    :hover {
-      background-color: var(--main-emp-green);
-    }
-  }
-`;
+import { MainBtn } from './MainStyles';
+
 const Logout = () => {
   const [isOpen, setIsOpen] = useState(false);
   return (
@@ -29,5 +18,14 @@ const Logout = () => {
     </>
   );
 };
-
+const LogoutBtn = styled(MainBtn)`
+  margin: 5px;
+  background-color: var(--main-btn-green);
+  :active {
+    background-color: var(--main-emp-green);
+  }
+  :hover {
+    background-color: var(--main-emp-green);
+  }
+`;
 export default Logout;

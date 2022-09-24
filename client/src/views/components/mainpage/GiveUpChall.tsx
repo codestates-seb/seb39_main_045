@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import AlertModal from './AlertModal';
 
-const GiveUp = styled.span`
+const GiveUp = styled.div`
   position: absolute;
   cursor: pointer;
   display: flex;
@@ -13,7 +13,7 @@ const GiveUp = styled.span`
   padding: 10px;
   font-size: 14px;
   border-radius: 0 20px 20px 0;
-  z-index: 3;
+  z-index: 4;
   left: -110px;
   span:first-child {
     margin-right: 10px;

@@ -2,68 +2,17 @@ import React from 'react';
 import styled from 'styled-components';
 import Logout from 'views/components/mainpage/Logout';
 import { ReactComponent as Cactus } from '../components/icons/cactus/noCactus.svg';
-import ChooseChall from 'views/components/mainpage/ChooseChall';
-export const CactusWrapper = styled.div`
-  background-color: var(--main-bg-skyblue);
-  height: 100vh;
-  overflow: hidden;
-  position: relative;
-  .cactus {
-    position: absolute;
-    bottom: 70px;
-    width: 80%;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-`;
-export const NavBtns = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: 20px;
-  align-items: flex-start;
-  position: absolute;
-  top: 0;
-  z-index: 3;
-  width: 100%;
-  button {
-    border: none;
-    background-color: var(--main-btn-brown);
-    color: white;
-    padding: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-  }
-  .leftBtns {
-    .waterNsun {
-      display: flex;
-      justify-content: space-between;
-      margin: 5px;
-      button {
-        border-radius: 50%;
-      }
-      button:first-child {
-        color: var(--main-bg-skyblue);
-      }
-      button:last-child {
-        color: #ffee58;
-      }
-    }
-    .choose {
-      margin-top: 5px;
-      border-radius: 10px;
-      font-size: 14px;
-      padding: 10px;
-      font-weight: 400;
-    }
-  }
-`;
+import ChooseChall from 'views/components/mainpage/ChooseChallBtn';
+import { CactusWrapper, NavBtns } from 'views/components/mainpage/MainStyles';
+
 const MainNoCactus = () => {
   return (
     <CactusWrapper>
       <NavBtns>
         <div className="leftBtns">
           <div className="waterNsun">
-            <button className="material-icons">water_drop</button>
-            <button className="material-icons">wb_sunny</button>
+            <NoCactusSpan className="material-icons">water_drop</NoCactusSpan>
+            <NoCactusSpan className="material-icons">wb_sunny</NoCactusSpan>
           </div>
           <ChooseChall />
         </div>
@@ -73,5 +22,13 @@ const MainNoCactus = () => {
     </CactusWrapper>
   );
 };
+export const NoCactusSpan = styled.span`
+  color: white;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  background-color: var(--main-btn-brown);
+  border-radius: 50%;
+  user-select: none;
+`;
 
 export default MainNoCactus;

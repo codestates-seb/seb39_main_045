@@ -1,5 +1,32 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { MainBtn } from './MainStyles';
+
+const GiveWater = () => {
+  const [giveWater, setGiveWater] = useState(false);
+  const handleGiveWater = () => {
+    setGiveWater(true);
+    setTimeout(() => {
+      setGiveWater(false);
+    }, 1200);
+  };
+  return (
+    <>
+      <GiveWaterBtn className="material-icons" onClick={handleGiveWater}>
+        water_drop
+      </GiveWaterBtn>
+      {giveWater && (
+        <Messages>
+          오늘도 화잇팅입니다~! <br />
+          ✨오늘 하루가 반짝반짝하길!!
+        </Messages>
+      )}
+    </>
+  );
+};
+const GiveWaterBtn = styled(MainBtn)`
+  color: var(--main-bg-skyblue);
+`;
 const Messages = styled.div`
   width: 90%;
   padding: 20px;
@@ -36,27 +63,4 @@ const Messages = styled.div`
     }
   }
 `;
-const GiveWater = () => {
-  const [giveWater, setGiveWater] = useState(false);
-  const handleGiveWater = () => {
-    console.log('test');
-    setGiveWater(true);
-    setTimeout(() => {
-      setGiveWater(false);
-    }, 1200);
-  };
-  return (
-    <>
-      <button className="material-icons" onClick={handleGiveWater}>
-        water_drop
-      </button>
-      {giveWater && (
-        <Messages>
-          오늘도 화잇팅입니다~! <br />
-          ✨오늘 하루가 반짝반짝하길!!
-        </Messages>
-      )}
-    </>
-  );
-};
 export default GiveWater;

@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import SadCactus from '../icons/modal/SadCactus';
+import { ModalWrapper } from './MainStyles';
 import ModalPortal from './ModalPortal';
 import { AlertProps, AlertMsg } from './types';
 const msg: AlertMsg = {
@@ -32,19 +33,6 @@ const AlertModal = ({ setIsOpen, status }: AlertProps) => {
   );
 };
 
-export const ModalWrapper = styled.div`
-  .bg {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 5;
-    overflow: hidden;
-  }
-`;
 const ModalConents = styled.div`
   display: flex;
   flex-direction: column;
