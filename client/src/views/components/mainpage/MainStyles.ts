@@ -97,3 +97,30 @@ export const ModalContentWrapper = styled.div`
     }
   }
 `;
+export const ModalSubmitBtn = styled.button`
+  width: 40%;
+  padding: 15px;
+  background-color: var(--main-btn-brown);
+  align-self: center;
+  border-radius: 12px;
+  border: none;
+  color: white;
+  /* font-size: 0.75rem; */
+  margin: 5px;
+`;
+export const TimeDiv = styled.div`
+  padding: 5px 10px;
+  font-size: 0.88rem;
+  input {
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 0 5px;
+    font-weight: 700;
+    outline: var(--main-btn-green);
+  }
+  .desc {
+    font-size: 0.7rem;
+    padding: 5px;
+  }
+`;

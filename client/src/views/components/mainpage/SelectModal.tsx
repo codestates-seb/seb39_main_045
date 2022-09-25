@@ -3,7 +3,11 @@ import styled from 'styled-components';
 import ShowTimeInput from './ShowTimeInput';
 import ModalPortal from './ModalPortal';
 import { DefaultProps, Choose } from './types';
-import { ModalWrapper, ModalContentWrapper } from './MainStyles';
+import {
+  ModalWrapper,
+  ModalContentWrapper,
+  ModalSubmitBtn
+} from './MainStyles';
 
 const defaultData: Choose = { challenge: null, day: null };
 
@@ -129,50 +133,6 @@ export const Label = styled.span`
   font-size: 0.88rem;
   margin-bottom: 5px;
 `;
-const ChooseModal = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 30px 20px;
-  width: 80%;
-  max-width: 500px;
-  top: calc(50% - 70px);
-  left: 50%;
-  position: fixed;
-  animation: open 0.4s forwards 1 ease-out;
-  transform: translate(-50%, -50%);
-  background-color: rgba(255, 255, 255, 0.8);
-  z-index: 7;
-  border-radius: 10px;
-  .title {
-    position: absolute;
-    top: 15px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: var(--main-btn-brown);
-    font-weight: 700;
-  }
-  .material-icons {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: transparent;
-    font-weight: 600;
-    color: var(--modal-gray);
-    cursor: pointer;
-    border: none;
-    box-shadow: none;
-    font-size: 1.5rem;
-  }
-
-  @keyframes open {
-    to {
-      transform: translate(-50%, -50%) scale(1);
-    }
-    from {
-      transform: translate(-50%, -50%) scale(0.5);
-    }
-  }
-`;
 const ModalContent = styled.div`
   padding: 20px 0;
   .sort,
@@ -192,17 +152,6 @@ const ModalContent = styled.div`
       background-color: var(--main-emp-green);
     }
   }
-`;
-const ModalSubmitBtn = styled.button`
-  width: 40%;
-  padding: 15px;
-  background-color: var(--main-btn-brown);
-  align-self: center;
-  border-radius: 12px;
-  border: none;
-  color: white;
-  /* font-size: 0.75rem; */
-  margin: 5px;
 `;
 
 export default SelectModal;

@@ -2,6 +2,18 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import AlertModal from './AlertModal';
 
+const GiveUpChall = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <>
+      <GiveUp>
+        <span onClick={() => setIsOpen(true)}>챌린지 포기하기 </span>
+        <span className="material-icons">delete</span>
+      </GiveUp>
+      {isOpen && <AlertModal setIsOpen={setIsOpen} status={'giveup'} />}
+    </>
+  );
+};
 const GiveUp = styled.div`
   position: absolute;
   cursor: pointer;
@@ -29,16 +41,4 @@ const GiveUp = styled.div`
     transform: translate(110px, -50%);
   }
 `;
-const GiveUpChall = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  return (
-    <>
-      <GiveUp>
-        <span onClick={() => setIsOpen(true)}>챌린지 포기하기 </span>
-        <span className="material-icons">delete</span>
-      </GiveUp>
-      {isOpen && <AlertModal setIsOpen={setIsOpen} status={'giveup'} />}
-    </>
-  );
-};
 export default GiveUpChall;

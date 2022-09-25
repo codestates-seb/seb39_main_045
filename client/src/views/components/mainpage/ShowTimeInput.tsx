@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { TimeDiv } from './MainStyles';
 import { Label } from './SelectModal';
 
 const ShowTimeInput = React.forwardRef<
@@ -33,21 +34,5 @@ HTMLInputElement,
   }
   return <></>;
 });
-const TimeDiv = styled.div`
-  padding: 5px 10px;
-  font-size: 0.88rem;
-  input {
-    border: none;
-    border-radius: 5px;
-    padding: 5px;
-    margin: 0 5px;
-    font-weight: 700;
-    outline: var(--main-btn-green);
-  }
-  .desc {
-    font-size: 0.7rem;
-    padding: 5px;
-  }
-`;
 ShowTimeInput.displayName = 'ShowTimeInput';
 export default ShowTimeInput;
