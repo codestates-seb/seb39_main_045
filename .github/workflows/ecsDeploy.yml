@@ -80,7 +80,9 @@ jobs:
     - name: Application YAML Configuration
     - run: touch ./src/main/resources/application.yml
     - run: echo '${{ env.APPLICATION }}' > ./src/main/resources/application.yml
-    - uses: actions/upload-artifact@v2
+    
+    - name: Application YAML Uploading
+      uses: actions/upload-artifact@v2
       with:
         name: application.yml
         path: ./src/main/resources/application.yml
