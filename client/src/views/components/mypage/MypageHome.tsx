@@ -27,7 +27,7 @@ const MypageHome = () => {
         </TapMenu>
       <TapMenu to='book'>
         <Icon>
-          <Notebook />
+            <Notebook />
         </Icon>
         지난 챌린지 모아보기
         </TapMenu>
@@ -77,15 +77,15 @@ margin: 0 10px;
 `;
 
 const TapMenu = styled(Link)`
-  background: none;
-  box-shadow: 2px 3px 5px rgba(192, 180, 152, 0.2);
-  border-radius: 10px;
-  border: 0.1px solid var(--shadow-beige-01);
-  font-size: 1.5rem;
-  height: 80px;
-  display: flex;
-  align-items: center;
-  margin-top: 30px;
+background: none;
+box-shadow: 2px 3px 5px rgba(192, 180, 152, 0.2);
+border-radius: 10px;
+border: 0.1px solid var(--shadow-beige-01);
+font-size: 1.5rem;
+height: 80px;
+display: flex;
+align-items: center;
+margin-top: 30px;
 `;
 
 export default MypageHome;

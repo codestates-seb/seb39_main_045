@@ -2,11 +2,11 @@ import * as React from 'react';
 
 function SuccessBg(props: JSX.IntrinsicAttributes & React.SVGProps<SVGSVGElement>) {
   return (
-    <svg width={252} height={256} fill="none" {...props}>
+    <svg width={300} height={300} fill="none" {...props}>
       <path
         fill="url(#prefix__pattern30)"
         fillOpacity={0.1}
-        d="M0 0h252v256H0z"
+        d="M0 0h300v300H0z"
       />
       <defs>
         <pattern
