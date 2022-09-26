@@ -17,7 +17,6 @@ import com.cactusvilleage.server.auth.web.dto.plain.request.RecoveryDto;
 import com.cactusvilleage.server.auth.web.dto.plain.response.EditResponseDto;
 import com.cactusvilleage.server.auth.web.dto.plain.response.MemberInfoResponse;
 import com.cactusvilleage.server.global.exception.BusinessLogicException;
-import com.cactusvilleage.server.global.response.SingleResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
