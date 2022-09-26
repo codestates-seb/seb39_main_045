@@ -71,7 +71,7 @@ jobs:
         java-version: '11'
     - uses: gradle/gradle-build-action@v2
       with:
-        gradle-version: release-candidate
+        gradle-version: '7.5'
         arguments: build
         build-root-directory: server/server
         cache-disabled: true
