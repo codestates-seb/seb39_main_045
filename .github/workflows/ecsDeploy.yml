@@ -45,7 +45,7 @@ jobs:
         java-version: '11'
     
     - name: Application YAML Configuration
-      run: touch server/server/src/main/resources/application.yml && echo '${{ env.APPLICATION }}' > server/server/src/main/resources/application.yml
+      run: mkdir -p server/server/src/main/resources && touch server/server/src/main/resources/application.yml && echo '${{ env.APPLICATION }}' > server/server/src/main/resources/application.yml
     
     - name: Application YAML Uploading
       uses: actions/upload-artifact@v2
