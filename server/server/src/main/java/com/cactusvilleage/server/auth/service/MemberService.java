@@ -17,7 +17,6 @@ import com.cactusvilleage.server.auth.web.dto.plain.request.RecoveryDto;
 import com.cactusvilleage.server.auth.web.dto.plain.response.EditResponseDto;
 import com.cactusvilleage.server.auth.web.dto.plain.response.MemberInfoResponse;
 import com.cactusvilleage.server.global.exception.BusinessLogicException;
-import com.cactusvilleage.server.global.response.SingleResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -126,7 +125,7 @@ public class MemberService {
         context.setVariable("username", recoveryDto.getUsername());
         context.setVariable("tempPassword", tempPassword);
 
-        awsSesUtils.singleEmailRequest(email, "임시 비밀번호~", "recovery", context);
+        awsSesUtils.singleEmailRequest(email, "선인장 키우기의 임시 비밀번호입니다", "recovery", context);
     }
 
     public void delete(HttpServletRequest request, HttpServletResponse response) {
