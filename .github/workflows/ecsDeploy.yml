@@ -3,7 +3,7 @@ name: Deploy to Amazon ECS
 on:
   push:
     branches: [ "dev" ]
-
+ 
 env:
   AWS_REGION: ap-northeast-2
   ECR_REPOSITORY: ecs-webapi
