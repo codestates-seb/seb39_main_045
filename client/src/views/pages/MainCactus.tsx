@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Logout from 'views/components/mainpage/Logout';
 import GiveUpChall from 'views/components/mainpage/GiveUpChall';
@@ -6,12 +6,14 @@ import Cactus from 'views/components/mainpage/Cactus';
 import TodayChallBtn from 'views/components/mainpage/TodayChallBtn';
 import GiveWater from 'views/components/mainpage/GiveWater';
 import { CactusWrapper, NavBtns } from 'views/components/mainpage/MainStyles';
+import SuccessFailModal from 'views/components/mainpage/SuccessFailModal';
 interface Data {
   [index: string]: string | number
   name: string
   percent: number
 }
 const MainCactus = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const data: Data = {
     name: '기상',
     percent: Math.floor(Math.random() * 100)
@@ -32,6 +34,7 @@ const MainCactus = () => {
         <Logout />
       </NavBtns>
       <Cactus percent={data.percent} />
+      {isOpen && <SuccessFailModal status={'fail'} setIsOpen={setIsOpen} />}
     </CactusWrapper>
   );
 };
