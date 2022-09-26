@@ -78,14 +78,13 @@ jobs:
     - run: gradle build --dry-run
       
     - name: Application YAML Configuration
-    - run: touch ./src/main/resources/application.yml
-    - run: echo '${{ env.APPLICATION }}' > ./src/main/resources/application.yml
+    - run: touch server/server/src/main/resources/application.yml && echo '${{ env.APPLICATION }}' > server/server/src/main/resources/application.yml
     
     - name: Application YAML Uploading
       uses: actions/upload-artifact@v2
       with:
         name: application.yml
-        path: ./src/main/resources/application.yml
+        path: server/server/src/main/resources/application.yml
   
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
