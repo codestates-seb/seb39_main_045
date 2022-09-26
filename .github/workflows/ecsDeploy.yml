@@ -67,16 +67,11 @@ jobs:
       with:
         java-version: '11'
         distribution: 'adopt'
-        
-    - name: Setup Gradle
-      uses: gradle/gradle-build-action@v2
-      
-    - name: Grant execute permisson for Gradlew
-      run: chmod +x gradlew
+        cache: 'gradle'
+    - run: ../../server/server/gradlew build --no-daemon
     
-    - name: Execute Gradle build
-      run: ../../server/server/.gradlew clean build
- 
+#     - name: Execute Gradle build
+#       run: ../../server/server/.gradlew clean build
       
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
