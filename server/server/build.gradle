@@ -34,6 +34,28 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+
+//	jwt
+	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
+	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
+	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
+
+//	redis
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+//	aws
+	implementation 'software.amazon.awssdk:ses:2.17.276'
+	implementation 'net.minidev:json-smart:2.4.8'
+
+//	thymeleaf
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+//	oauth2
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
+//	configurationProperties
+	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
 }
 
 tasks.named('test') {
