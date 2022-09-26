@@ -35,10 +35,8 @@ env:
   ECR_REPOSITORY: ecs-webapi
   ECS_SERVICE: cactus-webapi-deploy                 
   ECS_CLUSTER: cactusCluster
-  ECS_TASK_DEFINITION: ./server/server/task-definition.json       # set this to the path to your Amazon ECS task definition
-                                                                # file, e.g. .aws/task-definition.json
+  ECS_TASK_DEFINITION: ./server/server/task-definition.json      
   CONTAINER_NAME: ecs-webapi
-                                               
 
 permissions:
   contents: read
@@ -72,12 +70,13 @@ jobs:
         
     - name: Setup Gradle
       uses: gradle/gradle-build-action@v2
+      
+    - name: Grant execute permisson for Gradlew
+      run: chmod +x gradlew
     
     - name: Execute Gradle build
-      uses: gradle/gradle-build-action@v2
-      with:
-       arguments: build
-       build-root-directory: server/server
+      run: ../../server/server/.gradlew clean build
+ 
       
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
