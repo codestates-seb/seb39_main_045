@@ -75,7 +75,9 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
-                .antMatchers("/members/signup", "/members/login/**", "/members/reissue", "/members/recovery").permitAll()
+                .antMatchers("/members/signup", "/members/login/**", "/members/recovery").permitAll()
+                .antMatchers("/members/reissue", "/members/logout").permitAll()
+                .antMatchers(HttpMethod.DELETE, "/members").permitAll()
                 .antMatchers("/**/oauth2/**").permitAll()
                 .anyRequest().authenticated()
 

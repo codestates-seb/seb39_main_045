@@ -38,14 +38,12 @@ public class HeaderUtil {
         RefreshToken refreshTokenEntity = RefreshToken.builder()
                 .memberId(authentication.getName())
                 .tokenId(tokenId)
-                .tokenValue(tokenProvider.generateRefreshToken())
+                .tokenValue(tokenProvider.generateRefreshToken(authentication))
                 .build();
         tokenRepository.save(refreshTokenEntity);
 
         CookieUtil.deleteCookie(request, response, "refresh_token");
         CookieUtil.addCookie(response, "refresh_token", tokenId, REFRESH_TOKEN_EXPIRES_IN);
     }
-
-
 
 }
