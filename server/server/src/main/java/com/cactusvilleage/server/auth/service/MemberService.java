@@ -126,7 +126,7 @@ public class MemberService {
         context.setVariable("username", recoveryDto.getUsername());
         context.setVariable("tempPassword", tempPassword);
 
-        awsSesUtils.singleEmailRequest(email, "임시 비밀번호~", "recovery", context);
+        awsSesUtils.singleEmailRequest(email, "선인장 키우기의 임시 비밀번호입니다", "recovery", context);
     }
 
     public void delete(HttpServletRequest request, HttpServletResponse response) {
