@@ -2,6 +2,7 @@ package com.cactusvilleage.server.auth.service;
 
 import com.cactusvilleage.server.auth.email.AwsSesUtils;
 import com.cactusvilleage.server.auth.entities.Member;
+import com.cactusvilleage.server.auth.entities.RefreshToken;
 import com.cactusvilleage.server.auth.entities.oauth.ProviderType;
 import com.cactusvilleage.server.auth.repository.MemberRepository;
 import com.cactusvilleage.server.auth.repository.RefreshTokenRepository;
@@ -29,6 +30,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
@@ -67,9 +69,9 @@ public class MemberService {
     }
 
     public void logout(HttpServletRequest request, HttpServletResponse response) {
-        Long memberId = SecurityUtil.getCurrentMemberId();
-        tokenRepository.deleteById(memberId.toString());
+        RefreshToken refreshToken = getRefreshToken(request);
 
+        tokenRepository.deleteById(refreshToken.getTokenId());
         response.setHeader("Authorization", null);
         CookieUtil.deleteCookie(request, response, "refresh_token");
     }
@@ -128,7 +130,8 @@ public class MemberService {
     }
 
     public void delete(HttpServletRequest request, HttpServletResponse response) {
-        Long memberId = SecurityUtil.getCurrentMemberId();
+        RefreshToken refreshToken = getRefreshToken(request);
+        Long memberId = Long.parseLong(refreshToken.getMemberId());
         Member foundMember = findMember(memberId);
         foundMember.setDeleted(true);
         String dummy = getEncodedMemberId(memberId);
@@ -140,10 +143,8 @@ public class MemberService {
     }
 
     public ResponseEntity reissue(HttpServletRequest request) {
-        Authentication authentication = tokenProvider.getAuthentication(request.getHeader("Authorization").substring(7));
-        String memberId = authentication.getName();
-        verifyRefreshToken(memberId);
-
+        RefreshToken refreshToken = getRefreshToken(request);
+        Authentication authentication = tokenProvider.getAuthentication(refreshToken.getTokenValue());
         String accessToken = tokenProvider.generateAccessToken(authentication);
 
         return ResponseEntity.ok()
@@ -174,9 +175,12 @@ public class MemberService {
                 .build();
     }
 
-    private void verifyRefreshToken(String memberId) {
-        tokenRepository.findById(memberId)
-                .orElseThrow(() -> new BusinessLogicException(EXPIRED_JWT_TOKEN));
+
+    private RefreshToken getRefreshToken(HttpServletRequest request) {
+        Cookie refreshCookie = CookieUtil.getCookie(request, "refresh_token").orElseThrow(() -> new BusinessLogicException(NO_AUTHENTICATION));
+        String tokenId = refreshCookie.getValue();
+
+        return tokenRepository.findById(tokenId).orElseThrow(() -> new BusinessLogicException(NO_AUTHENTICATION));
     }
 
     private String getTempPassword() {

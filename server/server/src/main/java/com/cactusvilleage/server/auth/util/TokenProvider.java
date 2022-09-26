@@ -22,19 +22,13 @@ import java.util.stream.Collectors;
 
 import static com.cactusvilleage.server.global.exception.ExceptionCode.*;
 
-/**
- * 최초 로그인 -> 액세스, 리프레시 동시 발급
- * 토큰 재발급 -> 검증 후 액세스만 발급
- * <p>
- * 리프레시는 재발급 ㄴㄴ?
- */
 @Component
 @Slf4j
 public class TokenProvider {
     private static final String AUTHORITIES_KEY = "auth";
     private static final int ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30; // 30분
 //    private static final int ACCESS_TOKEN_EXPIRE_TIME = 1000 * 30;
-    private static final int REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24; // 2주
+    private static final int REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 14; // 2주
     private final Key key;
 
     public TokenProvider(@Value("${jwt.secret}") String secretKey) {
@@ -42,11 +36,18 @@ public class TokenProvider {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String generateRefreshToken() {
+    public String generateRefreshToken(Authentication authentication) {
         Date now = new Date();
         Date refreshTokenExpiresIn = new Date(now.getTime() + REFRESH_TOKEN_EXPIRE_TIME);
 
+        String auth = authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(","));
+
+
         return Jwts.builder()
+                .claim(AUTHORITIES_KEY, auth)
+                .setSubject(authentication.getName())
                 .setIssuedAt(now)
                 .setExpiration(refreshTokenExpiresIn)
                 .signWith(key, SignatureAlgorithm.HS512)
@@ -70,8 +71,8 @@ public class TokenProvider {
                 .compact();
     }
 
-    public Authentication getAuthentication(String accessToken) {
-        Claims claims = parseClaim(accessToken);
+    public Authentication getAuthentication(String token) {
+        Claims claims = parseClaim(token);
 
         if (claims.get(AUTHORITIES_KEY) == null) {
             throw new BusinessLogicException(TOKEN_HAS_NO_AUTH);
