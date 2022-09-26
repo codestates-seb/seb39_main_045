@@ -29,6 +29,7 @@ public class TokenProvider {
     private static final int ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30; // 30분
 //    private static final int ACCESS_TOKEN_EXPIRE_TIME = 1000 * 30;
     private static final int REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 14; // 2주
+
     private final Key key;
 
     public TokenProvider(@Value("${jwt.secret}") String secretKey) {
@@ -48,6 +49,7 @@ public class TokenProvider {
         return Jwts.builder()
                 .claim(AUTHORITIES_KEY, auth)
                 .setSubject(authentication.getName())
+
                 .setIssuedAt(now)
                 .setExpiration(refreshTokenExpiresIn)
                 .signWith(key, SignatureAlgorithm.HS512)
@@ -73,6 +75,7 @@ public class TokenProvider {
 
     public Authentication getAuthentication(String token) {
         Claims claims = parseClaim(token);
+
 
         if (claims.get(AUTHORITIES_KEY) == null) {
             throw new BusinessLogicException(TOKEN_HAS_NO_AUTH);

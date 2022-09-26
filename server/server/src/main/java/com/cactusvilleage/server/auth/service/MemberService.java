@@ -132,6 +132,7 @@ public class MemberService {
     public void delete(HttpServletRequest request, HttpServletResponse response) {
         RefreshToken refreshToken = getRefreshToken(request);
         Long memberId = Long.parseLong(refreshToken.getMemberId());
+
         Member foundMember = findMember(memberId);
         foundMember.setDeleted(true);
         String dummy = getEncodedMemberId(memberId);

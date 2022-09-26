@@ -24,6 +24,7 @@ html,body{
 
 a {
     text-decoration: none;
+    color: black;
     &:link,
     &:visited {
       color: inherit;
@@ -35,6 +36,7 @@ button {
     font-weight: 700;
     font-family: 'ChosunGu';
     border: none;
+    color: black;
 }
 input{
     font-family: 'ChosunGu';

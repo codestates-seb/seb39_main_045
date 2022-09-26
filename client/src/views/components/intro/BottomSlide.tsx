@@ -1,4 +1,3 @@
-/* eslint-disable no-tabs */
 import React from 'react';
 import styled from 'styled-components';
 import { Wrapper, Track } from './introStyle';
@@ -20,7 +19,8 @@ const BottomSlide = () => {
 };
 
 const BtmWrapper = styled(Wrapper)`
-  position: absolute;
+//nav 없앤뒤 bottom: 0으로 바꿀것
+  top: auto;
   bottom: 70px;
 `;
 

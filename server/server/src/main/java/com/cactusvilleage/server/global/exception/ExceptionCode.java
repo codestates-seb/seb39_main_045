@@ -2,15 +2,27 @@ package com.cactusvilleage.server.global.exception;
 
 
 import lombok.Getter;
+import lombok.Setter;
 
 public enum ExceptionCode {
 
-    MEMBER_NOT_FOUND(404, "Member not found");
+    MEMBER_NOT_FOUND(404, "Member not found"),ONLY_FOR_MEMBER(403, "인증 ㄴㄴ"),
+    ONLY_FOR_ADMIN(401, "인가 ㄴㄴ"),
+    WRONG_JWT_SIGNATURE(403, "잘못된 JWT 서명입니다."),
+    EXPIRED_JWT_TOKEN(403, "만료된 JWT 토큰입니다"),
+    UNSUPPORTED_JWT_TOKEN(403, "지원되지 않는 JWT 토큰입니다"),
+    WRONG_JWT_ARGUMENT(403, "올바르지 않은 JWT 토큰입니다"),
+    TOKEN_HAS_NO_AUTH(403, "권한 정보가 없는 토큰입니다"),
+    NO_AUTHENTICATION(401, "인증 정보가 없습니다"),
+    EXPIRED_ACCESS_CODE(403, "이메일 인증 시간 만료"),
+    MEMBER_INFO_EXISTS(400, ""),
+    PRE_PASSWORD_REQUIRED(400, "기존 비밀번호는 필수값입니다.");
 
     @Getter
     private int status;
 
     @Getter
+    @Setter
     private String message;
 
     ExceptionCode(int code, String message) {

@@ -1,4 +1,23 @@
 import styled from 'styled-components';
+interface TitleProps {
+  fontSize?: string
+  paddingTop?: string
+  marginBtm?: string
+  textShadow?: string
+  lineHeight?: string
+}
+
+interface DefaultBoxProps {
+  bgColor?: string
+  border?: string
+}
+
+interface ContentBoxProps {
+  height?: string
+  padding?: string
+  flex?: string
+  alignItems?: string
+}
 
 export const Container = styled.div`
   display: flex;
@@ -41,32 +60,25 @@ export const TapHomeBtn = styled(TapHome)`
   }
 `;
 
-interface TitleProps {
-  fontSize?: string
-  paddingTop?: string
-  marginBtm?: string
-  textShadow?: string
-}
-
 export const Title = styled.div<TitleProps>`
   font-size: ${props =>
     props.fontSize === 'title' ? '1.5rem' : props.fontSize};
   padding-top: ${props => props.paddingTop};
   margin-bottom: ${props => props.marginBtm};
-  background-image: ${props => props.textShadow};
+  line-height: ${props => props.lineHeight};
+  .material-symbols-outlined {
+    vertical-align: -5px;
+    padding-right: 2px;
+    color: var( --intro-form-darkgreen);
+  }
 `;
 
 Title.defaultProps = {
   fontSize: 'title',
   paddingTop: '0',
   marginBtm: '0',
-  textShadow: 'none'
+  lineHeight: 'normal'
 };
-
-interface DefaultBoxProps {
-  bgColor?: string
-  border?: string
-}
 
 export const DefaultBox = styled.div<DefaultBoxProps>`
   background-color: ${p => p.bgColor};
@@ -81,12 +93,6 @@ DefaultBox.defaultProps = {
   border: '1px solid var(--shadow-beige-03)'
 };
 
-interface ContentBoxProps {
-  height?: string
-  padding?: string
-  flex?: string
-  alignItems?: string
-}
 export const ContentBox = styled(DefaultBox)<ContentBoxProps>`
   height: ${props => props.height};
   padding: ${props => props.padding};
@@ -119,9 +125,9 @@ export const ContentWrapper = styled.div<{ padding: string }>`
   }
 `;
 
-// const Icon = styled.button`
-// background: none;
-// vertical-align: middle;
-// z-index: 1;
-// position: absolute;
-// `;
+export const ChallengeWrapper = styled.div`
+  width: 75%;
+  padding: 20px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid var(--graph-bg-green);
+`;
