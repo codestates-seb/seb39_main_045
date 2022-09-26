@@ -11,8 +11,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Getter
 @Entity
-@ToString
-public class  Member extends Auditable {
+public class Member extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MEMBER_ID")

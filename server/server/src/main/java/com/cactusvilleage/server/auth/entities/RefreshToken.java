@@ -10,7 +10,7 @@ import org.springframework.data.redis.core.RedisHash;
 @Builder
 public class RefreshToken {
     @Id
-    private String memberId;
     private String tokenId;
+    private String memberId;
     private String tokenValue;
 }
