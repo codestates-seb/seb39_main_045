@@ -4,7 +4,8 @@ on:
   push:
     branches: [ "dev" ]
     paths:
-      - ./server/server/**
+      - "./server/**"
+      - "!client/**"
  
 env:
   AWS_REGION: ap-northeast-2
