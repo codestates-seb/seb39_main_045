@@ -25,28 +25,27 @@ const SelectModal = ({ setIsOpen }: DefaultProps) => {
   const handleSubmit = () => {
     const name: string | null = challenge.challenge;
     const days: string | null = challenge.day;
+    const times = getTime.current?.value;
     if (name === null || days === null) {
       return alert('챌린지를 선택해주세요');
     } else {
       if (name !== 'thanks') {
-        if (getTime.current !== null) {
-          if (getTime.current.value === '') {
-            return alert('시간을 입력해주세요');
-          } else {
-            const time = Number(getTime.current.value);
-            if (name === 'morning') {
-              if (time < 5 || time > 8) {
-                return alert('선택 가능한 시간을 입력해주세요');
-              } else {
-                // axios
-                alert(`${name} ${days} ${time}`);
-              }
+        if (times === '') {
+          return alert('시간을 입력해주세요');
+        } else {
+          const time = Number(times);
+          if (name === 'morning') {
+            if (time < 5 || time > 8) {
+              return alert('선택 가능한 시간을 입력해주세요');
             } else {
-              if (time < 0 || time > 23) {
-                return alert('선택 가능한 시간을 입력해주세요');
-              } else {
-                alert(`${name} ${days} ${time}`);
-              }
+              // axios
+              alert(`${name} ${days} ${time}`);
+            }
+          } else {
+            if (time < 0 || time > 23) {
+              return alert('선택 가능한 시간을 입력해주세요');
+            } else {
+              alert(`${name} ${days} ${time}`);
             }
           }
         }

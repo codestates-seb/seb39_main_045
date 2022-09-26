@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Logout from 'views/components/mainpage/Logout';
 import GiveUpChall from 'views/components/mainpage/GiveUpChall';

@@ -11,7 +11,7 @@ const TodayChallBtn = () => {
       <TodayBtn className="material-icons" onClick={() => setIsOpen(true)}>
         wb_sunny
       </TodayBtn>
-      {isOpen && <TodayChallModal setIsOpen={setIsOpen} status={status}/>}
+      {isOpen && <TodayChallModal setIsOpen={setIsOpen} status={status} />}
     </>
   );
 };

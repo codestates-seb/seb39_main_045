@@ -20,7 +20,7 @@ export const CactusWrapper = styled.div`
     width: 80%;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 3;
+    z-index: 2;
   }
 `;
 export const NavBtns = styled.div`
@@ -56,10 +56,10 @@ export const ModalWrapper = styled.div`
 export const ModalContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 30px 20px;
+  padding: 20px 20px 10px;
   width: 80%;
   max-width: 500px;
-  top: calc(50% - 70px);
+  top: calc(50% - 35px);
   left: 50%;
   position: fixed;
   animation: open 0.4s forwards 1 ease-out;
@@ -98,7 +98,7 @@ export const ModalContentWrapper = styled.div`
   }
 `;
 export const ModalSubmitBtn = styled.button`
-  width: 40%;
+  width: 80%;
   padding: 15px;
   background-color: var(--main-btn-brown);
   align-self: center;

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import ModalPortal from './ModalPortal';
 import preview from '../../../assets/img/preview.png';
@@ -11,12 +11,23 @@ import {
 import { AlertProps } from './types';
 
 const Thanks = () => {
-  return <textarea></textarea>;
+  const thanksText = useRef<HTMLTextAreaElement>(null);
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // const text = thanksText.current?.value;
+  };
+  return (
+    <ModalContent onSubmit={handleSubmit}>
+      <label>감사일기</label>
+      <TextArea ref={thanksText}></TextArea>
+      <ModalSubmitBtn>챌린지 완료!</ModalSubmitBtn>
+    </ModalContent>
+  );
 };
 const Study = () => {
   const [picPreview, setPicPreview] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const handlePreview = (e: React.ChangeEvent<HTMLInputElement | null>) => {
+  const handlePreview = (e: React.ChangeEvent<HTMLInputElement>) => {
     const reader = new FileReader();
     if (e.target.files != null) {
       const file = e.target.files[0];
@@ -30,7 +41,7 @@ const Study = () => {
   };
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const form = new FormData();
+    // const form = new FormData();
   };
   return (
     <ModalContentWithPic onSubmit={handleSubmit}>
@@ -58,8 +69,32 @@ const Study = () => {
     </ModalContentWithPic>
   );
 };
+const MorningTime = () => {
+  const [time, setTime] = useState(new Date());
+  useEffect(() => {
+    const id = setInterval(() => {
+      setTime(new Date());
+    }, 1000);
+    return () => clearInterval(id);
+  }, []);
+  return <div>{time.toLocaleString().slice(13)}</div>;
+};
 const Morning = () => {
-  return <textarea></textarea>;
+  const handleSubmit = () => {
+    /// histories
+    const time = new Date();
+    alert(time);
+  };
+  return (
+    <ModalContentDiv>
+      <div className="wrapper">
+        <div>현재 시간</div>
+        <MorningTime />
+        <div>버튼을 눌러 챌린지를 완료하세요!</div>
+      </div>
+      <ModalSubmitBtn onClick={handleSubmit}>챌린지 완료!</ModalSubmitBtn>
+    </ModalContentDiv>
+  );
 };
 const TodayModal = ({ status }: { status: string }) => {
   if (status === 'study') {
@@ -73,13 +108,17 @@ const TodayModal = ({ status }: { status: string }) => {
 
 const TodayChallModal = ({ setIsOpen, status }: AlertProps) => {
   let krStatus = '';
-  if (status === 'morning') {
-    krStatus = '기상';
-  } else if (status === 'study') {
-    krStatus = '공부';
-  } else {
-    krStatus = '감사';
+  switch (status) {
+    case 'morning':
+      krStatus = '기상';
+      break;
+    case 'study':
+      krStatus = '공부';
+      break;
+    default:
+      krStatus = '감사';
   }
+
   return (
     <ModalPortal>
       <ModalWrapper>
@@ -95,9 +134,22 @@ const TodayChallModal = ({ setIsOpen, status }: AlertProps) => {
     </ModalPortal>
   );
 };
+const TextArea = styled.textarea`
+  width: 100%;
+  height: 200px;
+  border: none;
+  margin: 10px auto;
+  border-radius: 5px;
+  resize: none;
+  &:focus {
+    outline: 2px solid #ffbe28;
+  }
+`;
 const ModalContent = styled.form`
-  padding: 20px 0;
+  padding: 20px 0 10px;
   display: flex;
+  justify-content: space-between;
+  min-height: 300px;
   flex-direction: column;
   label {
     margin: 10px 0;
@@ -106,7 +158,22 @@ const ModalContent = styled.form`
     margin-bottom: 5px;
   }
 `;
+const ModalContentDiv = styled.div`
+  padding: 20px 0 10px;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: 500;
+  justify-content: space-between;
+  .wrapper > div {
+    margin: 10px;
+    text-align: center;
+  }
+`;
+
 const ModalContentWithPic = styled(ModalContent)`
+  justify-content: unset;
   #preview {
     width: 80%;
     margin: 5px auto;
