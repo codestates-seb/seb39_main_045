@@ -37,7 +37,9 @@ env:
   ECS_CLUSTER: cactusCluster
   ECS_TASK_DEFINITION: ./server/server/task-definition.json      
   CONTAINER_NAME: ecs-webapi
-
+  
+  APPLICATION: ${{ secrets.APPLICATION }}
+  
 permissions:
   contents: read
 
@@ -65,14 +67,24 @@ jobs:
     - name: Install JDK 11
       uses: actions/setup-java@v3
       with:
-        java-version: '11'
         distribution: 'adopt'
-        cache: 'gradle'
-    - run: ../../server/server/gradlew build --no-daemon
-    
-#     - name: Execute Gradle build
-#       run: ../../server/server/.gradlew clean build
+        java-version: '11'
+    - uses: gradle/gradle-build-action@v2
+      with:
+        gradle-version: release-candidate
+        arguments: build
+        build-root-directory: server/server
+        cache-disabled: true
+    - run: gradle build --dry-run
       
+    - name: Application YAML Configuration
+    - run: touch ./src/main/resources/application.yml
+    - run: echo '${{ env.APPLICATION }}' > ./src/main/resources/application.yml
+    - uses: actions/upload-artifact@v2
+      with:
+        name: application.yml
+        path: ./src/main/resources/application.yml
+  
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
       env:
