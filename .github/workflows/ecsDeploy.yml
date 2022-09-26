@@ -43,14 +43,7 @@ jobs:
       with:
         distribution: 'adopt'
         java-version: '11'
-    - uses: gradle/gradle-build-action@v2
-      with:
-        gradle-version: '7.5'
-        arguments: build
-        build-root-directory: server/server
-        cache-disabled: true
-    - run: gradle build --dry-run
-      
+    
     - name: Application YAML Configuration
       run: touch server/server/src/main/resources/application.yml && echo '${{ env.APPLICATION }}' > server/server/src/main/resources/application.yml
     
@@ -59,6 +52,16 @@ jobs:
       with:
         name: application.yml
         path: server/server/src/main/resources/application.yml
+        
+    - uses: gradle/gradle-build-action@v2
+      with:
+        gradle-version: '7.5'
+        arguments: build
+        build-root-directory: server/server
+        cache-disabled: true
+    - run: gradle build --dry-run
+      
+    
   
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
