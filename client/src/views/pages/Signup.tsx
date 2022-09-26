@@ -115,7 +115,7 @@ export const SignUpBtn = styled(AuthLoginBtn)<{ fontSize: string }>`
   font-size: ${p => p.fontSize};
 `;
 
-const NoticeBox = styled.button<{ fontSize?: string }>`
+export const NoticeBox = styled.button<{ fontSize?: string }>`
   width: fit-content;
   background: none;
   padding: 0;
@@ -125,7 +125,7 @@ const NoticeBox = styled.button<{ fontSize?: string }>`
   font-size: ${p => p.fontSize};
 `;
 
-const ErrorMessage = styled.div`
+export const ErrorMessage = styled.div`
   text-align: center;
   color: red;
   margin: 10px;

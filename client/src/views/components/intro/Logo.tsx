@@ -20,9 +20,7 @@ const Logo = () => {
 
 const LetterWrapper = styled.div`
   font-family: 'MaplestoryOTFBold';
-  width: 100%;
-  text-align: center;
-  margin: 30% 0 10% 0;
+  align-self: center;
   @keyframes bounce {
     100% {
       top: -10px;
