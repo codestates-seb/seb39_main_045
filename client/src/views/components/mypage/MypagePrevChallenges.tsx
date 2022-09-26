@@ -59,6 +59,7 @@ const DiaryBox = styled(ContentWrapper)`
   z-index: 3;
   height: calc(100vh - 200px);
   align-items: center;
+  padding-bottom: 25px;
 `;
 
 export default ChallengeBook;
