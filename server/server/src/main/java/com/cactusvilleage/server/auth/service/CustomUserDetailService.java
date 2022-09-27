@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 
-import static com.cactusvilleage.server.global.exception.ExceptionCode.MEMBER_NOT_FOUND;
+import static com.cactusvilleage.server.global.exception.ExceptionCode.MEMBER_NOT_MATCH;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +26,7 @@ public class CustomUserDetailService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return memberRepository.findByEmail(username)
                 .map(this::createUserDetails)
-                .orElseThrow(() -> new BusinessLogicException(MEMBER_NOT_FOUND));
+                .orElseThrow(() -> new BusinessLogicException(MEMBER_NOT_MATCH));
     }
 
     private UserDetails createUserDetails(Member member) {
