@@ -107,13 +107,10 @@ public class MemberService {
     }
 
     public void recovery(RecoveryDto recoveryDto) {
-        Member foundMember;
-        try {
-            foundMember = memberRepository.findByEmail(recoveryDto.getEmail()).orElseThrow();
-            if (!foundMember.getUsername().equals(recoveryDto.getUsername())) {
-                throw new Exception();
-            }
-        } catch (Exception e) {
+        Member foundMember = memberRepository.findByEmail(recoveryDto.getEmail())
+                .orElseThrow(() -> new BusinessLogicException(MEMBER_NOT_FOUND));
+
+        if (!foundMember.getUsername().equals(recoveryDto.getUsername())) {
             throw new BusinessLogicException(MEMBER_NOT_FOUND);
         }
 
@@ -182,10 +179,12 @@ public class MemberService {
 
 
     private RefreshToken getRefreshToken(HttpServletRequest request) {
-        Cookie refreshCookie = CookieUtil.getCookie(request, "refresh_token").orElseThrow(() -> new BusinessLogicException(NO_AUTHENTICATION));
+        Cookie refreshCookie = CookieUtil.getCookie(request, "refresh_token")
+                .orElseThrow(() -> new BusinessLogicException(NO_AUTHENTICATION));
         String tokenId = refreshCookie.getValue();
 
-        return tokenRepository.findById(tokenId).orElseThrow(() -> new BusinessLogicException(NO_AUTHENTICATION));
+        return tokenRepository.findById(tokenId)
+                .orElseThrow(() -> new BusinessLogicException(NO_AUTHENTICATION));
     }
 
     private String getTempPassword() {
@@ -198,7 +197,7 @@ public class MemberService {
         try {
             return authBuilder.getObject().authenticate(authenticationToken);
         } catch (AuthenticationException e) {
-            throw new BusinessLogicException(MEMBER_NOT_FOUND);
+            throw new BusinessLogicException(MEMBER_NOT_MATCH);
         }
     }
 
@@ -207,7 +206,8 @@ public class MemberService {
     }
 
     public Member findMember(Long memberId) {
-        return memberRepository.findById(memberId).orElseThrow(() -> new BusinessLogicException(MEMBER_NOT_FOUND));
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new BusinessLogicException(MEMBER_NOT_FOUND));
     }
 
     private String getEncodedMemberId(Long memberId) {
