@@ -35,15 +35,9 @@ const Login = () => {
     console.log('여기');
   };
   const handleGoogle = () => {
-    axios
-      .get(
-        'https://api.cactus-villeage.com/oauth2/authorization/google?redirect_uri=https://dev.cactus-villeage.com/main/',
-        {
-          withCredentials: true
-        }
-      )
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+    window.open(
+      'https://api.cactus-villeage.com/oauth2/authorization/google?redirect_uri=https://dev.cactus-villeage.com/main/'
+    );
   };
   return (
     <AuthWrapper>
