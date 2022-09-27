@@ -88,7 +88,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     private Member updateMember(Member member, OAuth2UserInfo oAuth2UserInfo) {
-        if (oAuth2UserInfo.getEmail() != null) {
+        if (oAuth2UserInfo.getEmail() != null && !memberRepository.existsByEmail(oAuth2UserInfo.getEmail())) {
             member.setEmail(oAuth2UserInfo.getEmail());
         }
         return memberRepository.saveAndFlush(member);
