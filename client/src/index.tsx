@@ -6,3 +6,6 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(<App />);
+
+window.Kakao.init(process.env.REACT_APP_KAKAO_JS);
+window.Kakao.isInitialized();

@@ -1,11 +1,10 @@
 package com.cactusvilleage.server.auth.web.api;
 
 import com.cactusvilleage.server.auth.service.MemberService;
-import com.cactusvilleage.server.auth.web.dto.plain.request.PlainEditDto;
-import com.cactusvilleage.server.auth.web.dto.plain.request.PlainLoginDto;
-import com.cactusvilleage.server.auth.web.dto.plain.request.PlainSignupDto;
-import com.cactusvilleage.server.auth.web.dto.plain.request.RecoveryDto;
-import com.cactusvilleage.server.global.response.SingleResponseDto;
+import com.cactusvilleage.server.auth.web.dto.request.EditDto;
+import com.cactusvilleage.server.auth.web.dto.request.PlainLoginDto;
+import com.cactusvilleage.server.auth.web.dto.request.PlainSignupDto;
+import com.cactusvilleage.server.auth.web.dto.request.RecoveryDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -42,7 +41,7 @@ public class MemberController {
     }
 
     @PatchMapping
-    public ResponseEntity edit(@RequestBody @Valid PlainEditDto editDto) {
+    public ResponseEntity edit(@RequestBody @Valid EditDto editDto) {
         return memberService.edit(editDto);
     }
 
