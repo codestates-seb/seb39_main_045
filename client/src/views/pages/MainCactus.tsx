@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Logout from 'views/components/mainpage/Logout';
 import GiveUpChall from 'views/components/mainpage/GiveUpChall';
@@ -18,6 +18,11 @@ const MainCactus = () => {
     name: '기상',
     percent: Math.floor(Math.random() * 100)
   };
+  useEffect(() => {
+    // setIsOpen(true);
+    console.log('성공페이지확인용');
+  }, []);
+
   return (
     <CactusWrapper>
       <GiveUpChall />
@@ -34,7 +39,7 @@ const MainCactus = () => {
         <Logout />
       </NavBtns>
       <Cactus percent={data.percent} />
-      {isOpen && <SuccessFailModal status={'fail'} setIsOpen={setIsOpen} />}
+      {isOpen && <SuccessFailModal status={'success'} setIsOpen={setIsOpen} />}
     </CactusWrapper>
   );
 };

@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { ModalSubmitBtn } from './MainStyles';
 import { DefaultProps, AlertProps } from './types';
+// 나중에 수정하기~
 const SuccessModal = ({ setIsOpen }: DefaultProps) => {
   return (
     <>
@@ -24,7 +25,7 @@ const FailModal = ({ setIsOpen }: DefaultProps) => {
           '앗! 챌린지 실패로\n선인장이 죽어버렸어요\nㅠㅠ\n\n새로 키우시겠습니까?'
         }
       </div>
-      <SuccessFailBtn>확인</SuccessFailBtn>
+      <SuccessFailBtn onClick={() => setIsOpen(false)}>확인</SuccessFailBtn>
     </>
   );
 };
@@ -48,7 +49,7 @@ const SuccessFailModal = ({ status, setIsOpen }: AlertProps) => {
 };
 
 const SuccessFailWrapper = styled.div`
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
@@ -63,6 +64,7 @@ const SuccessFailWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
+  user-select: none;
   h2 {
     font-size: 2rem;
     font-weight: 700;
