@@ -1,4 +1,4 @@
-package com.cactusvilleage.server.auth.web.dto.plain.response;
+package com.cactusvilleage.server.auth.web.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

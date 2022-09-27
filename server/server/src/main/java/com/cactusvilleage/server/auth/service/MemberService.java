@@ -10,13 +10,12 @@ import com.cactusvilleage.server.auth.util.CookieUtil;
 import com.cactusvilleage.server.auth.util.HeaderUtil;
 import com.cactusvilleage.server.auth.util.SecurityUtil;
 import com.cactusvilleage.server.auth.util.TokenProvider;
-import com.cactusvilleage.server.auth.web.dto.plain.request.PlainEditDto;
-import com.cactusvilleage.server.auth.web.dto.plain.request.PlainLoginDto;
-import com.cactusvilleage.server.auth.web.dto.plain.request.PlainSignupDto;
-import com.cactusvilleage.server.auth.web.dto.plain.request.RecoveryDto;
-import com.cactusvilleage.server.auth.web.dto.plain.response.EditResponseDto;
-import com.cactusvilleage.server.auth.web.dto.plain.response.MemberInfoResponse;
-import com.cactusvilleage.server.auth.web.dto.plain.response.MemberInfoResponse.Status;
+import com.cactusvilleage.server.auth.web.dto.request.EditDto;
+import com.cactusvilleage.server.auth.web.dto.request.PlainLoginDto;
+import com.cactusvilleage.server.auth.web.dto.request.PlainSignupDto;
+import com.cactusvilleage.server.auth.web.dto.request.RecoveryDto;
+import com.cactusvilleage.server.auth.web.dto.response.EditResponseDto;
+import com.cactusvilleage.server.auth.web.dto.response.MemberInfoResponse;
 import com.cactusvilleage.server.global.exception.BusinessLogicException;
 import com.cactusvilleage.server.global.response.SingleResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +36,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.cactusvilleage.server.auth.web.dto.plain.response.MemberInfoResponse.Status.*;
+import static com.cactusvilleage.server.auth.web.dto.response.MemberInfoResponse.Status.*;
 import static com.cactusvilleage.server.global.exception.ExceptionCode.*;
 
 @Service
@@ -78,7 +77,7 @@ public class MemberService {
         CookieUtil.deleteCookie(request, response, "refresh_token");
     }
 
-    public ResponseEntity edit(PlainEditDto editDto) {
+    public ResponseEntity edit(EditDto editDto) {
         Long memberId = SecurityUtil.getCurrentMemberId();
         Member foundMember = findMember(memberId);
 
@@ -175,6 +174,8 @@ public class MemberService {
                 .status(NONE)
                 .progress(-1)
                 .challengeType(null)
+                .now(0)
+                .targetDate(0)
                 .providerType(member.getProviderType().toString())
                 .build();
     }
