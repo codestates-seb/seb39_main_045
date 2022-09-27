@@ -5,6 +5,9 @@ import GoldMedal from '../icons/mypage/GoldMedal';
 import SilverMedal from '../icons/mypage/SilverMedal';
 import BronzeMedal from '../icons/mypage/BronzeMedal';
 import More from '../icons/mypage/More';
+import KakaoShare from './KakaoShare';
+import TwitterShare from './TwitterShare';
+import StampList from './StampList';
 // import axios from 'axios';
 
 const MypageRanking = () => {
@@ -45,7 +48,13 @@ const MypageRanking = () => {
     <ContentWrapper padding='10px'>
       <ShareTitle>
         <Title fontSize='1.2rem'>총 도장 갯수</Title>
+        <ShareBtns>
+          <KakaoShare />
+          <TwitterShare />
+          으로 자랑하기✨
+        </ShareBtns>
       </ShareTitle>
+      <StampList />
     </ContentWrapper>
     </>
   );
@@ -87,6 +96,19 @@ const RankerName = styled(Ranker)`
 const ShareTitle = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  @media only screen and (max-width: 480px) {
+    flex-direction: column;
+  }
+`;
+
+const ShareBtns = styled.div`
+  display: flex;
+  align-items: center;
+  @media only screen and (max-width: 480px) {
+    margin-top: 20px;
+  }
 `;
 
 export default MypageRanking;
