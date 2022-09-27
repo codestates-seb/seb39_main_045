@@ -8,17 +8,17 @@ import { ReactComponent as Cactus6 } from '../../components/icons/cactus/cactus6
 import { ReactComponent as Cactus7 } from '../../components/icons/cactus/cactus7.svg';
 
 const Cactus = ({ percent }: { percent: number }) => {
-  if (percent >= (6 / 7) * 100) {
+  if (percent >= 86) {
     return <Cactus7 className="cactus" />;
-  } else if (percent >= (5 / 7) * 100) {
+  } else if (percent >= 71) {
     return <Cactus6 className="cactus" />;
-  } else if (percent >= (4 / 7) * 100) {
+  } else if (percent >= 57) {
     return <Cactus5 className="cactus" />;
-  } else if (percent >= (3 / 7) * 100) {
+  } else if (percent >= 43) {
     return <Cactus4 className="cactus" />;
-  } else if (percent >= (2 / 7) * 100) {
+  } else if (percent >= 29) {
     return <Cactus3 className="cactus" />;
-  } else if (percent >= (1 / 7) * 100) {
+  } else if (percent >= 14) {
     return <Cactus2 className="cactus" />;
   } else {
     return <Cactus1 className="cactus" />;

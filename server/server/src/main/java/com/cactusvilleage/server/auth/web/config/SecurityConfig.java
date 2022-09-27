@@ -1,5 +1,6 @@
 package com.cactusvilleage.server.auth.web.config;
 
+import com.cactusvilleage.server.auth.entities.Authority;
 import com.cactusvilleage.server.auth.repository.MemberRepository;
 import com.cactusvilleage.server.auth.repository.OAuth2AuthorizationRequestRepository;
 import com.cactusvilleage.server.auth.repository.RefreshTokenRepository;
@@ -74,8 +75,11 @@ public class SecurityConfig {
 
                 .and()
                 .authorizeRequests()
+                .antMatchers("/api/**").hasAnyAuthority("ROLE_USER")
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
-                .antMatchers("/members/signup", "/members/login/**", "/members/reissue", "/members/recovery").permitAll()
+                .antMatchers("/members/signup", "/members/login/**", "/members/recovery").permitAll()
+                .antMatchers("/members/reissue", "/members/logout").permitAll()
+                .antMatchers(HttpMethod.DELETE, "/members").permitAll()
                 .antMatchers("/**/oauth2/**").permitAll()
                 .anyRequest().authenticated()
 

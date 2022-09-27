@@ -2,6 +2,7 @@ package com.cactusvilleage.server.auth.service;
 
 import com.cactusvilleage.server.auth.email.AwsSesUtils;
 import com.cactusvilleage.server.auth.entities.Member;
+import com.cactusvilleage.server.auth.entities.RefreshToken;
 import com.cactusvilleage.server.auth.entities.oauth.ProviderType;
 import com.cactusvilleage.server.auth.repository.MemberRepository;
 import com.cactusvilleage.server.auth.repository.RefreshTokenRepository;
@@ -9,12 +10,12 @@ import com.cactusvilleage.server.auth.util.CookieUtil;
 import com.cactusvilleage.server.auth.util.HeaderUtil;
 import com.cactusvilleage.server.auth.util.SecurityUtil;
 import com.cactusvilleage.server.auth.util.TokenProvider;
-import com.cactusvilleage.server.auth.web.dto.plain.request.PlainEditDto;
-import com.cactusvilleage.server.auth.web.dto.plain.request.PlainLoginDto;
-import com.cactusvilleage.server.auth.web.dto.plain.request.PlainSignupDto;
-import com.cactusvilleage.server.auth.web.dto.plain.request.RecoveryDto;
-import com.cactusvilleage.server.auth.web.dto.plain.response.EditResponseDto;
-import com.cactusvilleage.server.auth.web.dto.plain.response.MemberInfoResponse;
+import com.cactusvilleage.server.auth.web.dto.request.EditDto;
+import com.cactusvilleage.server.auth.web.dto.request.PlainLoginDto;
+import com.cactusvilleage.server.auth.web.dto.request.PlainSignupDto;
+import com.cactusvilleage.server.auth.web.dto.request.RecoveryDto;
+import com.cactusvilleage.server.auth.web.dto.response.EditResponseDto;
+import com.cactusvilleage.server.auth.web.dto.response.MemberInfoResponse;
 import com.cactusvilleage.server.global.exception.BusinessLogicException;
 import com.cactusvilleage.server.global.response.SingleResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -29,11 +30,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.cactusvilleage.server.auth.web.dto.response.MemberInfoResponse.Status.*;
 import static com.cactusvilleage.server.global.exception.ExceptionCode.*;
 
 @Service
@@ -67,14 +70,14 @@ public class MemberService {
     }
 
     public void logout(HttpServletRequest request, HttpServletResponse response) {
-        Long memberId = SecurityUtil.getCurrentMemberId();
-        tokenRepository.deleteById(memberId.toString());
+        RefreshToken refreshToken = getRefreshToken(request);
 
+        tokenRepository.deleteById(refreshToken.getTokenId());
         response.setHeader("Authorization", null);
         CookieUtil.deleteCookie(request, response, "refresh_token");
     }
 
-    public ResponseEntity edit(PlainEditDto editDto) {
+    public ResponseEntity edit(EditDto editDto) {
         Long memberId = SecurityUtil.getCurrentMemberId();
         Member foundMember = findMember(memberId);
 
@@ -124,11 +127,13 @@ public class MemberService {
         context.setVariable("username", recoveryDto.getUsername());
         context.setVariable("tempPassword", tempPassword);
 
-        awsSesUtils.singleEmailRequest(email, "임시 비밀번호~", "recovery", context);
+        awsSesUtils.singleEmailRequest(email, "선인장 키우기의 임시 비밀번호입니다", "recovery", context);
     }
 
     public void delete(HttpServletRequest request, HttpServletResponse response) {
-        Long memberId = SecurityUtil.getCurrentMemberId();
+        RefreshToken refreshToken = getRefreshToken(request);
+        Long memberId = Long.parseLong(refreshToken.getMemberId());
+
         Member foundMember = findMember(memberId);
         foundMember.setDeleted(true);
         String dummy = getEncodedMemberId(memberId);
@@ -140,10 +145,8 @@ public class MemberService {
     }
 
     public ResponseEntity reissue(HttpServletRequest request) {
-        Authentication authentication = tokenProvider.getAuthentication(request.getHeader("Authorization").substring(7));
-        String memberId = authentication.getName();
-        verifyRefreshToken(memberId);
-
+        RefreshToken refreshToken = getRefreshToken(request);
+        Authentication authentication = tokenProvider.getAuthentication(refreshToken.getTokenValue());
         String accessToken = tokenProvider.generateAccessToken(authentication);
 
         return ResponseEntity.ok()
@@ -168,15 +171,21 @@ public class MemberService {
         return MemberInfoResponse.builder()
                 .email(member.getEmail())
                 .username(member.getUsername())
+                .status(NONE)
                 .progress(-1)
                 .challengeType(null)
+                .now(0)
+                .targetDate(0)
                 .providerType(member.getProviderType().toString())
                 .build();
     }
 
-    private void verifyRefreshToken(String memberId) {
-        tokenRepository.findById(memberId)
-                .orElseThrow(() -> new BusinessLogicException(EXPIRED_JWT_TOKEN));
+
+    private RefreshToken getRefreshToken(HttpServletRequest request) {
+        Cookie refreshCookie = CookieUtil.getCookie(request, "refresh_token").orElseThrow(() -> new BusinessLogicException(NO_AUTHENTICATION));
+        String tokenId = refreshCookie.getValue();
+
+        return tokenRepository.findById(tokenId).orElseThrow(() -> new BusinessLogicException(NO_AUTHENTICATION));
     }
 
     private String getTempPassword() {

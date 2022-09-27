@@ -4,7 +4,7 @@ import { MainBtn } from './MainStyles';
 import TodayChallModal from './TodayChallModal';
 
 const TodayChallBtn = () => {
-  const status = 'study';
+  const status = 'morning';
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>
