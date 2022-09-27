@@ -16,6 +16,7 @@ import com.cactusvilleage.server.auth.web.dto.plain.request.PlainSignupDto;
 import com.cactusvilleage.server.auth.web.dto.plain.request.RecoveryDto;
 import com.cactusvilleage.server.auth.web.dto.plain.response.EditResponseDto;
 import com.cactusvilleage.server.auth.web.dto.plain.response.MemberInfoResponse;
+import com.cactusvilleage.server.auth.web.dto.plain.response.MemberInfoResponse.Status;
 import com.cactusvilleage.server.global.exception.BusinessLogicException;
 import com.cactusvilleage.server.global.response.SingleResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +37,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.cactusvilleage.server.auth.web.dto.plain.response.MemberInfoResponse.Status.*;
 import static com.cactusvilleage.server.global.exception.ExceptionCode.*;
 
 @Service
@@ -170,6 +172,7 @@ public class MemberService {
         return MemberInfoResponse.builder()
                 .email(member.getEmail())
                 .username(member.getUsername())
+                .status(NONE)
                 .progress(-1)
                 .challengeType(null)
                 .providerType(member.getProviderType().toString())
