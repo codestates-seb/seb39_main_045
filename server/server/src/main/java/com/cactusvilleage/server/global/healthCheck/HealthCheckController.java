@@ -6,6 +6,6 @@ import org.springframework.web.bind.annotation.*;
 public class HealthCheckController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String healthCheck() {
-        return "No Security HealthCheck Get Request !!";
+        return "No Security HealthCheck Get Request :D !!!";
     }
 }
