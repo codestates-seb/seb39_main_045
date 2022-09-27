@@ -4,7 +4,10 @@ import { MainBtn } from './MainStyles';
 
 const GiveWater = () => {
   const [giveWater, setGiveWater] = useState(false);
+  const [message, setMessage] = useState('');
   const handleGiveWater = () => {
+    // '/challenges/water'
+    setMessage('야호~');
     setGiveWater(true);
     setTimeout(() => {
       setGiveWater(false);
