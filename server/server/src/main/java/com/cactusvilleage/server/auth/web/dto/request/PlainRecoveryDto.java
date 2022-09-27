@@ -1,4 +1,4 @@
-package com.cactusvilleage.server.auth.web.dto.plain.request;
+package com.cactusvilleage.server.auth.web.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 
 @Getter
 @AllArgsConstructor
-public class RecoveryDto {
+public class PlainRecoveryDto {
     @Email
     @NotBlank
     private String email;

@@ -1,4 +1,4 @@
-package com.cactusvilleage.server.auth.web.dto.plain.response;
+package com.cactusvilleage.server.auth.web.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,10 +14,11 @@ public class MemberInfoResponse {
     private int progress;
     private String challengeType;
     private String providerType;
+    private int now;
+    private int targetDate;
 
     public enum Status {
         FAIL, NONE, IN_PROGRESS
     }
-
 }
 
