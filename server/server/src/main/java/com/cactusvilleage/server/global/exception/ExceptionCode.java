@@ -7,8 +7,8 @@ import lombok.Setter;
 public enum ExceptionCode {
 
     MEMBER_NOT_FOUND(401, "Member not found"),
-    ONLY_FOR_MEMBER(403, "인증 ㄴㄴ"),
-    ONLY_FOR_ADMIN(401, "인가 ㄴㄴ"),
+    ONLY_FOR_MEMBER(403, "Authentication Failed"),
+    ONLY_FOR_ADMIN(401, "Authorization Failed"),
     WRONG_JWT_SIGNATURE(403, "잘못된 JWT 서명입니다."),
     EXPIRED_JWT_TOKEN(403, "만료된 JWT 토큰입니다"),
     UNSUPPORTED_JWT_TOKEN(403, "지원되지 않는 JWT 토큰입니다"),
