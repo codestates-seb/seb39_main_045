@@ -1,4 +1,4 @@
-package com.cactusvilleage.server.auth.web.dto.plain.request;
+package com.cactusvilleage.server.auth.web.dto.request;
 
 import com.cactusvilleage.server.auth.entities.Member;
 import com.cactusvilleage.server.auth.validator.EmailNotDuplicate;

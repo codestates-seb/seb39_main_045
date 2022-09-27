@@ -1,4 +1,4 @@
-package com.cactusvilleage.server.auth.web.dto.plain.request;
+package com.cactusvilleage.server.auth.web.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,7 +8,7 @@ import javax.validation.constraints.Size;
 
 @Getter
 @AllArgsConstructor
-public class PlainEditDto {
+public class EditDto {
     @Nullable
     @Size(min = 2, max = 8)
     private String username;

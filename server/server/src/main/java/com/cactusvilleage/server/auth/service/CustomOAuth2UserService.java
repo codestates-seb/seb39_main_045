@@ -76,13 +76,19 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                     .filter(foundMember -> foundMember.getUsername().startsWith(username) && StringUtils.isNumeric(foundMember.getUsername().substring(username.length())))
                     .count();
             member.setUsername(username + (count + 1));
+            if (memberRepository.existsByUsername(member.getUsername())) {
+                while (!memberRepository.existsByUsername(member.getUsername())) {
+                    int suffix = Integer.parseInt(member.getUsername().substring(username.length())) + 1;
+                    member.setUsername(username + suffix);
+                }
+            }
         } else {
             member.setUsername(username);
         }
     }
 
     private Member updateMember(Member member, OAuth2UserInfo oAuth2UserInfo) {
-        if (oAuth2UserInfo.getEmail() != null) {
+        if (oAuth2UserInfo.getEmail() != null && !memberRepository.existsByEmail(oAuth2UserInfo.getEmail())) {
             member.setEmail(oAuth2UserInfo.getEmail());
         }
         return memberRepository.saveAndFlush(member);
