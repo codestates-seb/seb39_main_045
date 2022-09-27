@@ -4,7 +4,7 @@ import { MainBtn } from './MainStyles';
 
 const GiveWater = () => {
   const [giveWater, setGiveWater] = useState(false);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState('야호~');
   const handleGiveWater = () => {
     // '/challenges/water'
     setMessage('야호~');
@@ -22,6 +22,7 @@ const GiveWater = () => {
         <Messages>
           오늘도 화잇팅입니다~! <br />
           ✨오늘 하루가 반짝반짝하길!!
+          {message}
         </Messages>
       )}
     </>
