@@ -1,6 +1,6 @@
 import React from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
-import { Container, TapHome, TapHomeBtn } from 'views/components/mypage/mypage';
+import { Container, TapHome, TapHomeBtn } from 'views/components/mypage/mypageStyle';
 import MypageHome from 'views/components/mypage/MypageHome';
 import MypageSettings from 'views/components/mypage/MypageSettings';
 import NowChallenge from 'views/components/mypage/MypageNowChallenge';
@@ -27,7 +27,7 @@ const Mypage = () => {
         <Route path='/' element={<MypageHome />} />
         <Route path='settings' element={<MypageSettings />} />
         <Route path='challenge' element={<NowChallenge />} />
-        <Route path='book' element={<ChallengeBook />} />
+        <Route path='book/*' element={<ChallengeBook />} />
         <Route path='rank' element={<MypageRanking />} />
         <Route path='credit' element={<MypageCredit />} />
       </Routes>

@@ -2,20 +2,20 @@ import * as React from 'react';
 
 function Left(props: JSX.IntrinsicAttributes & React.SVGProps<SVGSVGElement>) {
   return (
-    <svg width={50} height={50} fill="none" {...props}>
-      <g filter="url(#prefix__filter0_d_264_510)">
+    <svg width={56} height={56} fill="none" {...props}>
+      <g filter="url(#prefix__filter0_d_384_1383)">
         <path
-          d="M39 4.509c-1.326 0-2.598.475-3.535 1.32C34.526 6.676 34 7.823 34 9.019v10.286c0 1.224-1.109 2.21-2.5 2.76v-15.3c0-1.794-.79-3.515-2.197-4.783C27.897.713 25.99 0 24 0c-1.99 0-3.897.713-5.303 1.981C17.29 3.249 16.5 4.97 16.5 6.763v19.873C15.098 26.1 14 25.09 14 23.813v-5.777c0-1.196-.527-2.343-1.464-3.188-.938-.846-2.21-1.321-3.536-1.321s-2.598.475-3.536 1.32C4.527 15.694 4 16.84 4 18.037v7.89c0 2.49 2.188 4.369 4.219 5.425 1.555.81 5.914 1.803 8.281 1.861v3.987c0 3.735 15 3.735 15 0v-8.51c2.476-.134 6.614-1.074 8.099-1.847C41.63 25.786 44 23.908 44 21.418v-12.4c0-1.196-.527-2.343-1.465-3.188-.937-.846-2.209-1.321-3.535-1.321z"
+          d="M46.75 7.636c-1.658 0-3.247.594-4.42 1.651-1.172 1.057-1.83 2.49-1.83 3.985V26.13c0 1.53-1.386 2.762-3.125 3.45V10.453c0-2.242-.988-4.392-2.746-5.978C32.871 2.891 30.486 2 28 2c-2.486 0-4.871.89-6.63 2.476-1.757 1.586-2.745 3.736-2.745 5.978v24.84c-1.753-.669-3.125-1.931-3.125-3.528v-7.221c0-1.495-.659-2.929-1.83-3.986-1.173-1.056-2.762-1.65-4.42-1.65s-3.247.594-4.42 1.65C3.659 21.616 3 23.05 3 24.546v9.863c0 3.113 2.734 5.46 5.273 6.78 1.944 1.012 7.393 2.255 10.352 2.327v4.984c0 4.668 18.75 4.668 18.75 0V37.862c3.095-.168 8.267-1.343 10.123-2.31 2.54-1.32 5.502-3.667 5.502-6.78v-15.5c0-1.494-.658-2.928-1.83-3.985-1.173-1.057-2.762-1.65-4.42-1.65z"
           fill="#77B255"
         />
       </g>
       <defs>
         <filter
-          id="prefix__filter0_d_264_510"
+          id="prefix__filter0_d_384_1383"
           x={0}
           y={0}
-          width={50}
-          height={50}
+          width={56}
+          height={56}
           filterUnits="userSpaceOnUse"
           colorInterpolationFilters="sRGB"
         >
@@ -25,17 +25,17 @@ function Left(props: JSX.IntrinsicAttributes & React.SVGProps<SVGSVGElement>) {
             values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
             result="hardAlpha"
           />
-          <feOffset dy={4} />
-          <feGaussianBlur stdDeviation={2} />
+          <feOffset dy={1} />
+          <feGaussianBlur stdDeviation={1.5} />
           <feComposite in2="hardAlpha" operator="out" />
           <feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />
           <feBlend
             in2="BackgroundImageFix"
-            result="effect1_dropShadow_264_510"
+            result="effect1_dropShadow_384_1383"
           />
           <feBlend
             in="SourceGraphic"
-            in2="effect1_dropShadow_264_510"
+            in2="effect1_dropShadow_384_1383"
             result="shape"
           />
         </filter>

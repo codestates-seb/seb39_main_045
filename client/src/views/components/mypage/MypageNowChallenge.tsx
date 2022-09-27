@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Title, ContentBox, Words, ContentWrapper } from 'views/components/mypage/mypage';
+import { Title, ContentBox, Words, ContentWrapper } from './mypageStyle';
 import GraphL from 'views/components/icons/mypage/GraphL';
 import GraphM from 'views/components/icons/mypage/GraphM';
 import GraphR from 'views/components/icons/mypage/GraphR';
@@ -19,12 +19,10 @@ const NowChallenge = () => {
     { day: 3, content: 'hi2' }, { day: 4, content: 'hi2' }, { day: 5, content: 'hi2' }];
   return (
     <>
-      <Title size='title'>
-        진행중인 챌린지
-      </Title>
-      <ContentBox>
-        <Title size='title'>📌 5일 기상 챌린지</Title>
-        <Title size='content'>도전 3일차예요!</Title>
+      <Title>진행중인 챌린지</Title>
+      <ContentBox height='220px'>
+        <Title>📌 5일 기상 챌린지</Title>
+        <Title fontSize='1.2rem' paddingTop='23px'>도전 3일차예요!</Title>
         <GraphWrapper>
           <GreenArea>
             <GraphL />
@@ -36,7 +34,7 @@ const NowChallenge = () => {
         </GraphWrapper>
         <Words>화이팅! 챌린지 성공까지 2일 남았어요</Words>
       </ContentBox>
-      <ContentWrapper>
+      <ContentWrapper padding='0 30px'>
         {dummy.map((el, idx) => {
           return (
             <Content key={idx}>
