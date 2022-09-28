@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { AuthWrapper, AuthTitle, AuthForm, AuthLabel, AuthInput, AuthLoginBtn, SnsLogin } from './Login';
 import LeftArrow from 'views/components/icons/auth/LeftArrow';
-// import axios from 'axios';
+import axios from 'axios';
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -37,9 +37,9 @@ const Signup = () => {
     e.preventDefault();
     if (isCheckedName && isCheckedPw) {
       console.log(userInfo);
-      // axios.post('/members/signup', userInfo)
-      //   .then(res => console.log(res))
-      //   .catch(err => console.log(err));
+      axios.post('https://api.cactus-villeage.com/members/signup', userInfo)
+        .then(res => console.log(res))
+        .catch(err => console.log(err));
     } else {
       setInputError(true);
     }

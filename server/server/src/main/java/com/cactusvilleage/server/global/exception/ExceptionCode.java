@@ -6,8 +6,10 @@ import lombok.Setter;
 
 public enum ExceptionCode {
 
-    MEMBER_NOT_FOUND(404, "Member not found"),ONLY_FOR_MEMBER(403, "인증 ㄴㄴ"),
-    ONLY_FOR_ADMIN(401, "인가 ㄴㄴ"),
+    MEMBER_NOT_FOUND(404, "Member not found"),
+    MEMBER_NOT_MATCH(401, "이메일과 비밀번호가 일치하지 않습니다"),
+    ONLY_FOR_MEMBER(403, "Authentication Failed"),
+    ONLY_FOR_ADMIN(401, "Authorization Failed"),
     WRONG_JWT_SIGNATURE(403, "잘못된 JWT 서명입니다."),
     EXPIRED_JWT_TOKEN(403, "만료된 JWT 토큰입니다"),
     UNSUPPORTED_JWT_TOKEN(403, "지원되지 않는 JWT 토큰입니다"),
@@ -16,7 +18,8 @@ public enum ExceptionCode {
     NO_AUTHENTICATION(401, "인증 정보가 없습니다"),
     EXPIRED_ACCESS_CODE(403, "이메일 인증 시간 만료"),
     MEMBER_INFO_EXISTS(400, ""),
-    PRE_PASSWORD_REQUIRED(400, "기존 비밀번호는 필수값입니다.");
+    PRE_PASSWORD_REQUIRED(400, "기존 비밀번호는 필수값입니다."),
+    WRONG_REDIRECT_URI(400, "요청 redirect_uri 파라미터가 잘못되었습니다.");
 
     @Getter
     private int status;

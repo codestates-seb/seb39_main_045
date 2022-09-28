@@ -1,14 +1,111 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import kakao from '../../assets/img/kakao_login_medium_narrow.png';
+import google from '../../assets/img/btn_google_signin_light_normal_web.png';
+interface LoginData {
+  email: string | undefined
+  password: string | undefined
+}
+const Login = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+
+  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const email = emailRef.current?.value;
+    const password = passwordRef.current?.value;
+
+    if (email !== '' || password !== '') {
+      const loginData: LoginData = { email, password };
+      axios
+        .post('https://api.cactus-villeage.com/members/login', loginData, {
+          withCredentials: true
+        })
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
+      // axios 자리~~~
+
+      console.log(email, password);
+    }
+  };
+  const handleKaKao = () => {
+    console.log('여기');
+  };
+  const handleGoogle = () => {
+    axios
+      .get(
+        'https://api.cactus-villeage.com/oauth2/authorization/google?redirect_uri=https://dev.cactus-villeage.com/main/',
+        {
+          withCredentials: true
+        }
+      )
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
+  return (
+    <AuthWrapper>
+      <AuthTitle>로그인</AuthTitle>
+      <AuthForm onSubmit={handleLogin}>
+        <AuthLabel htmlFor="id">이메일</AuthLabel>
+        <AuthInput type="email" id="id" ref={emailRef} required />
+        <HBindDiv>
+          <AuthLabel htmlFor="password">비밀번호</AuthLabel>
+          <span className="findpw">
+            <Link to={'/signup'}>비밀번호 찾기</Link>
+          </span>
+        </HBindDiv>
+        <VisibleBind>
+          <InputVisisble
+            type={!isVisible ? 'password' : 'text'}
+            id="password"
+            ref={passwordRef}
+            required
+          />
+          <span
+            className="material-icons"
+            onClick={() => setIsVisible(!isVisible)}
+          >
+            {!isVisible ? 'visibility_off' : 'visibility'}
+          </span>
+        </VisibleBind>
+        <AuthLoginBtn>로그인</AuthLoginBtn>
+        <SnsLogin className="snsLogin">
+          <span>소셜계정 로그인</span>
+          <Link to="">
+            <img
+              src={google}
+              className="google"
+              onClick={handleGoogle}
+              alt="googleLogin"
+            />
+          </Link>
+          <img
+            src={kakao}
+            className="kakao"
+            onClick={handleKaKao}
+            alt="kakaoLogin"
+          />
+        </SnsLogin>
+      </AuthForm>
+      <WayToSignup>
+        <div>아직 회원이 아니신가요?</div>
+        <AuthDefaultBtn>
+          <Link to={'/signup'}>1초만에 가입하기</Link>
+        </AuthDefaultBtn>
+      </WayToSignup>
+    </AuthWrapper>
+  );
+};
 export const AuthWrapper = styled.div`
   background-color: var(--intro-bg-green);
-  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: calc(100vh - 70px);
+  height: 100vh;
   margin-bottom: 70px;
 `;
 export const AuthTitle = styled.h2`
@@ -78,8 +175,16 @@ export const SnsLogin = styled.div`
   align-items: center;
   span {
     font-weight: 700;
-    margin: 10px;
+    margin: 5px;
     font-size: 0.8rem;
+  }
+  .google {
+    width: 188px;
+    height: 48px;
+    margin-bottom: 5px;
+  }
+  .kakao {
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.3));
   }
 `;
 export const WayToSignup = styled.div`
@@ -108,60 +213,4 @@ const VisibleBind = styled.div`
     color: rgba(0, 0, 0, 0.5);
   }
 `;
-const Login = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const email = useRef<HTMLInputElement>(null);
-  const password = useRef<HTMLInputElement>(null);
-
-  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (email.current != null && password.current !== null) {
-      // axios 자리~~~
-      console.log(email.current.value, password.current.value);
-    }
-  };
-  return (
-    <AuthWrapper>
-      <AuthTitle>로그인</AuthTitle>
-      <AuthForm onSubmit={handleLogin}>
-        <AuthLabel htmlFor="id">이메일</AuthLabel>
-        <AuthInput type="email" id="id" ref={email} required />
-        <HBindDiv>
-          <AuthLabel htmlFor="password">비밀번호</AuthLabel>
-          <span className="findpw">
-            <Link to={'/signup'}>비밀번호 찾기</Link>
-          </span>
-        </HBindDiv>
-        <VisibleBind>
-          <InputVisisble
-            type={!isVisible ? 'password' : 'text'}
-            id="password"
-            required
-          />
-          <span
-            className="material-icons"
-            onClick={() => setIsVisible(!isVisible)}
-          >
-            {!isVisible ? 'visibility_off' : 'visibility'}
-          </span>
-        </VisibleBind>
-        <AuthLoginBtn>로그인</AuthLoginBtn>
-        <SnsLogin className="snsLogin">
-          <span>소셜계정 로그인</span>
-          <div className="btns">
-            <a href="">버튼1</a>
-            <a href="">버튼2</a>
-          </div>
-        </SnsLogin>
-      </AuthForm>
-      <WayToSignup>
-        <div>아직 회원이 아니신가요?</div>
-        <AuthDefaultBtn>
-          <Link to={'/signup'}>1초만에 가입하기</Link>
-        </AuthDefaultBtn>
-      </WayToSignup>
-    </AuthWrapper>
-  );
-};
-
 export default Login;

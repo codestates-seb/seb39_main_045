@@ -3,6 +3,8 @@ package com.cactusvilleage.server.auth.web.oauth;
 import com.cactusvilleage.server.auth.repository.OAuth2AuthorizationRequestRepository;
 import com.cactusvilleage.server.auth.util.CookieUtil;
 import com.cactusvilleage.server.auth.util.HeaderUtil;
+import com.cactusvilleage.server.global.exception.BusinessLogicException;
+import com.cactusvilleage.server.global.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -17,6 +19,7 @@ import java.net.URI;
 import java.util.Optional;
 
 import static com.cactusvilleage.server.auth.repository.OAuth2AuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
+import static com.cactusvilleage.server.global.exception.ExceptionCode.*;
 
 @Slf4j
 @Component
@@ -39,7 +42,8 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
                 .map(Cookie::getValue);
 
         if (redirectUri.isPresent() && !isAuthorizedRedirectUri(redirectUri.get())) {
-            throw new IllegalArgumentException("리다이렉트 유알엘 잘못됨");
+
+            throw new BusinessLogicException(WRONG_REDIRECT_URI);
         }
 
         return redirectUri.orElse(getDefaultTargetUrl());
