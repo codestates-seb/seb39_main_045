@@ -12,19 +12,19 @@ import {
   NowPercent
 } from 'views/components/mainpage/main.style';
 import SuccessFailModal from 'views/components/mainpage/SuccessFailModal';
-interface Data {
-  [index: string]: string | number
-  name: string
-  percent: number
-}
+// interface Data {
+//   [index: string]: string | number
+//   name: string
+//   percent: number
+// }
 
 const MainCactus = () => {
   const user = useSelector((state: RootState) => state.user.userInfo);
   const [isOpen, setIsOpen] = useState(false);
-  const data: Data = {
-    name: '기상',
-    percent: Math.floor(Math.random() * 100)
-  };
+  // const data: Data = {
+  //   name: '기상',
+  //   percent: Math.floor(Math.random() * 100)
+  // };
   useEffect(() => {
     if (user.status === 'fail') {
       setIsOpen(true);
