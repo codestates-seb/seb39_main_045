@@ -2,6 +2,7 @@ package com.cactusvilleage.server.auth.web.dto.request;
 
 import com.cactusvilleage.server.auth.entities.Member;
 import com.cactusvilleage.server.auth.validator.EmailNotDuplicate;
+import com.cactusvilleage.server.auth.validator.SpaceCantBeAtBeginOrEnd;
 import com.cactusvilleage.server.auth.validator.UsernameNotDuplicate;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,6 +27,7 @@ public class PlainSignupDto {
 
     @NotBlank
     @UsernameNotDuplicate
+    @SpaceCantBeAtBeginOrEnd
     private String username;
 
     @Size(min = 8, max = 20)
