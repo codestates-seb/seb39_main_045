@@ -1,4 +1,4 @@
-package com.cactusvilleage.server.global.healthCheck;
+package com.cactusvilleage.server.global.healthcheck;
 
 import org.springframework.web.bind.annotation.*;
 

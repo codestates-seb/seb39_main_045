@@ -1,10 +1,13 @@
 package com.cactusvilleage.server.auth.entities;
 
 import com.cactusvilleage.server.auth.entities.oauth.ProviderType;
+import com.cactusvilleage.server.challenge.entities.Challenge;
 import com.cactusvilleage.server.global.audit.Auditable;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @NoArgsConstructor
@@ -42,6 +45,9 @@ public class Member extends Auditable {
         this.providerId = providerId;
     }
 
+    @OneToMany(mappedBy = "member")
+    private List<Challenge> challenges = new ArrayList<>();
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -63,5 +69,12 @@ public class Member extends Auditable {
         this.username = username;
     }
 
+    public void addChallenge(Challenge challenge) {
+        this.challenges.add(challenge);
+
+        if (challenge.getMember() != this) {
+            challenge.setMember(this);
+        }
+    }
 }
 
