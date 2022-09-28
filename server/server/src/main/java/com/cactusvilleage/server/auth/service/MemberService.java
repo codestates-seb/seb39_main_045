@@ -32,12 +32,10 @@ import org.thymeleaf.context.Context;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
-import static com.cactusvilleage.server.auth.web.dto.response.MemberInfoResponse.Status.*;
+import static com.cactusvilleage.server.auth.web.dto.response.MemberInfoResponse.Status.NONE;
 import static com.cactusvilleage.server.global.exception.ExceptionCode.*;
 
 @Service
@@ -64,7 +62,7 @@ public class MemberService {
         Authentication authentication = verifyPassword(loginDto.getEmail(), loginDto.getPassword());
 
         String memberId = authentication.getName();
-        checkRefreshToken(memberId);
+        tokenRepository.checkRefreshToken(memberId);
         Member member = findMember(Long.parseLong(memberId));
 
         MemberInfoResponse memberInfo = getMemberInfo(member);
@@ -181,18 +179,6 @@ public class MemberService {
                 .providerType(member.getProviderType().toString())
                 .build();
     }
-
-    private void checkRefreshToken(String memberId) {
-        List<RefreshToken> all = tokenRepository.findAll();
-        List<RefreshToken> duplicateRefreshToken = all.stream()
-                .filter(refreshToken -> refreshToken.getMemberId().equals(memberId))
-                .collect(Collectors.toList());
-        if (!duplicateRefreshToken.isEmpty()) {
-            duplicateRefreshToken
-                    .forEach(refreshToken -> tokenRepository.deleteById(refreshToken.getTokenId()));
-        }
-    }
-
 
     private RefreshToken getRefreshToken(HttpServletRequest request) {
         Cookie refreshCookie = CookieUtil.getCookie(request, "refresh_token")

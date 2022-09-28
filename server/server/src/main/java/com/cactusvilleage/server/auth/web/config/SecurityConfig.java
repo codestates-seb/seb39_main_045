@@ -4,6 +4,7 @@ import com.cactusvilleage.server.auth.repository.OAuth2AuthorizationRequestRepos
 import com.cactusvilleage.server.auth.repository.RefreshTokenRepository;
 import com.cactusvilleage.server.auth.service.CustomOAuth2UserService;
 import com.cactusvilleage.server.auth.util.CookieUtil;
+import com.cactusvilleage.server.auth.util.SecurityUtil;
 import com.cactusvilleage.server.auth.util.TokenProvider;
 import com.cactusvilleage.server.auth.web.oauth.AppProperties;
 import com.cactusvilleage.server.auth.web.oauth.OAuth2AuthenticationFailureHandler;
@@ -51,7 +52,7 @@ public class SecurityConfig {
 
     @Bean
     public OAuth2AuthenticationSuccessHandler successHandler() {
-        return new OAuth2AuthenticationSuccessHandler(appProperties, cookieUtil(), oAuth2AuthorizationRequestRepository());
+        return new OAuth2AuthenticationSuccessHandler(appProperties, cookieUtil(), oAuth2AuthorizationRequestRepository(), tokenRepository);
     }
 
     @Bean OAuth2AuthenticationFailureHandler failureHandler() {
