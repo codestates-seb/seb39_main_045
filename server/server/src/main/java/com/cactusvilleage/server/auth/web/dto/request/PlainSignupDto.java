@@ -1,6 +1,7 @@
 package com.cactusvilleage.server.auth.web.dto.request;
 
 import com.cactusvilleage.server.auth.entities.Member;
+import com.cactusvilleage.server.auth.validator.EmailForm;
 import com.cactusvilleage.server.auth.validator.EmailNotDuplicate;
 import com.cactusvilleage.server.auth.validator.SpaceCantBeAtBeginOrEnd;
 import com.cactusvilleage.server.auth.validator.UsernameNotDuplicate;
@@ -20,8 +21,7 @@ import static com.cactusvilleage.server.auth.entities.oauth.ProviderType.*;
 @AllArgsConstructor
 @ToString
 public class PlainSignupDto {
-    @Email
-    @NotBlank
+    @EmailForm
     @EmailNotDuplicate
     private String email;
 

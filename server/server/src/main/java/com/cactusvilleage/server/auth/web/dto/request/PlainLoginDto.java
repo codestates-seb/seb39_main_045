@@ -1,5 +1,6 @@
 package com.cactusvilleage.server.auth.web.dto.request;
 
+import com.cactusvilleage.server.auth.validator.EmailForm;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -10,8 +11,7 @@ import javax.validation.constraints.Size;
 @Getter
 @AllArgsConstructor
 public class PlainLoginDto {
-    @Email
-    @NotBlank
+    @EmailForm
     private String email;
 
     @Size(min = 8, max = 20)
