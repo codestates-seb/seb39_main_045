@@ -1,6 +1,5 @@
 import React from 'react';
-import { TimeDiv } from './MainStyles';
-import { Label } from './SelectModal';
+import { TimeDiv, Label } from './modal.style';
 
 const ShowTimeInput = React.forwardRef<
 HTMLInputElement,

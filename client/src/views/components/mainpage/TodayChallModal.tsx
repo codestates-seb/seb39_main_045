@@ -1,13 +1,16 @@
 import React, { useRef, useState, useEffect } from 'react';
-import styled from 'styled-components';
 import ModalPortal from './ModalPortal';
 import preview from '../../../assets/img/preview.png';
 import {
   ModalWrapper,
   ModalContentWrapper,
-  ModalSubmitBtn,
-  TimeDiv
-} from './MainStyles';
+  ModalBtn,
+  TimeDiv,
+  TextArea,
+  ModalContent,
+  ModalContentDiv,
+  ModalContentWithPic
+} from './modal.style';
 import { AlertProps } from './types';
 
 const Thanks = () => {
@@ -20,7 +23,7 @@ const Thanks = () => {
     <ModalContent onSubmit={handleSubmit}>
       <label>감사일기</label>
       <TextArea ref={thanksText}></TextArea>
-      <ModalSubmitBtn>챌린지 완료!</ModalSubmitBtn>
+      <ModalBtn.submit>챌린지 완료!</ModalBtn.submit>
     </ModalContent>
   );
 };
@@ -65,7 +68,7 @@ const Study = () => {
         <span> 시간</span>
         <div className="desc">*시간 범위: 1 ~ 23시간</div>
       </TimeDiv>
-      <ModalSubmitBtn>챌린지 완료!</ModalSubmitBtn>
+      <ModalBtn.submit>챌린지 완료!</ModalBtn.submit>
     </ModalContentWithPic>
   );
 };
@@ -92,7 +95,7 @@ const Morning = () => {
         <MorningTime />
         <div>버튼을 눌러 챌린지를 완료하세요!</div>
       </div>
-      <ModalSubmitBtn onClick={handleSubmit}>챌린지 완료!</ModalSubmitBtn>
+      <ModalBtn.submit onClick={handleSubmit}>챌린지 완료!</ModalBtn.submit>
     </ModalContentDiv>
   );
 };
@@ -107,24 +110,12 @@ const TodayModal = ({ status }: { status: string }) => {
 };
 
 const TodayChallModal = ({ setIsOpen, status }: AlertProps) => {
-  let krStatus = '';
-  switch (status) {
-    case 'morning':
-      krStatus = '기상';
-      break;
-    case 'study':
-      krStatus = '공부';
-      break;
-    default:
-      krStatus = '감사';
-  }
-
   return (
     <ModalPortal>
       <ModalWrapper>
-        <div className="bg" onClick={() => setIsOpen(false)}></div>
+        <div onClick={() => setIsOpen(false)}></div>
         <ModalContentWrapper>
-          <span className="title">{`오늘의 ${krStatus} 챌린지`}</span>
+          <h4>{'오늘의 챌린지'}</h4>
           <button className="material-icons" onClick={() => setIsOpen(false)}>
             close
           </button>
@@ -134,54 +125,5 @@ const TodayChallModal = ({ setIsOpen, status }: AlertProps) => {
     </ModalPortal>
   );
 };
-const TextArea = styled.textarea`
-  width: 100%;
-  height: 200px;
-  border: none;
-  margin: 10px auto;
-  border-radius: 5px;
-  resize: none;
-  &:focus {
-    outline: 2px solid #ffbe28;
-  }
-`;
-const ModalContent = styled.form`
-  padding: 20px 0 10px;
-  display: flex;
-  justify-content: space-between;
-  min-height: 300px;
-  flex-direction: column;
-  label {
-    margin: 10px 0;
-    font-weight: 600;
-    font-size: 0.88rem;
-    margin-bottom: 5px;
-  }
-`;
-const ModalContentDiv = styled.div`
-  padding: 20px 0 10px;
-  min-height: 300px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-weight: 500;
-  justify-content: space-between;
-  .wrapper > div {
-    margin: 10px;
-    text-align: center;
-  }
-`;
 
-const ModalContentWithPic = styled(ModalContent)`
-  justify-content: unset;
-  #preview {
-    width: 80%;
-    margin: 5px auto;
-    align-self: center;
-    border-radius: 3px;
-  }
-  input.photo {
-    padding: 10px;
-  }
-`;
 export default TodayChallModal;
