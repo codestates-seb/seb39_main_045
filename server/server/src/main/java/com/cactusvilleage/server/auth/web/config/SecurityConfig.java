@@ -69,7 +69,7 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
-                .antMatchers("/api/v1/members/signup", "/api/*/members/login/**", "/api/*/members/recovery").permitAll()
+                .antMatchers("/api/*/members/signup", "/api/*/members/login/**", "/api/*/members/recovery").permitAll()
                 .antMatchers("/api/*/members/reissue", "/api/*/members/logout").permitAll()
                 .antMatchers(HttpMethod.DELETE, "/api/*/members").permitAll()
                 .antMatchers("/*/oauth2/**").permitAll()
