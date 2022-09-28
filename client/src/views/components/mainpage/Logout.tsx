@@ -1,31 +1,21 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import AlertModal from './AlertModal';
-import { MainBtn } from './MainStyles';
+import { MainBtn } from './main.style';
 
 const Logout = () => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>
-      <LogoutBtn
+      <MainBtn.logout
         className="material-icons"
         id="logout"
         onClick={() => setIsOpen(true)}
       >
         logout
-      </LogoutBtn>
+      </MainBtn.logout>
       {isOpen && <AlertModal setIsOpen={setIsOpen} status={'logout'} />}
     </>
   );
 };
-const LogoutBtn = styled(MainBtn)`
-  margin: 5px;
-  background-color: var(--main-btn-green);
-  :active {
-    background-color: var(--main-emp-green);
-  }
-  :hover {
-    background-color: var(--main-emp-green);
-  }
-`;
+
 export default Logout;

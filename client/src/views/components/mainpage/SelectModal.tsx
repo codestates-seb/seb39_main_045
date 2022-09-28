@@ -1,13 +1,14 @@
 import React, { useRef, useState } from 'react';
-import styled from 'styled-components';
 import ShowTimeInput from './ShowTimeInput';
 import ModalPortal from './ModalPortal';
 import { DefaultProps, Choose } from './types';
 import {
   ModalWrapper,
   ModalContentWrapper,
-  ModalSubmitBtn
-} from './MainStyles';
+  Label,
+  ModalBtn,
+  SelectModalContent
+} from './modal.style';
 
 const defaultData: Choose = { challenge: null, day: null };
 
@@ -26,6 +27,7 @@ const SelectModal = ({ setIsOpen }: DefaultProps) => {
     const name: string | null = challenge.challenge;
     const days: string | null = challenge.day;
     const times = getTime.current?.value;
+    // 리팩토링 필수
     if (name === null || days === null) {
       return alert('챌린지를 선택해주세요');
     } else {
@@ -57,100 +59,67 @@ const SelectModal = ({ setIsOpen }: DefaultProps) => {
   return (
     <ModalPortal>
       <ModalWrapper>
-        <div className="bg" onClick={() => setIsOpen(false)}></div>
+        <div onClick={() => setIsOpen(false)}></div>
         <ModalContentWrapper>
-          <span className="title">챌린지 선택하기</span>
+          <h4>챌린지 선택하기</h4>
           <button className="material-icons" onClick={() => setIsOpen(false)}>
             close
           </button>
-          <ModalContent>
+          <SelectModalContent>
             <Label>챌린지 종류</Label>
-            <div className="sort">
-              <button
-                className={
-                  challenge.challenge === 'morning' ? 'active' : 'inactive'
-                }
+            <div>
+              <ModalBtn.select
+                active={challenge.challenge === 'morning'}
                 onClick={getChall}
                 name="morning"
               >
                 기상
-              </button>
-              <button
-                className={
-                  challenge.challenge === 'study' ? 'active' : 'inactive'
-                }
+              </ModalBtn.select>
+              <ModalBtn.select
+                active={challenge.challenge === 'study'}
                 onClick={getChall}
                 name="study"
               >
                 공부
-              </button>
-              <button
-                className={
-                  challenge.challenge === 'thanks' ? 'active' : 'inactive'
-                }
+              </ModalBtn.select>
+              <ModalBtn.select
+                active={challenge.challenge === 'thanks'}
                 onClick={getChall}
                 name="thanks"
               >
                 감사
-              </button>
+              </ModalBtn.select>
             </div>
             <Label>챌린지선택</Label>
-            <div className="day">
-              <button
-                className={challenge.day === '3' ? 'active' : 'inactive'}
+            <div>
+              <ModalBtn.select
+                active={challenge.day === '3'}
                 name="3"
                 onClick={getDay}
               >
                 3일
-              </button>
-              <button
+              </ModalBtn.select>
+              <ModalBtn.select
                 name="5"
-                className={challenge.day === '5' ? 'active' : 'inactive'}
+                active={challenge.day === '5'}
                 onClick={getDay}
               >
                 5일
-              </button>
-              <button
-                className={challenge.day === '7' ? 'active' : 'inactive'}
+              </ModalBtn.select>
+              <ModalBtn.select
+                active={challenge.day === '7'}
                 name="7"
                 onClick={getDay}
               >
                 7일
-              </button>
+              </ModalBtn.select>
             </div>
             <ShowTimeInput status={challenge.challenge} ref={getTime} />
-          </ModalContent>
-          <ModalSubmitBtn onClick={handleSubmit}>선택하기</ModalSubmitBtn>
+          </SelectModalContent>
+          <ModalBtn.submit onClick={handleSubmit}>선택하기</ModalBtn.submit>
         </ModalContentWrapper>
       </ModalWrapper>
     </ModalPortal>
   );
 };
-export const Label = styled.span`
-  display: inline-block;
-  font-weight: 600;
-  font-size: 0.88rem;
-  margin-bottom: 5px;
-`;
-const ModalContent = styled.div`
-  padding: 20px 0;
-  .sort,
-  .day {
-    margin-bottom: 20px;
-  }
-
-  button {
-    background-color: var(--main-btn-green);
-    border-radius: 12px;
-    border: none;
-    color: white;
-    font-size: 0.75rem;
-    padding: 8px 10px;
-    margin: 5px;
-    &.active {
-      background-color: var(--main-emp-green);
-    }
-  }
-`;
-
 export default SelectModal;
