@@ -26,10 +26,8 @@ public class Challenge extends Auditable {
     @Column(name = "CHALLENGE_ID")
     private Long id;
 
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
     @Column(columnDefinition = "BINARY(16)")
-    private UUID uuid;
+    private UUID uuid = UUID.randomUUID();
 
     @Enumerated(EnumType.STRING)
     private ChallengeType challengeType;
