@@ -32,8 +32,10 @@ import org.thymeleaf.context.Context;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static com.cactusvilleage.server.auth.web.dto.response.MemberInfoResponse.Status.*;
 import static com.cactusvilleage.server.global.exception.ExceptionCode.*;
@@ -61,8 +63,9 @@ public class MemberService {
     public ResponseEntity login(PlainLoginDto loginDto, HttpServletRequest request, HttpServletResponse response) {
         Authentication authentication = verifyPassword(loginDto.getEmail(), loginDto.getPassword());
 
-        Long memberId = Long.parseLong(authentication.getName());
-        Member member = findMember(memberId);
+        String memberId = authentication.getName();
+        checkRefreshToken(memberId);
+        Member member = findMember(Long.parseLong(memberId));
 
         MemberInfoResponse memberInfo = getMemberInfo(member);
         cookieUtil.generateTokens(request, response, authentication);
@@ -177,6 +180,17 @@ public class MemberService {
                 .targetDate(0)
                 .providerType(member.getProviderType().toString())
                 .build();
+    }
+
+    private void checkRefreshToken(String memberId) {
+        List<RefreshToken> all = tokenRepository.findAll();
+        List<RefreshToken> duplicateRefreshToken = all.stream()
+                .filter(refreshToken -> refreshToken.getMemberId().equals(memberId))
+                .collect(Collectors.toList());
+        if (!duplicateRefreshToken.isEmpty()) {
+            duplicateRefreshToken
+                    .forEach(refreshToken -> tokenRepository.deleteById(refreshToken.getTokenId()));
+        }
     }
 
 
