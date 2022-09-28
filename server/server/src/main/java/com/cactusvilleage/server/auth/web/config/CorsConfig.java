@@ -18,8 +18,8 @@ public class CorsConfig {
         config.addAllowedOriginPattern("*");
 
         config.addAllowedMethod("*");
+        config.addAllowedHeader("*");
         config.addExposedHeader("Authorization");
-        config.addExposedHeader("*");
 
         source.registerCorsConfiguration("/**", config);
 
