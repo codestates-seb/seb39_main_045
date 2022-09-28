@@ -1,4 +1,6 @@
-package com.cactusvilleage.server.auth.validator;
+package com.cactusvilleage.server.auth.validator.impl;
+
+import com.cactusvilleage.server.auth.validator.SpaceCantBeAtBeginOrEnd;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
