@@ -76,7 +76,7 @@ public class JwtFilter extends OncePerRequestFilter {
     }
 
     private boolean checkPermitUri(HttpServletRequest request) {
-        if (request.getRequestURI().equals("/members") && request.getMethod().equals("delete")) {
+        if (request.getRequestURI().equals("/api/v1/members") && request.getMethod().equals("delete")) {
             return true;
         } else {
             return permitURIs.stream()
