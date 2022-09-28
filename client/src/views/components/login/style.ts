@@ -78,12 +78,12 @@ export const SnsLogin = styled.div`
     margin: 5px;
     font-size: 0.8rem;
   }
-  img:first-child {
+  span + img {
     width: 188px;
     height: 48px;
     margin-bottom: 5px;
   }
-  img:last-child {
+  img:last-of-type {
     filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.3));
   }
 `;
