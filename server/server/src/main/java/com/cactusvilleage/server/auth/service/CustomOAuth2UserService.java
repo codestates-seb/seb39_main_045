@@ -65,7 +65,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private void checkUsername(OAuth2UserInfo oAuth2UserInfo, Member member) {
 
-        String username = oAuth2UserInfo.getName();
+        String username = oAuth2UserInfo.getName().trim();
 
         if (memberRepository.existsByUsername(username)) {
             long count = memberRepository.findAll().stream()
