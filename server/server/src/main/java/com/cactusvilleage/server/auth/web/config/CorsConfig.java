@@ -19,7 +19,7 @@ public class CorsConfig {
 
         config.addAllowedMethod("*");
         config.addExposedHeader("Authorization");
-        config.addExposedHeader("*");
+//        config.addExposedHeader("*");
 
         source.registerCorsConfiguration("/**", config);
 

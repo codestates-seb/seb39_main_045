@@ -64,22 +64,20 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     private void checkUsername(OAuth2UserInfo oAuth2UserInfo, Member member) {
-        String username;
-        if (oAuth2UserInfo.getName().length() > 8) {
-            username = oAuth2UserInfo.getName().substring(0, 8);
-        } else {
-            username = oAuth2UserInfo.getName();
-        }
+
+        String username = oAuth2UserInfo.getName();
 
         if (memberRepository.existsByUsername(username)) {
             long count = memberRepository.findAll().stream()
-                    .filter(foundMember -> foundMember.getUsername().startsWith(username) && StringUtils.isNumeric(foundMember.getUsername().substring(username.length())))
-                    .count();
-            member.setUsername(username + (count + 1));
+                    .filter(foundMember -> foundMember.getUsername().startsWith(username)
+                            && foundMember.getUsername().substring(username.length()).startsWith(" #")
+                            && StringUtils.isNumeric(foundMember.getUsername().substring(username.length() + 2)))
+                    .count() + 1;
+            member.setUsername(username + " #" + (count + 1));
             if (memberRepository.existsByUsername(member.getUsername())) {
                 while (!memberRepository.existsByUsername(member.getUsername())) {
                     int suffix = Integer.parseInt(member.getUsername().substring(username.length())) + 1;
-                    member.setUsername(username + suffix);
+                    member.setUsername(username + " #" + suffix);
                 }
             }
         } else {

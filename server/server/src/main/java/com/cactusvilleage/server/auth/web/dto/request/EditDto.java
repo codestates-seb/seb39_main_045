@@ -10,7 +10,6 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 public class EditDto {
     @Nullable
-    @Size(min = 2, max = 8)
     private String username;
     @Nullable
     private String prePassword;

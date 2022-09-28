@@ -24,7 +24,6 @@ public class PlainSignupDto {
     @EmailNotDuplicate
     private String email;
 
-    @Size(min = 2, max = 8)
     @NotBlank
     @UsernameNotDuplicate
     private String username;
