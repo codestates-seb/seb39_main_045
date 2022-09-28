@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { loginUser } from 'feature/profile/user';
 import { instance } from 'utils/axiosInstance';
-import kakao from '../../assets/img/kakao_login_medium_narrow.png';
+import KakaoLogin from 'views/components/login/KakaoLogin';
 import google from '../../assets/img/btn_google_signin_light_normal_web.png';
 import {
   AuthWrapper,
@@ -84,7 +84,7 @@ const Login = () => {
         <SnsLogin>
           <span>소셜계정 로그인</span>
           <img src={google} onClick={handleGoogle} alt="googleLogin" />
-          <img src={kakao} onClick={handleKaKao} alt="kakaoLogin" />
+          <KakaoLogin />
         </SnsLogin>
       </AuthForm>
       <WayToSignup>
