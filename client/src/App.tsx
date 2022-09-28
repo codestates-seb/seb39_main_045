@@ -6,7 +6,7 @@ import MainNoCactus from './views/pages/MainNoCactus';
 import MainCactus from './views/pages/MainCactus';
 import Intro from 'views/pages/Intro';
 import Login from 'views/pages/Login';
-import Mypage from 'views/pages/Mypage';
+import Mypage from 'views/pages/Mypage/index';
 import Signup from 'views/pages/Signup';
 import Nav from 'views/components/common/Nav';
 

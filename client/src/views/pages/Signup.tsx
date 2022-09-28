@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { AuthWrapper, AuthTitle, AuthForm, AuthLabel, AuthInput, AuthLoginBtn, SnsLogin } from './Login';
+import { AuthWrapper, AuthTitle, AuthForm, AuthLabel, AuthInput, AuthLoginBtn } from './Login';
 import LeftArrow from 'views/components/icons/auth/LeftArrow';
 import axios from 'axios';
 
@@ -36,9 +36,9 @@ const Signup = () => {
   const onSubmitSignUp = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isCheckedName && isCheckedPw) {
-      console.log(userInfo);
+      // 회원가입에 성공했습니다 모달
       axios.post('https://api.cactus-villeage.com/members/signup', userInfo)
-        .then(res => console.log(res))
+        .then(() => navigate('/login'))
         .catch(err => console.log(err));
     } else {
       setInputError(true);
@@ -98,13 +98,6 @@ const Signup = () => {
       <SignUpBtn type="submit" fontSize="1rem">
         가입하기
       </SignUpBtn>
-      <SnsLogin>
-        <span>소셜계정 회원가입</span>
-        <div>
-          <a href="">버튼1</a>
-          <a href="">버튼2</a>
-        </div>
-      </SnsLogin>
     </AuthForm>
   </AuthWrapper>
   );
