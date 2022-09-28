@@ -45,8 +45,7 @@ public class Challenge extends Auditable {
     private boolean deleted;
 
     @Builder
-    public Challenge(UUID uuid, ChallengeType challengeType, int targetDate, int stamp) {
-        this.uuid = uuid;
+    public Challenge(ChallengeType challengeType, int targetDate, int stamp) {
         this.challengeType = challengeType;
         this.targetDate = targetDate;
         this.stamp = stamp;

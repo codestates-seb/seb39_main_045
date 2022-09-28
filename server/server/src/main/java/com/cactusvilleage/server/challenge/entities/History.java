@@ -34,8 +34,7 @@ public class History extends Auditable {
     private String imagePath; // Multipart/form-data로 온 image -> S3 image 저장 -> 해당 경로
 
     @Builder
-    public History(UUID uuid, String contents, String time,String imagePath) {
-        this.uuid = uuid;
+    public History(String contents, String time,String imagePath) {
         this.time = time;
         this.contents = contents;
         this.imagePath = imagePath;
