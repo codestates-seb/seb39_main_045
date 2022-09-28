@@ -1,7 +1,6 @@
 package com.cactusvilleage.server.auth.repository;
 
 import com.cactusvilleage.server.auth.entities.Member;
-import com.cactusvilleage.server.auth.entities.oauth.ProviderType;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

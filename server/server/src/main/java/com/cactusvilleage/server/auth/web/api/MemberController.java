@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/members")
+@RequestMapping("/api/v1/members")
 @RequiredArgsConstructor
 @Slf4j
 public class MemberController {
@@ -58,8 +58,8 @@ public class MemberController {
     }
 
     @GetMapping("/reissue")
-    public ResponseEntity reissue(HttpServletRequest request) {
-        return memberService.reissue(request);
+    public ResponseEntity reissue(HttpServletRequest request, HttpServletResponse response) {
+        return memberService.reissue(request, response);
     }
 
     @GetMapping("/me")
