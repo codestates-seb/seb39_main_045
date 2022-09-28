@@ -1,5 +1,7 @@
 package com.cactusvilleage.server.auth.validator;
 
+import com.cactusvilleage.server.auth.validator.impl.SpaceValidator;
+
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.ElementType;
