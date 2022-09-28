@@ -7,7 +7,6 @@ import com.cactusvilleage.server.auth.entities.oauth.ProviderType;
 import com.cactusvilleage.server.auth.repository.MemberRepository;
 import com.cactusvilleage.server.auth.repository.RefreshTokenRepository;
 import com.cactusvilleage.server.auth.util.CookieUtil;
-import com.cactusvilleage.server.auth.util.HeaderUtil;
 import com.cactusvilleage.server.auth.util.SecurityUtil;
 import com.cactusvilleage.server.auth.util.TokenProvider;
 import com.cactusvilleage.server.auth.web.dto.request.EditDto;
@@ -50,7 +49,9 @@ public class MemberService {
     private final AuthenticationManagerBuilder authBuilder;
     private final PasswordEncoder passwordEncoder;
     private final AwsSesUtils awsSesUtils;
-    private final HeaderUtil headerUtil;
+    private final CookieUtil cookieUtil;
+    private static final int ACCESS_TOKEN_EXPIRES_IN = 60 * 30;
+
 
     public void signup(PlainSignupDto signupDto) {
         Member member = signupDto.toMember(passwordEncoder);
@@ -64,16 +65,16 @@ public class MemberService {
         Member member = findMember(memberId);
 
         MemberInfoResponse memberInfo = getMemberInfo(member);
-        headerUtil.generateTokens(request, response, authentication);
+        cookieUtil.generateTokens(request, response, authentication);
 
         return new ResponseEntity<>(new SingleResponseDto<>(memberInfo), HttpStatus.OK);
     }
 
     public void logout(HttpServletRequest request, HttpServletResponse response) {
         RefreshToken refreshToken = getRefreshToken(request);
-
         tokenRepository.deleteById(refreshToken.getTokenId());
-        response.setHeader("Authorization", null);
+
+        CookieUtil.deleteCookie(request, response, "access_token");
         CookieUtil.deleteCookie(request, response, "refresh_token");
     }
 
@@ -137,18 +138,19 @@ public class MemberService {
         foundMember.deleteMember(foundMember.getEmail() + dummy, foundMember.getUsername() + dummy);
         memberRepository.save(foundMember);
 
-        response.setHeader("Authorization", null);
+        CookieUtil.deleteCookie(request, response, "access_token");
         CookieUtil.deleteCookie(request, response, "refresh_token");
     }
 
-    public ResponseEntity reissue(HttpServletRequest request) {
+    public ResponseEntity reissue(HttpServletRequest request, HttpServletResponse response) {
         RefreshToken refreshToken = getRefreshToken(request);
         Authentication authentication = tokenProvider.getAuthentication(refreshToken.getTokenValue());
         String accessToken = tokenProvider.generateAccessToken(authentication);
 
-        return ResponseEntity.ok()
-                .header("Authorization", "Bearer " + accessToken)
-                .build();
+        CookieUtil.deleteCookie(request, response, "access_token");
+        CookieUtil.addCookie(response, "access_token", accessToken, ACCESS_TOKEN_EXPIRES_IN, false);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     public ResponseEntity memberInfo() {

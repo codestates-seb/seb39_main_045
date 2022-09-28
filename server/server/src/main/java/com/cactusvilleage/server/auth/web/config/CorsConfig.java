@@ -17,8 +17,6 @@ public class CorsConfig {
 //        config.addAllowedOriginPattern("https://*.cactus-villeage.com/");
         config.addAllowedOriginPattern("*");
 
-
-        config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         config.addExposedHeader("Authorization");
         config.addExposedHeader("*");
