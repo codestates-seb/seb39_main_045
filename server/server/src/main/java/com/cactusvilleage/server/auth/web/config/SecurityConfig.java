@@ -1,18 +1,15 @@
 package com.cactusvilleage.server.auth.web.config;
 
-import com.cactusvilleage.server.auth.entities.Authority;
-import com.cactusvilleage.server.auth.repository.MemberRepository;
 import com.cactusvilleage.server.auth.repository.OAuth2AuthorizationRequestRepository;
 import com.cactusvilleage.server.auth.repository.RefreshTokenRepository;
 import com.cactusvilleage.server.auth.service.CustomOAuth2UserService;
-import com.cactusvilleage.server.auth.util.HeaderUtil;
+import com.cactusvilleage.server.auth.util.CookieUtil;
+import com.cactusvilleage.server.auth.util.SecurityUtil;
 import com.cactusvilleage.server.auth.util.TokenProvider;
-import com.cactusvilleage.server.auth.web.exception.JwtAccessDeniedHandler;
-import com.cactusvilleage.server.auth.web.exception.JwtAuthenticationEntryPoint;
-import com.cactusvilleage.server.auth.web.filter.JwtExceptionHandlerFilter;
 import com.cactusvilleage.server.auth.web.oauth.AppProperties;
 import com.cactusvilleage.server.auth.web.oauth.OAuth2AuthenticationFailureHandler;
 import com.cactusvilleage.server.auth.web.oauth.OAuth2AuthenticationSuccessHandler;
+import com.cactusvilleage.server.auth.web.filter.ExceptionHandlerFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,9 +29,6 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 public class SecurityConfig {
 
     private final CorsFilter corsFilter;
-    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
-    private final JwtExceptionHandlerFilter jwtExceptionHandlerFilter;
     private final TokenProvider tokenProvider;
     private final CustomOAuth2UserService oAuth2UserService;
     private final AppProperties appProperties;
@@ -47,8 +41,8 @@ public class SecurityConfig {
     }
 
     @Bean
-    public HeaderUtil headerUtil() {
-        return new HeaderUtil(tokenProvider, passwordEncoder(), tokenRepository);
+    public CookieUtil cookieUtil() {
+        return new CookieUtil(tokenProvider, passwordEncoder(), tokenRepository);
     }
 
     @Bean
@@ -58,7 +52,7 @@ public class SecurityConfig {
 
     @Bean
     public OAuth2AuthenticationSuccessHandler successHandler() {
-        return new OAuth2AuthenticationSuccessHandler(appProperties, headerUtil(), oAuth2AuthorizationRequestRepository());
+        return new OAuth2AuthenticationSuccessHandler(appProperties, cookieUtil(), oAuth2AuthorizationRequestRepository(), tokenRepository);
     }
 
     @Bean OAuth2AuthenticationFailureHandler failureHandler() {
@@ -75,23 +69,17 @@ public class SecurityConfig {
 
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/**").hasAnyAuthority("ROLE_USER")
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
-                .antMatchers("/members/signup", "/members/login/**", "/members/recovery").permitAll()
-                .antMatchers("/members/reissue", "/members/logout").permitAll()
-                .antMatchers(HttpMethod.DELETE, "/members").permitAll()
-                .antMatchers("/**/oauth2/**").permitAll()
-                .anyRequest().authenticated()
+                .antMatchers("/api/*/members/signup", "/api/*/members/login/**", "/api/*/members/recovery").permitAll()
+                .antMatchers("/api/*/members/reissue", "/api/*/members/logout").permitAll()
+                .antMatchers(HttpMethod.DELETE, "/api/*/members").permitAll()
+                .antMatchers("/*/oauth2/**").permitAll()
+                .anyRequest().permitAll()
 
                 .and()
-                .addFilterBefore(jwtExceptionHandlerFilter, CorsFilter.class)
+                .addFilterBefore(new ExceptionHandlerFilter(), CorsFilter.class)
                 .addFilter(corsFilter)
                 .apply(new JwtConfig(tokenProvider))
-
-                .and()
-                .exceptionHandling()
-                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-                .accessDeniedHandler(jwtAccessDeniedHandler)
 
                 .and()
                 .oauth2Login()
@@ -110,7 +98,6 @@ public class SecurityConfig {
                 .and()
                 .successHandler(successHandler())
                 .failureHandler(failureHandler());
-
 
         return http.build();
     }

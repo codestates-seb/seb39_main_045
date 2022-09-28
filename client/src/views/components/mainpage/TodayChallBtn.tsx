@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
-import { MainBtn } from './MainStyles';
+import { MainBtn } from './main.style';
 import TodayChallModal from './TodayChallModal';
 
 const TodayChallBtn = () => {
@@ -8,15 +7,12 @@ const TodayChallBtn = () => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>
-      <TodayBtn className="material-icons" onClick={() => setIsOpen(true)}>
+      <MainBtn.today className="material-icons" onClick={() => setIsOpen(true)}>
         wb_sunny
-      </TodayBtn>
+      </MainBtn.today>
       {isOpen && <TodayChallModal setIsOpen={setIsOpen} status={status} />}
     </>
   );
 };
-const TodayBtn = styled(MainBtn)`
-  color: #ffee58;
-  /* background-color: var(--main-btn-brown); */
-`;
+
 export default TodayChallBtn;

@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -22,26 +21,25 @@ public class History extends Auditable {
     @Column(name = "HISTORY_ID")
     private Long id;
 
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
     @Column(columnDefinition = "BINARY(16)")
-    private UUID uuid;
-
-    @Column(updatable = false, columnDefinition = "TEXT")
-    private String contents;
+    private UUID uuid = UUID.randomUUID();
 
     @Column(updatable = false)
     private String time; // 공부시간, 기상시간
 
-    // Todo Add image column
+    @Column(updatable = false, columnDefinition = "TEXT")
+    private String contents; // 감사 일기 text, Multipart/form-data로 온 text
+
+    @Column
+    private String imagePath; // Multipart/form-data로 온 image -> S3 image 저장 -> 해당 경로
 
     @Builder
-    public History(UUID uuid, String contents, String time, Challenge challenge) {
+    public History(UUID uuid, String contents, String time,String imagePath) {
         this.uuid = uuid;
-        this.contents = contents;
         this.time = time;
-        this.challenge = challenge;
-    } // 미완성
+        this.contents = contents;
+        this.imagePath = imagePath;
+    }
 
     @ManyToOne
     @JoinColumn(name = "CHALLENGE_ID")
