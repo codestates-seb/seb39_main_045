@@ -1,6 +1,8 @@
 import React, { useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { loginUser } from 'feature/profile/user';
+import { instance } from 'utils/axiosInstance';
 import kakao from '../../assets/img/kakao_login_medium_narrow.png';
 import google from '../../assets/img/btn_google_signin_light_normal_web.png';
 import {
@@ -26,25 +28,22 @@ const Login = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const email = emailRef.current?.value;
     const password = passwordRef.current?.value;
     if (email !== '' || password !== '') {
       const loginData: LoginData = { email, password };
-      axios
-        .post('https://api.cactus-villeage.com/members/login', loginData, {
+      instance
+        .post('/api/v1/members/login', loginData, {
           withCredentials: true
         })
         .then(({ data }) => {
-          console.log(data);
-          // 리덕스로관리하기!
+          dispatch(loginUser(data.data));
           navigate('/main');
         })
         .catch((err) => console.log(err));
-
-      console.log(email, password);
     }
   };
   const handleKaKao = () => {

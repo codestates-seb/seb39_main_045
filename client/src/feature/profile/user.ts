@@ -1,6 +1,7 @@
-import { Reducer, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface UserInfoType {
+  // [index: string]: string | number
   email: string
   usename: string
   status: string
@@ -11,7 +12,7 @@ interface UserInfoType {
 
 interface UserType {
   loginStatus: boolean
-  userInfo: null | UserInfoType
+  userInfo: UserInfoType
 }
 
 const initialUserInfo: UserInfoType = {
@@ -25,7 +26,7 @@ const initialUserInfo: UserInfoType = {
 
 const initialUser: UserType = {
   loginStatus: false,
-  userInfo: null
+  userInfo: initialUserInfo
 };
 
 export const userSlice = createSlice({
@@ -36,9 +37,6 @@ export const userSlice = createSlice({
       state.userInfo = { ...initialUserInfo, ...payload };
       state.loginStatus = true;
     },
-    // updateUser: (state, { payload }: PayloadAction<UserInfoType>) => {
-    //   state.userInfo = { ...payload };
-    // },
     logoutUser: () => {
       return initialUser;
     }
