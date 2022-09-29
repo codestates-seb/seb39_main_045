@@ -34,6 +34,7 @@ public interface CookieUtil {
         cookie.setPath("/");
         cookie.setHttpOnly(httpOnly);
         cookie.setMaxAge(maxAge);
+        cookie.setDomain(".cactus-villeage.com");
 
         response.addCookie(cookie);
     }
