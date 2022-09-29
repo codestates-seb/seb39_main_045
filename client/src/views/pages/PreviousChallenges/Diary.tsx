@@ -3,7 +3,7 @@ import { Layout } from 'views/components/UI/Layout.style';
 import { Title, Content } from 'views/components/UI/molecules/Text.style';
 import { TapHomeIcon } from 'views/components/UI/atoms/Icon.style';
 
-const PreviouseDiary = () => {
+const PreviousDiary = () => {
   const dummy = [{ day: '2022년 5월 5일', content: '오늘은 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날이다 감사합니다 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 ' },
     { day: '2022년 5월 5일', content: '오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 ' },
     { day: '2022년 5월 5일', content: '오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 ' },
@@ -29,4 +29,4 @@ const PreviouseDiary = () => {
   );
 };
 
-export default PreviouseDiary;
+export default PreviousDiary;

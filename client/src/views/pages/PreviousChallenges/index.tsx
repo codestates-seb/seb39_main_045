@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { ColumnWrapper, FlexRowMenu, HalfTapMenu, DiaryBox } from '../Mypage/Mypage.style';
-import { Title } from '../../components/UI/molecules/Text.style';
+import { Title } from 'views/components/UI/molecules/Text.style';
 import { Layout } from 'views/components/UI/Layout.style';
 import MyPageNav from 'views/components/common/MyPageNav';
 import PreviousHome from './Home';
 import PreviousStudy from './Study';
-import PreviouseDiary from './Diary';
+import PreviousDiary from './Diary';
 import PreviousMorning from './Morning';
 
 const MyPageWrapper = () => {
@@ -27,7 +27,7 @@ const MyPageWrapper = () => {
         <DiaryBox>
           {currentTab === 'home' ? <PreviousHome /> : null}
           {currentTab === 'study' ? <PreviousStudy /> : null}
-          {currentTab === 'diary' ? <PreviouseDiary /> : null}
+          {currentTab === 'diary' ? <PreviousDiary /> : null}
           {currentTab === 'morning' ? <PreviousMorning /> : null}
         </DiaryBox>
       </ColumnWrapper>
