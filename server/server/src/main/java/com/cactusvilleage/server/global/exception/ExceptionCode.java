@@ -20,8 +20,8 @@ public enum ExceptionCode {
     MEMBER_INFO_EXISTS(400, ""),
     PRE_PASSWORD_REQUIRED(400, "기존 비밀번호는 필수값입니다."),
     WRONG_REDIRECT_URI(400, "요청 redirect_uri 파라미터가 잘못되었습니다."),
-
     ENROLL_CHALLENGE_CANNOT_BE_DUPLICATED(401,"챌린지 등록은 한 번에 하나만 할 수 있습니다");
+    NOT_SUPPORTED_PROVIDER(400, "지원하지 않는 소셜 경로입니다.");
 
     @Getter
     private int status;

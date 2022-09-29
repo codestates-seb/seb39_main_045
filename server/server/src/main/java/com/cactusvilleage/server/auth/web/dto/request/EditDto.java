@@ -1,6 +1,7 @@
 package com.cactusvilleage.server.auth.web.dto.request;
 
 import lombok.AccessLevel;
+import com.cactusvilleage.server.auth.validator.SpaceCantBeAtBeginOrEnd;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class EditDto {
     @Nullable
-    @Size(min = 2, max = 8)
+    @SpaceCantBeAtBeginOrEnd
     private String username;
     @Nullable
     private String prePassword;

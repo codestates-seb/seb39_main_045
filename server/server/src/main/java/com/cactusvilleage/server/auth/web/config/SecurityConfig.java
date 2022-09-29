@@ -4,12 +4,12 @@ import com.cactusvilleage.server.auth.repository.OAuth2AuthorizationRequestRepos
 import com.cactusvilleage.server.auth.repository.RefreshTokenRepository;
 import com.cactusvilleage.server.auth.service.CustomOAuth2UserService;
 import com.cactusvilleage.server.auth.util.CookieUtil;
-import com.cactusvilleage.server.auth.util.SecurityUtil;
 import com.cactusvilleage.server.auth.util.TokenProvider;
+import com.cactusvilleage.server.auth.util.impl.JwtCookieUtil;
+import com.cactusvilleage.server.auth.web.filter.ExceptionHandlerFilter;
 import com.cactusvilleage.server.auth.web.oauth.AppProperties;
 import com.cactusvilleage.server.auth.web.oauth.OAuth2AuthenticationFailureHandler;
 import com.cactusvilleage.server.auth.web.oauth.OAuth2AuthenticationSuccessHandler;
-import com.cactusvilleage.server.auth.web.filter.ExceptionHandlerFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,12 +42,12 @@ public class SecurityConfig {
 
     @Bean
     public CookieUtil cookieUtil() {
-        return new CookieUtil(tokenProvider, passwordEncoder(), tokenRepository);
+        return new JwtCookieUtil(tokenProvider, passwordEncoder(), tokenRepository);
     }
 
     @Bean
     public OAuth2AuthorizationRequestRepository oAuth2AuthorizationRequestRepository() {
-        return new OAuth2AuthorizationRequestRepository();
+        return new OAuth2AuthorizationRequestRepository(cookieUtil());
     }
 
     @Bean
@@ -56,7 +56,7 @@ public class SecurityConfig {
     }
 
     @Bean OAuth2AuthenticationFailureHandler failureHandler() {
-        return new OAuth2AuthenticationFailureHandler(oAuth2AuthorizationRequestRepository());
+        return new OAuth2AuthenticationFailureHandler(cookieUtil(), oAuth2AuthorizationRequestRepository());
     }
 
     @Bean
@@ -79,7 +79,7 @@ public class SecurityConfig {
                 .and()
                 .addFilterBefore(new ExceptionHandlerFilter(), CorsFilter.class)
                 .addFilter(corsFilter)
-                .apply(new JwtConfig(tokenProvider))
+                .apply(new JwtConfig(tokenProvider, cookieUtil()))
 
                 .and()
                 .oauth2Login()
