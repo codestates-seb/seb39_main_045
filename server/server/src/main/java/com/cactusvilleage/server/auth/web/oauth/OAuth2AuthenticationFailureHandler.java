@@ -21,12 +21,13 @@ import static com.cactusvilleage.server.auth.repository.OAuth2AuthorizationReque
 @Slf4j
 @RequiredArgsConstructor
 public class OAuth2AuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
+    private final CookieUtil cookieUtil;
     private final OAuth2AuthorizationRequestRepository authorizationRequestRepository;
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
 
-        String targetUri = CookieUtil.getCookie(request, REDIRECT_URI_PARAM_COOKIE_NAME)
+        String targetUri = cookieUtil.getCookie(request, REDIRECT_URI_PARAM_COOKIE_NAME)
                 .map(Cookie::getValue)
                 .orElse("/");
 

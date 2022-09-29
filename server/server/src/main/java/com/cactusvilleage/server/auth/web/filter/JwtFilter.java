@@ -26,6 +26,7 @@ import static com.cactusvilleage.server.global.exception.ExceptionCode.*;
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
     private final TokenProvider tokenProvider;
+    private final CookieUtil cookieUtil;
     private static final List<String> permitURIs = List.of(
             "/api/v1/members/signup",
             "/api/v1/members/login",
@@ -63,7 +64,7 @@ public class JwtFilter extends OncePerRequestFilter {
     }
 
     private String resolveToken(HttpServletRequest request) {
-        Optional<Cookie> accessCookie = CookieUtil.getCookie(request, "access_token");
+        Optional<Cookie> accessCookie = cookieUtil.getCookie(request, "access_token");
         if (accessCookie.isEmpty()) {
             throw new BusinessLogicException(NO_AUTHENTICATION);
         } else {
