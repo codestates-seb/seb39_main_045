@@ -76,7 +76,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             member.setUsername(username + " #" + (count + 1));
             if (memberRepository.existsByUsername(member.getUsername())) {
                 while (!memberRepository.existsByUsername(member.getUsername())) {
-                    int suffix = Integer.parseInt(member.getUsername().substring(username.length())) + 1;
+                    int suffix = Integer.parseInt(member.getUsername().substring(username.length() + 2)) + 1;
                     member.setUsername(username + " #" + suffix);
                 }
             }
