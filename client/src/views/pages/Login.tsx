@@ -46,9 +46,6 @@ const Login = () => {
         .catch((err) => console.log(err));
     }
   };
-  const handleKaKao = () => {
-    console.log('여기');
-  };
   const handleGoogle = () => {
     window.location.href =
       'https://api.cactus-villeage.com/oauth2/authorization/google?redirect_uri=https://dev.cactus-villeage.com/main/';

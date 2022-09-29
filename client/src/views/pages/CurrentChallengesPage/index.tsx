@@ -1,6 +1,6 @@
 import React from 'react';
 import { GreenArea, BaseArea, GraphWrapper, NowChallengeGrid } from './CurrentChallengesPage.style';
-import { Title } from '../../components/UI/molecules/Text.style';
+import { Title } from 'views/components/UI/molecules/Text.style';
 import { Layout } from 'views/components/UI/Layout.style';
 import { MypageIcon } from 'views/components/icons/mypage';
 import MyPageNav from 'views/components/common/MyPageNav';

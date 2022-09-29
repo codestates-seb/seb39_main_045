@@ -9,7 +9,6 @@ const KakaoLogin = () => {
   return (
     <img
     src={kakao}
-    className="kakao"
     onClick={handleKaKao}
     alt="kakaoLogin"
   />

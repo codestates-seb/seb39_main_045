@@ -1,6 +1,6 @@
 import React from 'react';
 import { BtmWrapper, Track } from 'views/pages/IntroPage/Intro.style';
-import CactusB from '../../../components/icons/intro/CactusB';
+import CactusB from 'views/components/icons/intro/CactusB';
 
 const BottomSlide = () => {
   return (

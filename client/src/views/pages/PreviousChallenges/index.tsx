@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ColumnWrapper, FlexRowMenu, HalfTapMenu, DiaryBox } from '../Mypage/Mypage.style';
+import { ColumnWrapper, FlexRowMenu, HalfTapMenu, DiaryBox } from 'views/pages/Mypage/Mypage.style';
 import { Title } from 'views/components/UI/molecules/Text.style';
 import { Layout } from 'views/components/UI/Layout.style';
 import MyPageNav from 'views/components/common/MyPageNav';
