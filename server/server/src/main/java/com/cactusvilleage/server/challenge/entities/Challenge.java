@@ -8,15 +8,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Entity
 public class Challenge extends Auditable {
@@ -35,6 +34,9 @@ public class Challenge extends Auditable {
     @Column(updatable = false)
     private int targetDate;
 
+    @Column(updatable = false)
+    private Integer targetTime;
+
     @Column
     private int stamp;
 
@@ -45,9 +47,11 @@ public class Challenge extends Auditable {
     private boolean deleted;
 
     @Builder
-    public Challenge(ChallengeType challengeType, int targetDate, int stamp) {
+    public Challenge(ChallengeType challengeType, int targetDate, int targetTime, boolean active, int stamp) {
         this.challengeType = challengeType;
         this.targetDate = targetDate;
+        this.targetTime = targetTime;
+        this.active = active;
         this.stamp = stamp;
     }
 

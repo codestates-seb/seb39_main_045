@@ -1,5 +1,6 @@
 package com.cactusvilleage.server.auth.web.config;
 
+import com.cactusvilleage.server.auth.util.CookieUtil;
 import com.cactusvilleage.server.auth.util.TokenProvider;
 import com.cactusvilleage.server.auth.web.filter.JwtFilter;
 import lombok.RequiredArgsConstructor;
@@ -11,10 +12,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class JwtConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
     private final TokenProvider tokenProvider;
+    private final CookieUtil cookieUtil;
 
     @Override
     public void configure(HttpSecurity http) {
-        JwtFilter jwtFilter = new JwtFilter(tokenProvider);
+        JwtFilter jwtFilter = new JwtFilter(tokenProvider, cookieUtil);
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }

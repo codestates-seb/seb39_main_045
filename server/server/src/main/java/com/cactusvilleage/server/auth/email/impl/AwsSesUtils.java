@@ -1,5 +1,6 @@
-package com.cactusvilleage.server.auth.email;
+package com.cactusvilleage.server.auth.email.impl;
 
+import com.cactusvilleage.server.auth.email.EmailSender;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.context.Context;
@@ -9,10 +10,11 @@ import software.amazon.awssdk.services.ses.model.*;
 
 @Component
 @AllArgsConstructor
-public class AwsSesUtils {
+public class AwsSesUtils implements EmailSender {
     private final SesAsyncClient asyncClient;
     private final SpringTemplateEngine templateEngine;
 
+    @Override
     public void singleEmailRequest(String to, String subject, String template, Context context) {
         String html = templateEngine.process(template, context);
 

@@ -3,6 +3,21 @@ import { Statics } from 'views/components/UI/atoms/static.style';
 import { Layout } from 'views/components/UI/Layout.style';
 import { ShareBtn } from 'views/components/UI/molecules/button.style';
 
+interface IconProps {
+  bgColor: string
+  borderColor: string
+}
+
+export const IconWrapper = styled.div<IconProps>`
+  ${Statics.SelfCenter};
+  ${Statics.MrgTop}
+  border-radius: 50%;
+  background-color: ${p => p.bgColor};
+  width: fit-content;
+  padding: 10px;
+  border: ${p => `6px ridge ${p.borderColor}`};
+`;
+
 export const ShareTitle = styled(Layout.FlexRow)`
   ${Statics.Trans};
   justify-content: space-between;
@@ -54,4 +69,12 @@ export const KakaoBtn = styled(ShareBtn)`
   &:hover {
     background-color: var(--mypage-btn-yellow);
   }
+`;
+
+export const StampContiner = styled.div`
+  ${Statics.SelfCenter}
+  ${Statics.MrgTop}
+  display: grid;
+  width: 100%;
+  grid-template-columns: 20% repeat(auto-fill, 20%);
 `;

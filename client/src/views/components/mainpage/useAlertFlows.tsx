@@ -1,3 +1,7 @@
 import { deleteLogout, deleteUser } from 'utils/memberApis';
 
-const logout = () => {};
+const logout = async () => {
+  const { status } = await deleteLogout();
+  if (status < 300) {
+  }
+};

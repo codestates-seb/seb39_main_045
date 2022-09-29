@@ -1,6 +1,6 @@
 package com.cactusvilleage.server.auth.service;
 
-import com.cactusvilleage.server.auth.email.AwsSesUtils;
+import com.cactusvilleage.server.auth.email.EmailSender;
 import com.cactusvilleage.server.auth.entities.Member;
 import com.cactusvilleage.server.auth.entities.RefreshToken;
 import com.cactusvilleage.server.auth.entities.oauth.ProviderType;
@@ -8,7 +8,6 @@ import com.cactusvilleage.server.auth.repository.MemberRepository;
 import com.cactusvilleage.server.auth.repository.RefreshTokenRepository;
 import com.cactusvilleage.server.auth.util.CookieUtil;
 import com.cactusvilleage.server.auth.util.SecurityUtil;
-import com.cactusvilleage.server.auth.util.TokenProvider;
 import com.cactusvilleage.server.auth.web.dto.request.EditDto;
 import com.cactusvilleage.server.auth.web.dto.request.PlainLoginDto;
 import com.cactusvilleage.server.auth.web.dto.request.PlainSignupDto;
@@ -45,12 +44,10 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final RefreshTokenRepository tokenRepository;
-    private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authBuilder;
     private final PasswordEncoder passwordEncoder;
-    private final AwsSesUtils awsSesUtils;
-    private final CookieUtil cookieUtil;
-    private static final int ACCESS_TOKEN_EXPIRES_IN = 60 * 30;
+    private final EmailSender awsSesUtils;
+    private final CookieUtil jwtCookieUtil;
 
 
     public void signup(PlainSignupDto signupDto) {
@@ -66,7 +63,7 @@ public class MemberService {
         Member member = findMember(Long.parseLong(memberId));
 
         MemberInfoResponse memberInfo = getMemberInfo(member);
-        cookieUtil.generateTokens(request, response, authentication);
+        jwtCookieUtil.generateTokenCookies(request, response, authentication);
 
         return new ResponseEntity<>(new SingleResponseDto<>(memberInfo), HttpStatus.OK);
     }
@@ -75,8 +72,8 @@ public class MemberService {
         RefreshToken refreshToken = getRefreshToken(request);
         tokenRepository.deleteById(refreshToken.getTokenId());
 
-        CookieUtil.deleteCookie(request, response, "access_token");
-        CookieUtil.deleteCookie(request, response, "refresh_token");
+        jwtCookieUtil.deleteCookie(request, response, "access_token");
+        jwtCookieUtil.deleteCookie(request, response, "refresh_token");
     }
 
     public ResponseEntity edit(EditDto editDto) {
@@ -131,25 +128,22 @@ public class MemberService {
 
     public void delete(HttpServletRequest request, HttpServletResponse response) {
         RefreshToken refreshToken = getRefreshToken(request);
-        Long memberId = Long.parseLong(refreshToken.getMemberId());
+        tokenRepository.deleteById(refreshToken.getTokenId());
 
+        Long memberId = Long.parseLong(refreshToken.getMemberId());
         Member foundMember = findMember(memberId);
         foundMember.setDeleted(true);
         String dummy = getEncodedMemberId(memberId);
         foundMember.deleteMember(foundMember.getEmail() + dummy, foundMember.getUsername() + dummy);
         memberRepository.save(foundMember);
 
-        CookieUtil.deleteCookie(request, response, "access_token");
-        CookieUtil.deleteCookie(request, response, "refresh_token");
+        jwtCookieUtil.deleteCookie(request, response, "access_token");
+        jwtCookieUtil.deleteCookie(request, response, "refresh_token");
     }
 
     public ResponseEntity reissue(HttpServletRequest request, HttpServletResponse response) {
         RefreshToken refreshToken = getRefreshToken(request);
-        Authentication authentication = tokenProvider.getAuthentication(refreshToken.getTokenValue());
-        String accessToken = tokenProvider.generateAccessToken(authentication);
-
-        CookieUtil.deleteCookie(request, response, "access_token");
-        CookieUtil.addCookie(response, "access_token", accessToken, ACCESS_TOKEN_EXPIRES_IN, false);
+        jwtCookieUtil.generateAccessCookie(request, response, refreshToken);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -181,7 +175,7 @@ public class MemberService {
     }
 
     private RefreshToken getRefreshToken(HttpServletRequest request) {
-        Cookie refreshCookie = CookieUtil.getCookie(request, "refresh_token")
+        Cookie refreshCookie = jwtCookieUtil.getCookie(request, "refresh_token")
                 .orElseThrow(() -> new BusinessLogicException(NO_AUTHENTICATION));
         String tokenId = refreshCookie.getValue();
 

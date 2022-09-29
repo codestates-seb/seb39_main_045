@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
+import { Statics } from 'views/components/UI/atoms/static.style';
 
 export const Menu = styled.nav<{ hidden: boolean }>`
   position: fixed;
@@ -11,16 +12,17 @@ export const Menu = styled.nav<{ hidden: boolean }>`
   display: ${p => p.hidden ? 'hidden' : 'flex'};
   align-items: center;
   border-top: 2px solid var(--nav-stroke-green);
-  .active {
-    box-shadow: inset 0 10px 24px hsla(0, 0%, 0%, 0.05), inset 0 2px 4px hsla(0, 0%, 0%, 0.1);
-  }
-`;
+  `;
 
-export const Wrapper = styled(NavLink)`
+export const Wrapper = styled(NavLink).withConfig({
+  shouldForwardProp: (p) => !['isActive'].includes(p)
+})<{ isActive: boolean }>`
+  ${Statics.Trans}
   flex: 1;
   height: 70px;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: var(--nav-bg-green);
+  box-shadow: ${p => p.isActive ? 'inset 0 10px 24px hsla(0, 0%, 0%, 0.05), inset 0 2px 4px hsla(0, 0%, 0%, 0.1)' : 'none'};
 `;

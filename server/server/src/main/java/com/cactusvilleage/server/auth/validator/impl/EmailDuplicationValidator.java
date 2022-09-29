@@ -8,7 +8,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 @RequiredArgsConstructor
-public class EmailValidator implements ConstraintValidator<EmailNotDuplicate, String> {
+public class EmailDuplicationValidator implements ConstraintValidator<EmailNotDuplicate, String> {
     private final MemberRepository memberRepository;
 
 
