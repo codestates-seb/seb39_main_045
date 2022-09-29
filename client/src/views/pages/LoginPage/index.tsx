@@ -1,10 +1,10 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { loginUser } from 'feature/profile/user';
-import { instance } from 'utils/axiosInstance';
+import useLoginFlows from './useLoginFlows';
 import KakaoLogin from 'views/components/login/KakaoLogin';
-import google from '../../assets/img/btn_google_signin_light_normal_web.png';
+import GoogleLogin from 'views/components/login/GoogleLogin';
+import { LoginData } from 'types/user';
+
 import {
   AuthWrapper,
   AuthTitle,
@@ -19,43 +19,46 @@ import {
   WayToSignup,
   AuthDefaultBtn
 } from 'views/components/login/style';
-interface LoginData {
-  email: string | undefined
-  password: string | undefined
-}
+import useLoginForm from './useLoginForm';
+import { useSelector } from 'react-redux';
+import { setPassword, setEmail } from '../../../feature/form';
+
+// 해보시고 알려주세용.
+
 const Login = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const emailRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const email = emailRef.current?.value;
-    const password = passwordRef.current?.value;
-    if (email !== '' || password !== '') {
-      const loginData: LoginData = { email, password };
-      instance
-        .post('/api/v1/members/login', loginData, {
-          withCredentials: true
-        })
-        .then(({ data }) => {
-          dispatch(loginUser(data.data));
-          navigate('/main');
-        })
-        .catch((err) => console.log(err));
-    }
+  const { email, password, isValid } = useSelector(
+    (state) => state.form.login_form
+  );
+  // const { email, password, setEmail, setPassword, verified } = useLoginForm();
+  const [isVisible, setIsVisible] = useState(false);
+  const loginData: LoginData = {
+    email,
+    password
   };
-  const handleGoogle = () => {
-    window.location.href =
-      'https://api.cactus-villeage.com/oauth2/authorization/google?redirect_uri=https://dev.cactus-villeage.com/main/';
+  const test = useLoginFlows();
+  const handleLogin = async () => {
+    dispatch(doLogin());
+    // e.preventDefault();
+    // const status: number = await test(loginData);
+    // if (status < 300) {
+    //   navigate('/main');
+    // } else {
+    //   alert('이메일과 비밀번호가 일치하지 않습니다');
+    // }
   };
+
   return (
     <AuthWrapper>
       <AuthTitle>로그인</AuthTitle>
       <AuthForm onSubmit={handleLogin}>
         <AuthLabel htmlFor="id">이메일</AuthLabel>
-        <AuthInput type="email" id="id" ref={emailRef} required />
+        <AuthInput
+          type="email"
+          id="id"
+          required
+          onChange={(e) => setEmail(e.target.value)}
+        />
         <HBindDiv>
           <AuthLabel htmlFor="password">비밀번호</AuthLabel>
           <span>
@@ -67,7 +70,7 @@ const Login = () => {
             type={!isVisible ? 'password' : 'text'}
             id="password"
             autoComplete="current-password"
-            ref={passwordRef}
+            onChange={(e) => setPassword(e.target.value)}
             required
           />
           <span
@@ -77,10 +80,10 @@ const Login = () => {
             {!isVisible ? 'visibility_off' : 'visibility'}
           </span>
         </VisibleBind>
-        <AuthLoginBtn>로그인</AuthLoginBtn>
+        <AuthLoginBtn disabled={!isValid}>로그인</AuthLoginBtn>
         <SnsLogin>
           <span>소셜계정 로그인</span>
-          <img src={google} onClick={handleGoogle} alt="googleLogin" />
+          <GoogleLogin />
           <KakaoLogin />
         </SnsLogin>
       </AuthForm>
