@@ -18,6 +18,7 @@ import java.io.PrintWriter;
 
 import static com.cactusvilleage.server.global.exception.ExceptionCode.ONLY_FOR_ADMIN;
 import static com.cactusvilleage.server.global.exception.ExceptionCode.ONLY_FOR_MEMBER;
+import static org.springframework.http.HttpStatus.*;
 
 @Slf4j
 @Component
@@ -44,8 +45,8 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
                 log.info("AuthenticationException 발생!", e);
                 content = mapper.writeValueAsString(ErrorResponse.of(ONLY_FOR_MEMBER));
             } else {
-                log.info("exception 발생!", e);
-                content = mapper.writeValueAsString(ErrorResponse.of(HttpStatus.valueOf(response.getStatus()), e.getMessage()));
+                log.error("exception 발생!", e);
+                content = mapper.writeValueAsString(ErrorResponse.of(INTERNAL_SERVER_ERROR, e.getMessage()));
             }
 
             setContent(content, response);
