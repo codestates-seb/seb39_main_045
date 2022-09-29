@@ -1,6 +1,6 @@
 import React from 'react';
 import { Wrapper, Track } from 'views/pages/IntroPage/Intro.style';
-import CactusA from '../../../components/icons/intro/CactusA';
+import CactusA from 'views/components/icons/intro/CactusA';
 
 const TopSlide = () => {
   return (
