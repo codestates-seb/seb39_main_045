@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthWrapper, AuthTitle, AuthForm, AuthLabel, AuthInput, AuthLoginBtn } from 'views/components/login/style';
 import { Content } from 'views/components/UI/molecules/text.style';
-import LeftArrow from 'views/components/icons/auth/LeftArrow';
+import { Icon } from 'views/components/icons';
 import axios from 'axios';
 
 const Signup = () => {
@@ -50,7 +50,7 @@ const Signup = () => {
     <AuthTitle>회원가입</AuthTitle>
     <AuthForm onSubmit={onSubmitSignUp}>
       <Content.Check onClick={() => navigate('/login')}>
-        <LeftArrow />
+        <Icon.LeftArrow />
         로그인
       </Content.Check>
       <AuthLabel htmlFor="email">이메일</AuthLabel>
@@ -60,20 +60,6 @@ const Signup = () => {
         required
         onChange={onChangeInput}
       />
-      <AuthLabel htmlFor="username">닉네임</AuthLabel>
-      <AuthInput
-        id="username"
-        type="text"
-        required
-        onChange={onChangeInput}
-        maxLength={8}
-      />
-      {isCheckedName
-        ? null
-        : <Content.Check>
-          닉네임은 2자 이상 8자 이하로 작성해주세요.
-          </Content.Check>
-      }
       <AuthLabel htmlFor="password">비밀번호</AuthLabel>
       <AuthInput
         autoComplete="false"
