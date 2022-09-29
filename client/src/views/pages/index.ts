@@ -8,10 +8,9 @@ const MainCactus = lazy(async () => await import('./MainCactus'));
 const MainNoCactus = lazy(async () => await import('./MainNoCactus'));
 const IntroPage = lazy(async () => await import('./IntroPage'));
 const Mypage = lazy(async () => await import('./Mypage'));
-const PreviousChallengesPage = lazy(async () => await import('./PreviouseChallenges'));
+const PreviousChallengesPage = lazy(async () => await import('./PreviousChallenges'));
 const LoginPage = lazy(async () => await import('./Login'));
 const SignupPage = lazy(async () => await import('./SignupPage'));
-const Diary = lazy(async () => await import('./PreviouseChallenges/Diary'));
 
 export const Pages = {
   SettingsPage,
@@ -24,6 +23,5 @@ export const Pages = {
   Mypage,
   PreviousChallengesPage,
   LoginPage,
-  SignupPage,
-  Diary
+  SignupPage
 };
