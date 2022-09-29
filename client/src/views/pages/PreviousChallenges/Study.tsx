@@ -1,7 +1,7 @@
 import React from 'react';
-import { ImageBox } from 'views/pages/Mypage/Mypage.style';
-import { TitleIcon } from 'views/components/UI/atoms/Icon.style';
-import { Title, Content } from 'views/components/UI/molecules/Text.style';
+import { ImageBox } from 'views/pages/Mypage/mypage.style';
+import { TitleIcon } from 'views/components/UI/atoms/icon.style';
+import { Title, Content } from 'views/components/UI/molecules/text.style';
 import { Layout } from 'views/components/UI/Layout.style';
 
 const PreviousStudy = () => {

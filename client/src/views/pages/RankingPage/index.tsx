@@ -1,6 +1,6 @@
 import React from 'react';
 import { ShareTitle, RankBox } from './RankingsPage.style';
-import { Title } from 'views/components/UI/molecules/Text.style';
+import { Title } from 'views/components/UI/molecules/text.style';
 import { Layout } from 'views/components/UI/Layout.style';
 import { MypageIcon } from 'views/components/icons/mypage';
 import KakaoShare from './KakaoShare';

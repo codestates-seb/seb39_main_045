@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Statics } from '../atoms/Static.style';
+import { Statics } from 'views/components/UI/atoms/static.style';
 
 const ShareBtn = styled.button`
   ${Statics.Trans};
