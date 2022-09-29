@@ -8,7 +8,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 @RequiredArgsConstructor
-public class UsernameValidator implements ConstraintValidator<UsernameNotDuplicate, String> {
+public class UsernameDuplicationValidator implements ConstraintValidator<UsernameNotDuplicate, String> {
     private final MemberRepository memberRepository;
 
     @Override
