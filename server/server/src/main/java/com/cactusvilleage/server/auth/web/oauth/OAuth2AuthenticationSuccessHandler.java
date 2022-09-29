@@ -1,11 +1,8 @@
 package com.cactusvilleage.server.auth.web.oauth;
 
-import com.cactusvilleage.server.auth.entities.RefreshToken;
 import com.cactusvilleage.server.auth.repository.OAuth2AuthorizationRequestRepository;
 import com.cactusvilleage.server.auth.repository.RefreshTokenRepository;
-import com.cactusvilleage.server.auth.service.MemberService;
 import com.cactusvilleage.server.auth.util.CookieUtil;
-import com.cactusvilleage.server.auth.util.SecurityUtil;
 import com.cactusvilleage.server.global.exception.BusinessLogicException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,12 +35,12 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         String targetUri = determineTargetUri(request);
         clearAuthenticationAttributes(request, response);
         tokenRepository.checkRefreshToken(authentication.getName());
-        cookieUtil.generateTokens(request, response, authentication);
+        cookieUtil.generateTokenCookies(request, response, authentication);
         getRedirectStrategy().sendRedirect(request, response, targetUri);
     }
 
     protected String determineTargetUri(HttpServletRequest request) {
-        Optional<String> redirectUri = CookieUtil.getCookie(request, REDIRECT_URI_PARAM_COOKIE_NAME)
+        Optional<String> redirectUri = cookieUtil.getCookie(request, REDIRECT_URI_PARAM_COOKIE_NAME)
                 .map(Cookie::getValue);
 
         if (redirectUri.isPresent() && !isAuthorizedRedirectUri(redirectUri.get())) {
