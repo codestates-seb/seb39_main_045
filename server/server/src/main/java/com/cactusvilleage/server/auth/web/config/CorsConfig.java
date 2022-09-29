@@ -20,6 +20,7 @@ public class CorsConfig {
         config.addAllowedOriginPattern("http://dev.cactus-villeage.com");
         config.addAllowedOriginPattern("https://api.cactus-villeage.com");
         config.addAllowedOriginPattern("http://api.cactus-villeage.com");
+        config.addAllowedOriginPattern("http://localhost:3000");
 
         log.warn("addAllowedOriginPatterns={}", config.getAllowedOriginPatterns());
 
