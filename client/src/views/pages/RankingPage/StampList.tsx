@@ -1,5 +1,5 @@
 import React from 'react';
-import { StampContiner, IconWrapper } from 'views/pages/Mypage/mypage.style';
+import { StampContiner, IconWrapper } from './RankingsPage.style';
 import { Stamp } from 'views/components/icons/stamps';
 
 const STAMP_COLOR = [

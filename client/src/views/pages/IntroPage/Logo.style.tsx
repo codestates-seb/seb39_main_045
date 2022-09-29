@@ -1,25 +1,14 @@
 import styled from 'styled-components';
+import { Bounce } from 'views/components/UI/Animation.style';
 
 export const LetterWrapper = styled.div`
   font-family: 'MaplestoryOTFBold';
   align-self: center;
-  @keyframes bounce {
-    100% {
-      top: -10px;
-      text-shadow: 0 0px 0 #5c8a8e29,
-          0 2px 0 #3c646829,
-          0 3px 0 #3c646829,
-          0 4px 0 #3c646829,
-          0 5px 0 #426c7031,
-          0 6px 0 #466f722c,
-          0 20px 25px rgba(0, 0, 0, 0.1);
-      }
-    }
   span {
     margin: 0 2px;
     position: relative;
     top: 1px;
-    animation: 0.5s ease infinite alternate bounce;
+    animation: 0.5s ease infinite alternate ${Bounce};
     font-size: 90px;
     color: var(--intro-form-darkgreen);
     text-shadow: 0 1px 0 #3c646829,

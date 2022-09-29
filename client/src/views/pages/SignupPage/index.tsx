@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthWrapper, AuthTitle, AuthForm, AuthLabel, AuthInput, AuthLoginBtn } from 'views/components/login/style';
-import { ErrorMessage, NoticeBox } from './signup.style';
+import { Content } from 'views/components/UI/molecules/text.style';
 import LeftArrow from 'views/components/icons/auth/LeftArrow';
 import axios from 'axios';
 
@@ -49,10 +49,10 @@ const Signup = () => {
   <AuthWrapper>
     <AuthTitle>회원가입</AuthTitle>
     <AuthForm onSubmit={onSubmitSignUp}>
-      <NoticeBox onClick={() => navigate('/login')}>
+      <Content.Check onClick={() => navigate('/login')}>
         <LeftArrow />
         로그인
-      </NoticeBox>
+      </Content.Check>
       <AuthLabel htmlFor="email">이메일</AuthLabel>
       <AuthInput
         id="email"
@@ -70,9 +70,9 @@ const Signup = () => {
       />
       {isCheckedName
         ? null
-        : <NoticeBox as="div">
+        : <Content.Check>
           닉네임은 2자 이상 8자 이하로 작성해주세요.
-          </NoticeBox>
+          </Content.Check>
       }
       <AuthLabel htmlFor="password">비밀번호</AuthLabel>
       <AuthInput
@@ -85,14 +85,14 @@ const Signup = () => {
       />
       {isCheckedPw
         ? null
-        : <NoticeBox as="div">
+        : <Content.Check>
           비밀번호는 8자 이상 20자 이하로 작성해주세요.
-          </NoticeBox>
+          </Content.Check>
       }
       {inputError
-        ? <ErrorMessage as="div">
+        ? <Content.Error>
           가입 실패 : 입력 정보를 확인해주세요.
-          </ErrorMessage>
+          </Content.Error>
         : null
       }
       <AuthLoginBtn type="submit">
