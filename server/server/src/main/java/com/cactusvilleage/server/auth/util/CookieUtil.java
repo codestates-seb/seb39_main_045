@@ -31,12 +31,6 @@ public interface CookieUtil {
     }
 
     default void addCookie(HttpServletResponse response, String name, String value, int maxAge, boolean httpOnly) {
-//        Cookie cookie = new Cookie(name, value);
-//        cookie.setPath("/");
-//        cookie.setHttpOnly(httpOnly);
-//        cookie.setMaxAge(maxAge);
-//        cookie.setDomain("cactus-villeage.com");
-
         ResponseCookie cookie = ResponseCookie.from(name, value)
                 .domain("cactus-villeage.com")
                 .sameSite("None")
@@ -45,8 +39,6 @@ public interface CookieUtil {
                 .httpOnly(httpOnly)
                 .maxAge(maxAge)
                 .build();
-
-        response.addHeader("Set-Cookie", cookie.toString());
 
         response.addHeader("Set-Cookie", cookie.toString());
     }
