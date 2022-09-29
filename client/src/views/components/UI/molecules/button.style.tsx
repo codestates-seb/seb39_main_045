@@ -1,18 +1,23 @@
 import styled from 'styled-components';
-import { SpanWithIcon } from '../atoms/static.style';
+import { Statics } from '../atoms/Static.style';
 
 const ShareBtn = styled.button`
+  ${Statics.Trans};
+  ${Statics.Border1};
   height: 30px;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05), 0 2px 10px rgba(0, 0, 0, 0.03);
-  border-radius: 15px;
   width: 90px;
-  transition: all 0.3s;
   margin-right: 5px;
   span {
-    ${SpanWithIcon}
+    ${Statics.SpanWithIcon}
   }
 `;
 
+const FitBtn = styled.button`
+  width: fit-content;
+  font-size: 16px;
+`;
+
 export {
-  ShareBtn
+  ShareBtn,
+  FitBtn
 };
