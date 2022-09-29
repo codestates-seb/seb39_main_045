@@ -3,9 +3,7 @@ package com.cactusvilleage.server.auth.web.dto.request;
 import com.cactusvilleage.server.auth.entities.Member;
 import com.cactusvilleage.server.auth.validator.EmailNotDuplicate;
 import com.cactusvilleage.server.auth.validator.UsernameNotDuplicate;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.validation.constraints.Email;
@@ -17,7 +15,7 @@ import static com.cactusvilleage.server.auth.entities.oauth.ProviderType.*;
 
 @Getter
 @AllArgsConstructor
-@ToString
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PlainSignupDto {
     @Email
     @NotBlank

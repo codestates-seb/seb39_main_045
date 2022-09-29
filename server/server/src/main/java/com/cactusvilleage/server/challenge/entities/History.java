@@ -33,11 +33,15 @@ public class History extends Auditable {
     @Column
     private String imagePath; // Multipart/form-data로 온 image -> S3 image 저장 -> 해당 경로
 
+    @Column
+    private int progress; // 챌린지 진행도
+
     @Builder
-    public History(String contents, String time,String imagePath) {
+    public History(String contents, String time, String imagePath, int progress) {
         this.time = time;
         this.contents = contents;
         this.imagePath = imagePath;
+        this.progress = progress;
     }
 
     @ManyToOne
