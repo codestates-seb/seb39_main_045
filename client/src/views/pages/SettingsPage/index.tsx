@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Title } from '../../components/UI/molecules/Text.style';
+import { Title } from 'views/components/UI/molecules/text.style';
 import { AuthLabel, AuthInput } from 'views/components/login/style';
 import { NoticeBox, ErrorMessage } from 'views/pages/SignupPage/signup.style';
 import AlertModal from 'views/components/mainpage/AlertModal';
-import { Form, Btn, Exit } from 'views/pages/Mypage/Mypage.style';
+import { Form, Btn, Exit } from 'views/pages/Mypage/mypage.style';
 import { Layout } from 'views/components/UI/Layout.style';
 import MyPageNav from 'views/components/common/MyPageNav';
 // import axios from 'axios';

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { ShareBtn, FitBtn } from 'views/components/UI/molecules/Button.style';
-import { Statics } from 'views/components/UI/atoms/Static.style';
+import { ShareBtn, FitBtn } from 'views/components/UI/molecules/button.style';
+import { Statics } from 'views/components/UI/atoms/static.style';
 import { Layout } from 'views/components/UI/Layout.style';
 
 interface IconProps {

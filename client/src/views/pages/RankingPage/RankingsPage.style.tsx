@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import { Statics } from 'views/components/UI/atoms/Static.style';
+import { Statics } from 'views/components/UI/atoms/static.style';
 import { Layout } from 'views/components/UI/Layout.style';
-import { ShareBtn } from 'views/components/UI/molecules/Button.style';
+import { ShareBtn } from 'views/components/UI/molecules/button.style';
 
 export const ShareTitle = styled(Layout.FlexRow)`
   ${Statics.Trans};

@@ -1,6 +1,6 @@
 import React from 'react';
-import { TapHome, TapHomeBtn } from 'views/pages/Mypage/Mypage.style';
-import { TapHomeIcon } from 'views/components/UI/atoms/Icon.style';
+import { TapHome, TapHomeBtn } from 'views/pages/Mypage/mypage.style';
+import { TapHomeIcon } from 'views/components/UI/atoms/icon.style';
 import { useNavigate } from 'react-router-dom';
 
 const MyPageNav = () => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Layout } from 'views/components/UI/Layout.style';
-import { TitleIcon } from 'views/components/UI/atoms/Icon.style';
-import { Title, Content } from 'views/components/UI/molecules/Text.style';
+import { TitleIcon } from 'views/components/UI/atoms/icon.style';
+import { Title, Content } from 'views/components/UI/molecules/text.style';
 
 const PreviousMorning = () => {
   const dummy = [{ day: '2022년 5월 5일', time: '0시 0분 0초' },

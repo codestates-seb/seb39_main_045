@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Statics } from './atoms/Static.style';
+import { Statics } from './atoms/static.style';
 
 const FlexRow = styled.div`
   display: flex;

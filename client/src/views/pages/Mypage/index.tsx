@@ -1,9 +1,9 @@
 import React from 'react';
-import { TapMenu, TapUserInfo } from './Mypage.style';
+import { TapMenu, TapUserInfo } from './mypage.style';
 import { MypageIcon } from 'views/components/icons/mypage';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { TapHome, TapHomeBtn, Container } from 'views/pages/Mypage/Mypage.style';
-import { TapHomeIcon } from 'views/components/UI/atoms/Icon.style';
+import { TapHome, TapHomeBtn, Container } from 'views/pages/Mypage/mypage.style';
+import { TapHomeIcon } from 'views/components/UI/atoms/icon.style';
 
 const Mypage = () => {
   const navigate = useNavigate();

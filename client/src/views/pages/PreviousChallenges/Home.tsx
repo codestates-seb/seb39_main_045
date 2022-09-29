@@ -1,5 +1,5 @@
 import React from 'react';
-import { Title } from 'views/components/UI/molecules/Text.style';
+import { Title } from 'views/components/UI/molecules/text.style';
 import { MypageIcon } from 'views/components/icons/mypage';
 
 const PreviousHome = () => {
