@@ -32,9 +32,9 @@ public interface CookieUtil {
 
     default void addCookie(HttpServletResponse response, String name, String value, int maxAge, boolean httpOnly) {
         ResponseCookie cookie = ResponseCookie.from(name, value)
-                .domain("dev.cactus-villeage.com")
+                .domain("cactus-villeage.com")
 //                .sameSite("None")
-//                .secure(true)
+                .secure(false)
                 .path("/")
                 .httpOnly(httpOnly)
                 .maxAge(maxAge)
