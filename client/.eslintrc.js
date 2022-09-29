@@ -26,7 +26,8 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/semi': ['error', 'always'],
     'space-before-function-paren': 'off',
-    '@typescript-eslint/space-before-function-paren': 'off'
+    '@typescript-eslint/space-before-function-paren': 'off',
+    "no-tabs": ["error", { "allowIndentationTabs": true }]
     // '@typescript-eslint/member-delimiter-style': {
     //   delimiter: 'semi',
     //   requireLast: true

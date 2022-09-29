@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 // 위치만 저장한다.
 // boolean값을 저장하면-> 새로고침시 원하지않은 결과 발생
@@ -15,11 +15,14 @@ const locaitionSlice = createSlice({
   name: 'location',
   initialState: initialLocation,
   reducers: {
-    click: (state, action: PayloadAction<InitialLocation>) => {
-      state.path = action.payload.path;
+    clickMain: (state) => {
+      state.path = '/main';
+    },
+    clickUsers: (state) => {
+      state.path = '/mypage';
     }
   }
 });
 
-export const { click } = locaitionSlice.actions;
+export const { clickMain, clickUsers } = locaitionSlice.actions;
 export default locaitionSlice.reducer;

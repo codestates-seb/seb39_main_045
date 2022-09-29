@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { Title } from 'views/components/UI/molecules/text.style';
+import { Title, Content } from 'views/components/UI/molecules/text.style';
 import { AuthLabel, AuthInput } from 'views/components/login/style';
-import { NoticeBox, ErrorMessage } from 'views/pages/SignupPage/signup.style';
 import AlertModal from 'views/components/mainpage/AlertModal';
-import { Form, Btn, Exit } from 'views/pages/Mypage/mypage.style';
+import { Form, Btn, Exit } from './SettingsPage.style';
 import { Layout } from 'views/components/UI/Layout.style';
 import MyPageNav from 'views/components/common/MyPageNav';
-// import axios from 'axios';
+import axios from 'axios';
 
 interface UserInfoProps {
   username?: string
@@ -49,11 +48,11 @@ const MypageSettings = () => {
     e.preventDefault();
     if (isCheckedName && isCheckedPrePw && isCheckedNewPw) {
       console.log(userInfo);
-      // axios.patch('/members', userInfo, {
-      //   headers: { accessToken }
-      // })
-      //   .then(res => console.log(res))
-      //   .catch(err => console.log(err));
+      axios.patch('https://api.cactus-villeage.com/api/v1/members', userInfo, {
+        withCredentials: true
+      })
+        .then(res => console.log(res))
+        .catch(err => console.log(err));
     } else {
       setInputError(true);
     }
@@ -73,10 +72,9 @@ const MypageSettings = () => {
       />
       {isCheckedName
         ? null
-        : <NoticeBox as="div">
+        : <Content.Check>
           닉네임은 2자 이상 8자 이하로 작성해주세요.
-          </NoticeBox>
-      }
+          </Content.Check> }
       <AuthLabel htmlFor="prePassword">기존 비밀번호</AuthLabel>
       <AuthInput
         autoComplete="false"
@@ -88,10 +86,9 @@ const MypageSettings = () => {
       />
       {isCheckedPrePw
         ? null
-        : <NoticeBox as="div">
+        : <Content.Check >
           비밀번호는 8자 이상 20자 이하로 작성해주세요.
-          </NoticeBox>
-      }
+          </Content.Check> }
       <AuthLabel htmlFor="newPassword">새 비밀번호</AuthLabel>
       <AuthInput
         autoComplete="false"
@@ -102,14 +99,14 @@ const MypageSettings = () => {
       />
       {isCheckedNewPw
         ? null
-        : <NoticeBox as="div">
+        : <Content.Check >
           비밀번호는 8자 이상 20자 이하로 작성해주세요.
-          </NoticeBox>
+          </Content.Check>
       }
       {inputError
-        ? <ErrorMessage as="div">
+        ? <Content.Error>
           변경 실패 : 입력 정보를 확인해주세요.
-          </ErrorMessage>
+          </Content.Error>
         : null
       }
       <Btn type="submit">
