@@ -5,7 +5,8 @@ import { Layout } from 'views/components/UI/Layout.style';
 export const TapUserInfo = styled.div`
   cursor: pointer;
   font-size: 20px;
-  padding: 12px 6px;
+  padding: 12px 6px 24px 6px;
+  border-bottom: 0.3px solid var(--shadow-beige-01);
   display: grid;
   grid-template-columns: 95% 5%; 
   grid-template-rows: 1fr 1fr; 
@@ -32,7 +33,5 @@ export const TapHome = styled.div`
 `;
 
 export const TapHomeBtn = styled(TapHome)`
-  background: none;
-  text-align: left;
-  padding: 0;
+  cursor: pointer;
 `;

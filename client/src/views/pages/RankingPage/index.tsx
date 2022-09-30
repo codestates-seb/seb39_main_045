@@ -21,17 +21,15 @@ const MypageRanking = () => {
       <MyPageNav />
       <Title.Main>실시간 도장 랭킹 확인하기</Title.Main>
       <Rankers />
-      <Layout.ScrollContainer>
-        <ShareTitle>
-          <Title.Sub>총 도장 갯수</Title.Sub>
-          <div>
-            <KakaoShare />
-            <TwitterShare />
-            으로 자랑하기✨
-          </div>
-        </ShareTitle>
-        <StampList />
-      </Layout.ScrollContainer>
+      <ShareTitle>
+        <Title.Sub>총 도장 갯수</Title.Sub>
+        <div>
+          <KakaoShare />
+          <TwitterShare />
+          으로 자랑하기✨
+        </div>
+      </ShareTitle>
+      <StampList />
     </Layout.PageContainer>
   );
 };

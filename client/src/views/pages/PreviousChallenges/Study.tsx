@@ -17,12 +17,14 @@ const PreviousStudy = () => {
     {dummy.map((el, idx) => {
       return (
       <Layout.ChallengeWrapper key={idx}>
+        <div>
         <Title.Day>{el.day}</Title.Day>
         <Content.Diary>
           <TitleIcon className="material-symbols-outlined">edit</TitleIcon>
           목표: {el.time}시간
           <div>00tl 00분 공부했어요</div>
         </Content.Diary>
+        </div>
         <ImageBox src={el.img} />
       </Layout.ChallengeWrapper>
       );

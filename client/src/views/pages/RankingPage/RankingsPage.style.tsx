@@ -20,6 +20,7 @@ export const IconWrapper = styled.div<IconProps>`
 
 export const ShareTitle = styled(Layout.FlexRow)`
   ${Statics.Trans};
+  padding: 12px 24px;
   justify-content: space-between;
   align-items: center;
   @media only screen and (max-width: 480px) {
