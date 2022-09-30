@@ -1,7 +1,6 @@
 package com.cactusvilleage.server.auth.util;
 
 import com.cactusvilleage.server.auth.entities.RefreshToken;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.util.SerializationUtils;
