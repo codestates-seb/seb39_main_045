@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import useLoginFlows from './useLoginFlows';
 import KakaoLogin from 'views/components/login/KakaoLogin';
 import GoogleLogin from 'views/components/login/GoogleLogin';
-import { LoginData } from 'types/user';
 
 import {
   AuthWrapper,
@@ -19,45 +18,31 @@ import {
   WayToSignup,
   AuthDefaultBtn
 } from 'views/components/login/style';
-import useLoginForm from './useLoginForm';
-import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setPassword, setEmail } from '../../../feature/form';
 
 // 해보시고 알려주세용.
 
 const Login = () => {
-  const navigate = useNavigate();
-  const { email, password, isValid } = useSelector(
-    (state) => state.form.login_form
-  );
-  // const { email, password, setEmail, setPassword, verified } = useLoginForm();
+  const dispatch = useDispatch();
   const [isVisible, setIsVisible] = useState(false);
-  const loginData: LoginData = {
-    email,
-    password
-  };
-  const test = useLoginFlows();
-  const handleLogin = async () => {
-    dispatch(doLogin());
-    // e.preventDefault();
-    // const status: number = await test(loginData);
-    // if (status < 300) {
-    //   navigate('/main');
-    // } else {
-    //   alert('이메일과 비밀번호가 일치하지 않습니다');
-    // }
+  const { doLogin } = useLoginFlows('/main');
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    void doLogin();
   };
 
   return (
     <AuthWrapper>
       <AuthTitle>로그인</AuthTitle>
-      <AuthForm onSubmit={handleLogin}>
+      <AuthForm onSubmit={onSubmit}>
         <AuthLabel htmlFor="id">이메일</AuthLabel>
         <AuthInput
           type="email"
           id="id"
           required
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => dispatch(setEmail({ email: e.target.value }))}
         />
         <HBindDiv>
           <AuthLabel htmlFor="password">비밀번호</AuthLabel>
@@ -70,7 +55,9 @@ const Login = () => {
             type={!isVisible ? 'password' : 'text'}
             id="password"
             autoComplete="current-password"
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) =>
+              dispatch(setPassword({ password: e.target.value }))
+            }
             required
           />
           <span
@@ -80,7 +67,7 @@ const Login = () => {
             {!isVisible ? 'visibility_off' : 'visibility'}
           </span>
         </VisibleBind>
-        <AuthLoginBtn disabled={!isValid}>로그인</AuthLoginBtn>
+        <AuthLoginBtn type="submit">로그인</AuthLoginBtn>
         <SnsLogin>
           <span>소셜계정 로그인</span>
           <GoogleLogin />

@@ -5,9 +5,9 @@ const postLogin = async (loginData: LoginData) =>
     .post('/members/login', loginData)
     .then((data) => data)
     .catch((err) => err.response);
-const deleteLogout = async () =>
+const postLogout = async () =>
   await instance
-    .delete('/members/logout')
+    .post('/members/logout', '')
     .then((data) => data)
     .catch((err) => err.response);
 const postSignup = async (signupData: SignupData) =>
@@ -32,7 +32,7 @@ const deleteUser = async () =>
     .catch((err) => err.response);
 export {
   postLogin,
-  deleteLogout,
+  postLogout,
   postSignup,
   postFindpw,
   patchEditInfo,

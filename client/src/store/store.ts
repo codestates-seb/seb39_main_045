@@ -3,15 +3,13 @@ import formReducer from '../feature/form';
 import userReducer from '../feature/profile/user';
 import locationSlice from 'feature/location/locationSlice';
 
-
 export const store = configureStore({
   reducer: {
     user: userReducer,
-    location: locationSlice
+    location: locationSlice,
     form: formReducer
   },
-  devTools: true  
- 
+  devTools: true
 });
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
