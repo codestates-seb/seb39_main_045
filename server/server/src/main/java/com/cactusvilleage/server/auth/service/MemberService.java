@@ -170,7 +170,7 @@ public class MemberService {
                 .challengeType(null)
                 .now(0)
                 .targetDate(0)
-                .providerType(member.getProviderType().toString())
+                .providerType(member.getProviderType().toString().toLowerCase())
                 .build();
     }
 
