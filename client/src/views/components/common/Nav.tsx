@@ -3,7 +3,7 @@ import { Menu, Wrapper } from './nav.style';
 import { Icon } from '../icons';
 import { useDispatch } from 'react-redux';
 import useSelectorTyped from 'utils/useSelectorTyped';
-import { clickMain, clickUsers } from 'feature/location/locationSlice';
+import { clickMain, clickUsers } from 'feature/location';
 
 const NO_NAV_ROUTE: readonly string[] = ['/', '/login', '/signup'];
 const ACTIVE_MAIN: readonly string[] = ['/main', '/main2'];
