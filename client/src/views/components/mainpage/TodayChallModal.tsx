@@ -11,7 +11,7 @@ import {
   ModalContentDiv,
   ModalContentWithPic
 } from './modal.style';
-import { AlertProps } from './types';
+import { AlertProps } from '../../../types/mainPageTypes';
 
 const Thanks = () => {
   const thanksText = useRef<HTMLTextAreaElement>(null);

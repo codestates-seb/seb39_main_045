@@ -16,3 +16,11 @@ export interface Choose {
   challenge: string | null
   day: string | null
 }
+type AlertType = string | 'giveup' | 'logout' | 'resign';
+
+// export interface Alert {
+//   [index: string]: string
+//   alertType: AlertType
+//   alertMsg: string
+//   alertFunc: () => void
+// }

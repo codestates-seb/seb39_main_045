@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import formReducer from '../feature/form';
 import userReducer from '../feature/profile/user';
-import locationSlice from 'feature/location/locationSlice';
+import locationSlice from '../feature/location';
 
 export const store = configureStore({
   reducer: {

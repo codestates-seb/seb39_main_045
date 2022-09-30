@@ -34,13 +34,18 @@ export const userSlice = createSlice({
   initialState: initialUser,
   reducers: {
     loginUser: (state, { payload }: PayloadAction<UserInfoType>) => {
-      state.userInfo = { ...initialUserInfo, ...payload };
+      state.userInfo = { ...initialUser, ...payload };
       state.loginStatus = true;
     },
-    logoutUser: () => {
-      return initialUser;
+
+    updateUser: (state, { payload }: PayloadAction<Partial<UserInfoType>>) => {
+      state.userInfo = { ...state.userInfo, ...payload };
+    },
+
+    logoutUser: (state) => {
+      state = initialUser;
     }
   }
 });
-export const { loginUser, logoutUser } = userSlice.actions;
+export const { loginUser, logoutUser, updateUser } = userSlice.actions;
 export default userSlice.reducer;

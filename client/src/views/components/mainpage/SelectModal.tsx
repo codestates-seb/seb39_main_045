@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import ShowTimeInput from './ShowTimeInput';
 import ModalPortal from './ModalPortal';
-import { DefaultProps, Choose } from './types';
+import { DefaultProps, Choose } from '../../../types/mainPageTypes';
 import {
   ModalWrapper,
   ModalContentWrapper,
