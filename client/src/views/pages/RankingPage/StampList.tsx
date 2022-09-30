@@ -32,7 +32,7 @@ const getRandomNumber = () => {
 };
 
 const StampList = () => {
-  const dummy = { stamps: [4, 6, 2, 1, 2, 3, 4, 5, 8] };
+  const dummy = { stamps: [1, 2, 3, 4, 5, 6, 7, 8] };
   const nums: number[] = Array(dummy.stamps.length).fill(0).map(() => getRandomNumber());
   // {dummy.stamps.length.toString() + '개'}
   return (
