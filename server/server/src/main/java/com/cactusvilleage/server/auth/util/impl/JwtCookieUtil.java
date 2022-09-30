@@ -25,7 +25,7 @@ public class JwtCookieUtil implements CookieUtil {
         String accessToken = tokenProvider.generateAccessToken(authentication);
 
         deleteCookie(request, response, "access_token");
-        addCookie(response, "access_token", accessToken, ACCESS_TOKEN_EXPIRES_IN, false);
+        addCookie(request, response, "access_token", accessToken, ACCESS_TOKEN_EXPIRES_IN, false);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class JwtCookieUtil implements CookieUtil {
         String accessToken = tokenProvider.generateAccessToken(authentication);
 
         deleteCookie(request, response, "access_token");
-        addCookie(response, "access_token", accessToken, ACCESS_TOKEN_EXPIRES_IN, false);
+        addCookie(request, response, "access_token", accessToken, ACCESS_TOKEN_EXPIRES_IN, false);
 
         String tokenId = encoder.encode(authentication.getName());
         RefreshToken refreshTokenEntity = RefreshToken.builder()
@@ -44,6 +44,6 @@ public class JwtCookieUtil implements CookieUtil {
         tokenRepository.save(refreshTokenEntity);
 
         deleteCookie(request, response, "refresh_token");
-        addCookie(response, "refresh_token", tokenId, REFRESH_TOKEN_EXPIRES_IN, true);
+        addCookie(request, response, "refresh_token", tokenId, REFRESH_TOKEN_EXPIRES_IN, true);
     }
 }
