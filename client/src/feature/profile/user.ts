@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface UserInfoType {
   // [index: string]: string | number
-  email: string
+  email: string | null
   usename: string
   status: string
   progress: number
