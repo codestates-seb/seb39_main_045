@@ -1,6 +1,7 @@
 package com.cactusvilleage.server.auth.util;
 
 import com.cactusvilleage.server.auth.entities.RefreshToken;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.util.SerializationUtils;
 
@@ -29,14 +30,27 @@ public interface CookieUtil {
         return Optional.empty();
     }
 
-    default void addCookie(HttpServletResponse response, String name, String value, int maxAge, boolean httpOnly) {
-        Cookie cookie = new Cookie(name, value);
-        cookie.setPath("/");
-        cookie.setHttpOnly(httpOnly);
-        cookie.setMaxAge(maxAge);
-        cookie.setDomain("cactus-villeage.com");
+    default void addCookie(HttpServletRequest request, HttpServletResponse response, String name, String value, int maxAge, boolean httpOnly) {
+        String host = request.getHeader("Host");
+        String domain;
 
-        response.addCookie(cookie);
+        //로컬 테스트 설정
+        if (host.equals("localhost:8080") || host.equals("localhost:3000")) {
+            domain = "localhost";
+        } else {
+            domain = "cactus-villeage.com";
+        }
+
+        ResponseCookie cookie = ResponseCookie.from(name, value)
+                .domain(domain)
+//                .sameSite("None")
+                .secure(false)
+                .path("/")
+                .httpOnly(httpOnly)
+                .maxAge(maxAge)
+                .build();
+
+        response.addHeader("Set-Cookie", cookie.toString());
     }
 
     default void deleteCookie(HttpServletRequest request, HttpServletResponse response, String name) {

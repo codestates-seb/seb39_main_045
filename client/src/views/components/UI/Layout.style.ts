@@ -25,6 +25,7 @@ const ScrollContainer = styled(FlexColumn)`
 `;
 
 const ChallengeWrapper = styled.div`
+  word-break: keep-all;
   width: 75%;
   margin-bottom: 15px;
   border-bottom: 1px solid var(--graph-bg-green);
@@ -45,8 +46,8 @@ const ContentBox = styled.div`
 
 const PageContainer = styled(FlexColumn)`
   background-color: var(--mypage-bg-beige);
-  height: calc(100vh - 70px);
-  padding: 24px;
+  padding: 24px 24px 96px 24px;
+  min-height: 100vh;
   font-weight: 600;
 `;
 

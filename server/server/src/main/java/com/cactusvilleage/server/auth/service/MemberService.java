@@ -3,6 +3,7 @@ package com.cactusvilleage.server.auth.service;
 import com.cactusvilleage.server.auth.email.EmailSender;
 import com.cactusvilleage.server.auth.entities.Member;
 import com.cactusvilleage.server.auth.entities.RefreshToken;
+import com.cactusvilleage.server.auth.entities.Status;
 import com.cactusvilleage.server.auth.entities.oauth.ProviderType;
 import com.cactusvilleage.server.auth.repository.MemberRepository;
 import com.cactusvilleage.server.auth.repository.RefreshTokenRepository;
@@ -14,6 +15,8 @@ import com.cactusvilleage.server.auth.web.dto.request.PlainSignupDto;
 import com.cactusvilleage.server.auth.web.dto.request.RecoveryDto;
 import com.cactusvilleage.server.auth.web.dto.response.EditResponseDto;
 import com.cactusvilleage.server.auth.web.dto.response.MemberInfoResponse;
+import com.cactusvilleage.server.challenge.entities.Challenge;
+import com.cactusvilleage.server.challenge.repository.ChallengeRepository;
 import com.cactusvilleage.server.global.exception.BusinessLogicException;
 import com.cactusvilleage.server.global.response.SingleResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -31,10 +34,14 @@ import org.thymeleaf.context.Context;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
-import static com.cactusvilleage.server.auth.web.dto.response.MemberInfoResponse.Status.NONE;
+import static com.cactusvilleage.server.auth.entities.Status.*;
 import static com.cactusvilleage.server.global.exception.ExceptionCode.*;
 
 @Service
@@ -44,11 +51,11 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final RefreshTokenRepository tokenRepository;
+    private final ChallengeRepository challengeRepository;
     private final AuthenticationManagerBuilder authBuilder;
     private final PasswordEncoder passwordEncoder;
     private final EmailSender awsSesUtils;
     private final CookieUtil jwtCookieUtil;
-
 
     public void signup(PlainSignupDto signupDto) {
         Member member = signupDto.toMember(passwordEncoder);
@@ -132,9 +139,8 @@ public class MemberService {
 
         Long memberId = Long.parseLong(refreshToken.getMemberId());
         Member foundMember = findMember(memberId);
-        foundMember.setDeleted(true);
         String dummy = getEncodedMemberId(memberId);
-        foundMember.deleteMember(foundMember.getEmail() + dummy, foundMember.getUsername() + dummy);
+        foundMember.deleteMember(foundMember.getEmail() + dummy, foundMember.getUsername() + dummy, true);
         memberRepository.save(foundMember);
 
         jwtCookieUtil.deleteCookie(request, response, "access_token");
@@ -156,22 +162,47 @@ public class MemberService {
     }
 
     private MemberInfoResponse getMemberInfo(Member member) {
-        //member.getChallenges().getActive() == true
+        Status status = member.getStatus();
+        Challenge challenge = null;
 
-        //challengeType = 챌.getType
+        if (status.equals(SUCCESS) || status.equals(FAIL)) {
+            member.setStatus(NONE);
+            memberRepository.save(member);
+            challenge = challengeRepository.findTopByOrderByIdDesc();
+        }
+        if (status.equals(IN_PROGRESS)) {
+            challenge = getActiveChallenge(member);
+        } else if (status.equals(NONE)) {
+            return MemberInfoResponse.builder()
+                    .email(member.getEmail())
+                    .username(member.getUsername())
+                    .status(status.toString().toLowerCase())
+                    .providerType(member.getProviderType().toString().toLowerCase())
+                    .build();
+        }
 
-        //progress = 챌.getHistories() / 챌.getTargetDate
+        assert challenge != null;
+        int progress = challenge.getHistories().size() / challenge.getTargetDate();
+        int now = (int) Duration.between(challenge.getCreatedAt().toLocalDate().atStartOfDay(), LocalDate.now().atStartOfDay()).toDays() + 1;
 
         return MemberInfoResponse.builder()
                 .email(member.getEmail())
                 .username(member.getUsername())
-                .status(NONE)
-                .progress(-1)
-                .challengeType(null)
-                .now(0)
-                .targetDate(0)
-                .providerType(member.getProviderType().toString())
+                .status(status.toString().toLowerCase())
+                .progress(progress)
+                .challengeType(challenge.getChallengeType().toString().toLowerCase())
+                .now(now)
+                .targetDate(challenge.getTargetDate())
+                .providerType(member.getProviderType().toString().toLowerCase())
                 .build();
+    }
+
+    private Challenge getActiveChallenge(Member member) {
+        List<Challenge> challenges = member.getChallenges().stream()
+                .filter(Challenge::isActive)
+                .collect(Collectors.toList());
+        assert challenges.size() == 1;
+        return challenges.get(0);
     }
 
     private RefreshToken getRefreshToken(HttpServletRequest request) {

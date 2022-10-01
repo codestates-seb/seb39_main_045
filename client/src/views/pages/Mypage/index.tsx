@@ -1,23 +1,17 @@
 import React from 'react';
-import { TapMenu, TapUserInfo } from './mypage.style';
+import { TapHome, TapMenu, TapUserInfo } from './mypage.style';
 import { MypageIcon } from 'views/components/icons/mypage';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { TapHome, TapHomeBtn, Container } from 'views/pages/Mypage/mypage.style';
-import { TapHomeIcon } from 'views/components/UI/atoms/icon.style';
+import { useNavigate } from 'react-router-dom';
+import { Layout } from 'views/components/UI/Layout.style';
 
 const Mypage = () => {
   const navigate = useNavigate();
-  const location = useLocation();
 
   return (
-    <Container>
-      {location.pathname === '/mypage'
-        ? <TapHome>마이페이지</TapHome>
-        : <TapHomeBtn as='button' onClick={() => navigate('/mypage')}>
-        <TapHomeIcon className="material-symbols-outlined">keyboard_backspace</TapHomeIcon>
+    <Layout.PageContainer>
+      <TapHome>
         마이페이지
-        </TapHomeBtn>
-      }
+      </TapHome>
       <TapUserInfo role='button' onClick={() => navigate('/settings')}>
         <div>인장님, 안녕하세요!</div>
         <MypageIcon.Arrow />
@@ -39,7 +33,7 @@ const Mypage = () => {
         <MypageIcon.Credit />
         선인장 키우기를 만든 사람들
       </TapMenu>
-    </Container>
+    </Layout.PageContainer>
   );
 };
 

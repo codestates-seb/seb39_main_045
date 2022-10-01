@@ -1,6 +1,6 @@
 import React from 'react';
 import { BigWrapper, BigTrack } from 'views/pages/IntroPage/Intro.style';
-import BigCactusA from '../../../components/icons/intro/BigCactusA';
+import BigCactusA from 'views/components/icons/intro/BigCactusA';
 
 const BigTopSlide = () => {
   return (

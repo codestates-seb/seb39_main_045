@@ -10,16 +10,11 @@ import lombok.Getter;
 public class MemberInfoResponse {
     private String email;
     private String username;
-    private Status status;
+    private String status;
     private int progress;
     private String challengeType;
     private String providerType;
     private int now;
     private int targetDate;
-
-    public enum Status {
-        FAIL, NONE, IN_PROGRESS
-    }
-
 }
 

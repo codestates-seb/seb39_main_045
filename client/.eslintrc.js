@@ -2,36 +2,37 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
-    node: true
+    node: true,
   },
   extends: [
-    'plugin:react/recommended',
-    'standard-with-typescript',
-    'eslint:recommended',
-    'plugin:@typescript-eslint/recommended'
+    "plugin:react/recommended",
+    "standard-with-typescript",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
   ],
-  overrides: [{ files: ['*.ts', '*.tsx'] }],
-  parser: '@typescript-eslint/parser',
+  overrides: [{ files: ["*.ts", "*.tsx"] }],
+  parser: "@typescript-eslint/parser",
   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
+    ecmaVersion: "latest",
+    sourceType: "module",
     ecmaFeatures: {
-      jsx: true
+      jsx: true,
     },
     tsconfigRootDir: __dirname,
-    project: ['./tsconfig.json']
+    project: ["./tsconfig.json"],
   },
-  plugins: ['react', '@typescript-eslint'],
+  plugins: ["react", "@typescript-eslint"],
   rules: {
-    '@typescript-eslint/explicit-function-return-type': 'off',
-    '@typescript-eslint/semi': ['error', 'always'],
-    'space-before-function-paren': 'off',
-    '@typescript-eslint/space-before-function-paren': 'off'
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/semi": ["error", "always"],
+    "space-before-function-paren": "off",
+    "@typescript-eslint/space-before-function-paren": "off",
+    "no-tabs": ["error", { allowIndentationTabs: true }],
     // '@typescript-eslint/member-delimiter-style': {
     //   delimiter: 'semi',
     //   requireLast: true
     // }
     // "react/prop-types": "off",
     // "prettier/prettier": ["error", { "endOfLine": "auto" }]
-  }
+  },
 };

@@ -13,16 +13,30 @@ const PdTop20 = styled(Title20)`
   padding-top: 20px;
 `;
 
+const Check = styled.div`
+  margin-bottom: 20px;
+  text-align: left;
+  color: var( --intro-form-darkgreen);
+`;
+
+const Diary = styled(PdTop20)`
+  line-height: 24px;
+`;
+
+const Error = styled.div`
+  text-align: center;
+  color: red;
+  margin: 10px;
+`;
+
 export const Title = {
   Main: Title24,
   Sub: Title20,
   Day: PdTop20
 };
 
-const Diary = styled(PdTop20)`
-  line-height: 24px;
-`;
-
 export const Content = {
-  Diary
+  Diary,
+  Check,
+  Error
 };

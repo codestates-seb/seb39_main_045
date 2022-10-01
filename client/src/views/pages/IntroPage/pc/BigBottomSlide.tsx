@@ -1,6 +1,6 @@
 import React from 'react';
 import { BigBtmWrapper, BigTrack } from 'views/pages/IntroPage/Intro.style';
-import BigCactusB from '../../../components/icons/intro/BigCactusB';
+import BigCactusB from 'views/components/icons/intro/BigCactusB';
 
 const BigBottomSlide = () => {
   return (
