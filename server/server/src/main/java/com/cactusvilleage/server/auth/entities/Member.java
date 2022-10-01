@@ -26,23 +26,23 @@ public class Member extends Auditable {
     private String username;
     @Column(columnDefinition = "TINYINT", length = 1)
     private boolean deleted;
-
     @Enumerated(EnumType.STRING)
     private Authority authority;
-
     @Enumerated(EnumType.STRING)
     private ProviderType providerType;
-
     private String providerId;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     @Builder
-    public Member(String email, String password, String username, Authority authority, ProviderType providerType, String providerId) {
+    public Member(String email, String password, String username, Authority authority, ProviderType providerType, String providerId, Status status) {
         this.email = email;
         this.password = password;
         this.username = username;
         this.authority = authority;
         this.providerType = providerType;
         this.providerId = providerId;
+        this.status = status;
     }
 
     @OneToMany(mappedBy = "member")
@@ -67,6 +67,9 @@ public class Member extends Auditable {
     public void deleteMember(String email, String username) {
         this.email = email;
         this.username = username;
+    }
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public void addChallenge(Challenge challenge) {

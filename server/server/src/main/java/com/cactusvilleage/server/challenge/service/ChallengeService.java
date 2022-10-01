@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.cactusvilleage.server.auth.entities.Status.IN_PROGRESS;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -46,8 +48,8 @@ public class ChallengeService {
                 .active(true) // 챌린지 등록할 때 active true 설정
                 .build();
 
+        member.setStatus(IN_PROGRESS);
         challenge.setMember(member);
-
         challengeRepository.save(challenge);
 
         // Controller 에서 responseDto 타입을 반환해야하기 때문에 매핑
