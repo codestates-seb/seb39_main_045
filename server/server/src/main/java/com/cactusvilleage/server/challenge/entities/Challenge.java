@@ -4,10 +4,7 @@ import com.cactusvilleage.server.auth.entities.Member;
 import com.cactusvilleage.server.global.audit.Auditable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -18,6 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Entity
+@ToString
 public class Challenge extends Auditable {
 
     @Id

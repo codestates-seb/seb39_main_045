@@ -28,7 +28,11 @@ public class S3Upload {
         // Spring Server 에서 S3 파일 업로드 할 때 파일 사이즈 ContentLength 로 S3에 전달하기 위해 ObjectMetadata 사용
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentLength(multipartFile.getInputStream().available());
-        log.info("[CREATED] created objectMetadata is {}", objectMetadata);
+        log.info("[CREATED] created objectMetadata ContentLength is {}", objectMetadata);
+
+        // S3에 jpg, png 형식이 올라갈 때 url 다운로드가 되는데 contentType 설정해서 multipartfile.jpg 같은 것으로 설정, 다운말고 조회 가능
+        objectMetadata.setContentType(multipartFile.getContentType());
+        log.info("[CREATED] created objectMetadata ContentType is {}", objectMetadata);
 
         // getUrl 메소드로 S3에 업로드된 이미지 Url 가져오는 방식 정의
         amazonS3.putObject(bucket, s3FileName, multipartFile.getInputStream(), objectMetadata);
@@ -36,5 +40,4 @@ public class S3Upload {
 
         return amazonS3.getUrl(bucket, s3FileName).toString();
     }
-    //TODO upload 메소드 호출 될 때 log.debug("[CREATED] created amazonS3 get url ver. system is {}", amazonS3) 찍기
 }

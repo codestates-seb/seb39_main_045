@@ -25,6 +25,9 @@ public class History extends Auditable {
     private UUID uuid = UUID.randomUUID();
 
     @Column(updatable = false)
+    private int day; // 몇 일째인지에 대한 기록
+
+    @Column(updatable = false)
     private String time; // 공부시간, 기상시간
 
     @Column(updatable = false, columnDefinition = "TEXT")
@@ -37,7 +40,8 @@ public class History extends Auditable {
     private int progress; // 챌린지 진행도
 
     @Builder
-    public History(String contents, String time, String imagePath, int progress) {
+    public History(int day, String time, String contents, String imagePath, int progress) {
+        this.day = day;
         this.time = time;
         this.contents = contents;
         this.imagePath = imagePath;

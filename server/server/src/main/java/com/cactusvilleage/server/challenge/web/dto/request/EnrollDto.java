@@ -17,9 +17,4 @@ public class EnrollDto {
     @Nullable
     private Integer targetTime;
 
-    @Builder
-    public EnrollDto(int targetDate, int targetTime) {
-        this.targetDate = targetDate;
-        this.targetTime = targetTime;
-    }
 }
