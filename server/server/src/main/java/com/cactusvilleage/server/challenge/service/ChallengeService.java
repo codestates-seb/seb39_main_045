@@ -8,19 +8,18 @@ import com.cactusvilleage.server.challenge.repository.ChallengeRepository;
 import com.cactusvilleage.server.challenge.web.dto.request.EnrollDto;
 import com.cactusvilleage.server.challenge.web.dto.response.EnrollResponseDto;
 import com.cactusvilleage.server.global.exception.BusinessLogicException;
-import com.cactusvilleage.server.global.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.cactusvilleage.server.global.exception.ExceptionCode.*;
 import static com.cactusvilleage.server.auth.entities.Status.IN_PROGRESS;
+
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class ChallengeService {
 
     private final MemberService memberService;
@@ -28,16 +27,16 @@ public class ChallengeService {
 
     public EnrollResponseDto enrollChallenge(EnrollDto enrollDto, String type) {
 
-        // 회원인지 확인
+        // 유저와 챌린지 매핑하기 위해 꺼내오기
         Member member = memberService.findMember(SecurityUtil.getCurrentMemberId());
 
-        List<Challenge> validStream = challengeRepository.findAll().stream()
+        List<Challenge> validateChallenge = challengeRepository.findAll().stream()
                 .filter(found -> found.isActive() && found.getMember().getId().equals(SecurityUtil.getCurrentMemberId()))
                 .collect(Collectors.toList());
 
         // 회원 한 명당 하나의 챌린지만 등록할 수 있다
-        if (!validStream.isEmpty()) {
-            throw new BusinessLogicException(ExceptionCode.ENROLL_CHALLENGE_CANNOT_BE_DUPLICATED);
+        if (!validateChallenge.isEmpty()) {
+            throw new BusinessLogicException(ENROLL_CHALLENGE_CANNOT_BE_DUPLICATED);
         }
 
         // Dto <--> Entity 매핑
