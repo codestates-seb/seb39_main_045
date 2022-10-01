@@ -4,6 +4,7 @@ import { loginUser } from 'feature/profile/user';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from 'store/store';
+import { clickMain } from 'feature/location';
 
 const useLoginFlows = (next: string) => {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ const useLoginFlows = (next: string) => {
     if (status < 300) {
       console.log(data);
       dispatch(loginUser(data.data));
+      dispatch(clickMain());
     }
   };
 
