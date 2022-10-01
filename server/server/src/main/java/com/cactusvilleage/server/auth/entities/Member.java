@@ -60,13 +60,10 @@ public class Member extends Auditable {
         this.password = password;
     }
 
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-    }
-
-    public void deleteMember(String email, String username) {
+    public void deleteMember(String email, String username, boolean deleted) {
         this.email = email;
         this.username = username;
+        this.deleted = deleted;
     }
     public void setStatus(Status status) {
         this.status = status;

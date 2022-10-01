@@ -139,9 +139,8 @@ public class MemberService {
 
         Long memberId = Long.parseLong(refreshToken.getMemberId());
         Member foundMember = findMember(memberId);
-        foundMember.setDeleted(true);
         String dummy = getEncodedMemberId(memberId);
-        foundMember.deleteMember(foundMember.getEmail() + dummy, foundMember.getUsername() + dummy);
+        foundMember.deleteMember(foundMember.getEmail() + dummy, foundMember.getUsername() + dummy, true);
         memberRepository.save(foundMember);
 
         jwtCookieUtil.deleteCookie(request, response, "access_token");
