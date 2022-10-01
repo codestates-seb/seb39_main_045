@@ -3,10 +3,9 @@ import SadCactus from '../icons/modal/SadCactus';
 import { ModalWrapper, ModalContents } from './modal.style';
 import ModalPortal from './ModalPortal';
 import { AlertProps, AlertMsg } from '../../../types/mainPageTypes';
-import useAlertFlows from './useAlertFlows';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
-import { useNavigate } from 'react-router-dom';
+import useAlertFlows from './useAlertFlows';
 
 const msg: AlertMsg = {
   giveup:
@@ -17,18 +16,20 @@ const msg: AlertMsg = {
 };
 
 const AlertModal = ({ setIsOpen, status }: AlertProps) => {
-  const navigate = useNavigate();
-  const { doLogout } = useAlertFlows();
+  const func = useAlertFlows(status);
   const { loginStatus } = useSelector((state: RootState) => state.user);
+  const { progress } = useSelector((state: RootState) => state.user.userInfo);
+  React.useEffect(() => {
+    if (!loginStatus) setIsOpen(false);
+  }, [loginStatus]);
   const handleConfirm = () => {
-    void doLogout();
-    if (!loginStatus) {
-      setIsOpen(false);
-      setTimeout(() => {
-        navigate('/');
-      }, 200);
-    }
+    void func();
   };
+  React.useEffect(() => {
+    if (status === 'giveup') {
+      setIsOpen(false);
+    }
+  }, [progress]);
   return (
     <ModalPortal>
       <ModalWrapper>

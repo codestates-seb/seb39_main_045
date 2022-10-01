@@ -1,20 +1,16 @@
-import React from 'react';
 import { useDispatch } from 'react-redux';
-import { logoutUser } from 'feature/profile/user';
-import { postLogout } from 'utils/memberApis';
+import { doLogout, giveUp } from './alertFunction';
 
-export const useAlertFlows = () => {
+export const useAlertFlows = (stat: string) => {
   const dispatch = useDispatch();
-  const doLogout = async (): Promise<void> => {
-    const { data, status } = await postLogout();
-    if (status < 300) {
-      dispatch(logoutUser());
-    } else {
-      console.log(data);
-      alert('로그아웃에 실패했습니다.');
-    }
-  };
-
-  return { doLogout };
+  switch (stat) {
+    case 'logout':
+      return async () => await doLogout(dispatch);
+    case 'giveup':
+      return async () => await giveUp(dispatch);
+    default: // 민영님 여기에 같은 방법으로 함수 넣으심 돼요!
+      // 이건 오류나서 임의로넣음- alertFunction에 함수 넣으심됩니다
+      return async () => await giveUp(dispatch);
+  }
 };
 export default useAlertFlows;

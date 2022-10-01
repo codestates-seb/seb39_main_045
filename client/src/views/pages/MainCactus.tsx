@@ -12,6 +12,8 @@ import {
   NowPercent
 } from 'views/components/mainpage/main.style';
 import SuccessFailModal from 'views/components/mainpage/SuccessFailModal';
+import { useNavigate } from 'react-router-dom';
+
 // interface Data {
 //   [index: string]: string | number
 //   name: string
@@ -21,10 +23,19 @@ import SuccessFailModal from 'views/components/mainpage/SuccessFailModal';
 const MainCactus = () => {
   const user = useSelector((state: RootState) => state.user.userInfo);
   const [isOpen, setIsOpen] = useState(false);
+  const { loginStatus } = useSelector((state: RootState) => state.user);
+  const navigate = useNavigate();
   // const data: Data = {
   //   name: '기상',
   //   percent: Math.floor(Math.random() * 100)
   // };
+
+  useEffect(() => {
+    if (!loginStatus) {
+      navigate('/');
+    }
+  }, [loginStatus]);
+
   useEffect(() => {
     if (user.status === 'fail') {
       setIsOpen(true);

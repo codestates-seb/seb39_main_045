@@ -34,7 +34,7 @@ export const userSlice = createSlice({
   initialState: initialUser,
   reducers: {
     loginUser: (state, { payload }: PayloadAction<UserInfoType>) => {
-      state.userInfo = { ...initialUser, ...payload };
+      state.userInfo = { ...initialUser.userInfo, ...payload };
       state.loginStatus = true;
     },
 
@@ -43,7 +43,8 @@ export const userSlice = createSlice({
     },
 
     logoutUser: (state) => {
-      state = initialUser;
+      state.userInfo = initialUser.userInfo;
+      state.loginStatus = false;
     }
   }
 });
