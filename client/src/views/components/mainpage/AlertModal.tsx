@@ -26,7 +26,7 @@ const AlertModal = ({ setIsOpen, status }: AlertProps) => {
     void func();
   };
   React.useEffect(() => {
-    if (status === 'giveup') {
+    if (status === 'giveup' && progress === -365) {
       setIsOpen(false);
     }
   }, [progress]);

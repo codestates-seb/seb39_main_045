@@ -51,7 +51,7 @@ const MainCactus = () => {
         <div>
           <div>
             <GiveWater />
-            <TodayChallBtn status={user.status} />
+            <TodayChallBtn status={user.challengeType} />
           </div>
           <NowPercent>
             {user.challengeType}챌린지 {user.progress}%

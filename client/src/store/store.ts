@@ -2,9 +2,11 @@ import { configureStore } from '@reduxjs/toolkit';
 import formReducer from '../feature/form';
 import userReducer from '../feature/profile/user';
 import locationSlice from '../feature/location';
+import chooseChallReducer from 'feature/challenge/form';
 
 export const store = configureStore({
   reducer: {
+    challChoose: chooseChallReducer,
     user: userReducer,
     location: locationSlice,
     form: formReducer

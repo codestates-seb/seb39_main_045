@@ -1,7 +1,9 @@
-import React, { useRef, useState } from 'react';
+import React from 'react';
 import ShowTimeInput from './ShowTimeInput';
 import ModalPortal from './ModalPortal';
-import { DefaultProps, Choose } from '../../../types/mainPageTypes';
+import { DefaultProps } from '../../../types/mainPageTypes';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 import {
   ModalWrapper,
   ModalContentWrapper,
@@ -9,53 +11,35 @@ import {
   ModalBtn,
   SelectModalContent
 } from './modal.style';
-
-const defaultData: Choose = { challenge: null, day: null };
+import { setChall, setDate } from 'feature/challenge/form';
+import challVerify from './challVerify';
 
 const SelectModal = ({ setIsOpen }: DefaultProps) => {
-  const [challenge, setChallenge] = useState(defaultData);
-  const getTime = useRef<HTMLInputElement>(null);
-  const getDay = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const target = e.target as HTMLButtonElement;
-    setChallenge({ ...challenge, day: target.name });
-  };
-  const getChall = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const target = e.target as HTMLButtonElement;
-    setChallenge({ ...challenge, challenge: target.name });
-  }; // 이부분 수정하기
-  const handleSubmit = () => {
-    const name: string | null = challenge.challenge;
-    const days: string | null = challenge.day;
-    const times = getTime.current?.value;
-    // 리팩토링 필수
-    if (name === null || days === null) {
-      return alert('챌린지를 선택해주세요');
+  const [isInputOpen, setIsInputOpen] = React.useState(false);
+  const dispatch = useDispatch();
+  const challenge = useSelector(
+    (state: RootState) => state.challChoose.challenge_form
+  );
+  const { challengeType } = useSelector(
+    (state: RootState) => state.user.userInfo
+  );
+  const verifyForm = challVerify();
+  React.useEffect(() => {
+    if (
+      challenge.challengeType === 'study' ||
+      challenge.challengeType === 'morning'
+    ) {
+      setIsInputOpen(true);
     } else {
-      if (name !== 'thanks') {
-        if (times === '') {
-          return alert('시간을 입력해주세요');
-        } else {
-          const time = Number(times);
-          if (name === 'morning') {
-            if (time < 5 || time > 8) {
-              return alert('선택 가능한 시간을 입력해주세요');
-            } else {
-              // axios
-              alert(`${name} ${days} ${time}`);
-            }
-          } else {
-            if (time < 0 || time > 23) {
-              return alert('선택 가능한 시간을 입력해주세요');
-            } else {
-              alert(`${name} ${days} ${time}`);
-            }
-          }
-        }
-      } else {
-        alert(`${name} ${days}`);
-      }
+      setIsInputOpen(false);
     }
+  }, [challenge.challengeType]);
+  const handleSubmit = () => {
+    void verifyForm();
   };
+  React.useEffect(() => {
+    setIsOpen(false);
+  }, [challengeType]);
   return (
     <ModalPortal>
       <ModalWrapper>
@@ -69,23 +53,20 @@ const SelectModal = ({ setIsOpen }: DefaultProps) => {
             <Label>챌린지 종류</Label>
             <div>
               <ModalBtn.select
-                active={challenge.challenge === 'morning'}
-                onClick={getChall}
-                name="morning"
+                onClick={() => dispatch(setChall({ challengeType: 'morning' }))}
+                active={challenge.challengeType === 'morning'}
               >
                 기상
               </ModalBtn.select>
               <ModalBtn.select
-                active={challenge.challenge === 'study'}
-                onClick={getChall}
-                name="study"
+                active={challenge.challengeType === 'study'}
+                onClick={() => dispatch(setChall({ challengeType: 'study' }))}
               >
                 공부
               </ModalBtn.select>
               <ModalBtn.select
-                active={challenge.challenge === 'thanks'}
-                onClick={getChall}
-                name="thanks"
+                active={challenge.challengeType === 'thanks'}
+                onClick={() => dispatch(setChall({ challengeType: 'thanks' }))}
               >
                 감사
               </ModalBtn.select>
@@ -93,28 +74,26 @@ const SelectModal = ({ setIsOpen }: DefaultProps) => {
             <Label>챌린지선택</Label>
             <div>
               <ModalBtn.select
-                active={challenge.day === '3'}
-                name="3"
-                onClick={getDay}
+                active={challenge.targetDate === 3}
+                onClick={() => dispatch(setDate({ targetDate: 3 }))}
               >
                 3일
               </ModalBtn.select>
               <ModalBtn.select
-                name="5"
-                active={challenge.day === '5'}
-                onClick={getDay}
+                active={challenge.targetDate === 5}
+                onClick={() => dispatch(setDate({ targetDate: 5 }))}
               >
                 5일
               </ModalBtn.select>
               <ModalBtn.select
-                active={challenge.day === '7'}
-                name="7"
-                onClick={getDay}
+                active={challenge.targetDate === 7}
+                onClick={() => dispatch(setDate({ targetDate: 7 }))}
               >
                 7일
               </ModalBtn.select>
             </div>
-            <ShowTimeInput status={challenge.challenge} ref={getTime} />
+
+            {isInputOpen && <ShowTimeInput status={challenge.challengeType} />}
           </SelectModalContent>
           <ModalBtn.submit onClick={handleSubmit}>선택하기</ModalBtn.submit>
         </ModalContentWrapper>

@@ -1,5 +1,4 @@
 import { instance } from './axiosInstance';
-import { SignupData, LoginData, EditInfo } from 'types/userTypes';
 import { DefaultChalls, ExtendChalls } from 'types/challengePageTypes';
 const getNowChall = async () =>
   await instance
@@ -21,7 +20,7 @@ const postChall = async (
   challData: DefaultChalls | ExtendChalls
 ) =>
   await instance
-    .post('/challenges?type={status}', challData)
+    .post(`/challenges?type=${status}`, challData)
     .then((data) => data)
     .catch((err) => err.response);
 const postTodayChall = async (challData: any) =>

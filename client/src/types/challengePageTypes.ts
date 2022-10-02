@@ -1,8 +1,6 @@
-interface DefaultChalls {
-  challengeType: string
+export interface DefaultChalls {
   targetDate: number
 }
-interface ExtendChalls extends DefaultChalls {
+export interface ExtendChalls extends DefaultChalls {
   targetTime: number
 }
-export type { DefaultChalls, ExtendChalls };

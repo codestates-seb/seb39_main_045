@@ -8,6 +8,8 @@ interface UserInfoType {
   progress: number
   challengeType: string
   providerType: string
+  now: number
+  targetDate: number
 }
 
 interface UserType {
@@ -21,7 +23,9 @@ const initialUserInfo: UserInfoType = {
   status: '',
   progress: -365,
   challengeType: '',
-  providerType: ''
+  providerType: '',
+  now: 0,
+  targetDate: 0
 };
 
 const initialUser: UserType = {
