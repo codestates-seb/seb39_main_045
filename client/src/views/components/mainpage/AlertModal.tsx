@@ -2,7 +2,11 @@ import React from 'react';
 import SadCactus from '../icons/modal/SadCactus';
 import { ModalWrapper, ModalContents } from './modal.style';
 import ModalPortal from './ModalPortal';
-import { AlertProps, AlertMsg } from './types';
+import { AlertProps, AlertMsg } from '../../../types/mainPageTypes';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
+import useAlertFlows from './useAlertFlows';
+
 const msg: AlertMsg = {
   giveup:
     '도중 포기를 할 경우\n 이번 챌린지의 내용들이\n 모두 삭제되고\n 선인장이 죽게됩니다.\n 그래도 포기하시겠습니까?',
@@ -10,7 +14,22 @@ const msg: AlertMsg = {
   resign:
     '정말 떠나실 건가요?\n탈퇴하시면 회원 정보와 함께\n지금까지의 챌린지 기록이\n 모두 삭제됩니다.'
 };
+
 const AlertModal = ({ setIsOpen, status }: AlertProps) => {
+  const func = useAlertFlows(status);
+  const { loginStatus } = useSelector((state: RootState) => state.user);
+  const { progress } = useSelector((state: RootState) => state.user.userInfo);
+  React.useEffect(() => {
+    if (!loginStatus) setIsOpen(false);
+  }, [loginStatus]);
+  const handleConfirm = () => {
+    void func();
+  };
+  React.useEffect(() => {
+    if (status === 'giveup' && progress === -365) {
+      setIsOpen(false);
+    }
+  }, [progress]);
   return (
     <ModalPortal>
       <ModalWrapper>
@@ -23,7 +42,7 @@ const AlertModal = ({ setIsOpen, status }: AlertProps) => {
           <SadCactus />
           <div>{msg[status]}</div>
           <div>
-            <button>확인</button>
+            <button onClick={handleConfirm}>확인</button>
             <button onClick={() => setIsOpen(false)}>돌아가기</button>
           </div>
         </ModalContents>

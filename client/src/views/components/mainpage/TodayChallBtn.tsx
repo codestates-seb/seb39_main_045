@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { MainBtn } from './main.style';
 import TodayChallModal from './TodayChallModal';
 
-const TodayChallBtn = () => {
-  const status = 'morning';
+const TodayChallBtn = ({ status }: { status: string | null }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>

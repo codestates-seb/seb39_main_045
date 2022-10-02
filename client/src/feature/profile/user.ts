@@ -6,8 +6,10 @@ interface UserInfoType {
   usename: string
   status: string
   progress: number
-  challengeType: string
+  challengeType: string | null
   providerType: string
+  now: number
+  targetDate: number
 }
 
 interface UserType {
@@ -21,7 +23,9 @@ const initialUserInfo: UserInfoType = {
   status: '',
   progress: -365,
   challengeType: '',
-  providerType: ''
+  providerType: '',
+  now: 0,
+  targetDate: 0
 };
 
 const initialUser: UserType = {
@@ -34,13 +38,19 @@ export const userSlice = createSlice({
   initialState: initialUser,
   reducers: {
     loginUser: (state, { payload }: PayloadAction<UserInfoType>) => {
-      state.userInfo = { ...initialUserInfo, ...payload };
+      state.userInfo = { ...initialUser.userInfo, ...payload };
       state.loginStatus = true;
     },
-    logoutUser: () => {
-      return initialUser;
+
+    updateUser: (state, { payload }: PayloadAction<Partial<UserInfoType>>) => {
+      state.userInfo = { ...state.userInfo, ...payload };
+    },
+
+    logoutUser: (state) => {
+      state.userInfo = initialUser.userInfo;
+      state.loginStatus = false;
     }
   }
 });
-export const { loginUser, logoutUser } = userSlice.actions;
+export const { loginUser, logoutUser, updateUser } = userSlice.actions;
 export default userSlice.reducer;

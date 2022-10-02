@@ -1,6 +1,6 @@
 import React from 'react';
 import { ModalBtn, SuccessFailWrapper } from './modal.style';
-import { DefaultProps, AlertProps } from './types';
+import { DefaultProps, AlertProps } from '../../../types/mainPageTypes';
 // 나중에 수정하기~
 const SuccessModal = ({ setIsOpen }: DefaultProps) => {
   return (

@@ -1,6 +1,9 @@
 export interface AlertProps extends DefaultProps {
   status: string
 }
+export interface TodayProps extends DefaultProps {
+  status: string | null
+}
 export interface DefaultProps {
   setIsOpen: (state: boolean) => void
 }
@@ -16,3 +19,11 @@ export interface Choose {
   challenge: string | null
   day: string | null
 }
+type AlertType = string | 'giveup' | 'logout' | 'resign';
+
+// export interface Alert {
+//   [index: string]: string
+//   alertType: AlertType
+//   alertMsg: string
+//   alertFunc: () => void
+// }

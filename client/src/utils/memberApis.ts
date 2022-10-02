@@ -1,5 +1,5 @@
 import { instance } from './axiosInstance';
-import { SignupData, LoginData, EditInfo } from 'types/user';
+import { SignupData, LoginData, EditInfo } from 'types/userTypes';
 const postLogin = async (loginData: LoginData) =>
   await instance
     .post('/members/login', loginData)
@@ -30,11 +30,24 @@ const deleteUser = async () =>
     .delete('/members')
     .then((data) => data)
     .catch((err) => err.response);
+const getReissue = async () =>
+  await instance
+    .get('/members/reissue')
+    .then((data) => data)
+    .catch((err) => err.response);
+const getMe = async () =>
+  await instance
+    .get('/me')
+    .then((data) => data)
+    .catch((err) => err.response);
+
 export {
   postLogin,
   postLogout,
   postSignup,
   postFindpw,
   patchEditInfo,
-  deleteUser
+  deleteUser,
+  getReissue,
+  getMe
 };

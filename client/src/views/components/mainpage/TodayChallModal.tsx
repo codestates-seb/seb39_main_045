@@ -11,7 +11,7 @@ import {
   ModalContentDiv,
   ModalContentWithPic
 } from './modal.style';
-import { AlertProps } from './types';
+import { TodayProps } from '../../../types/mainPageTypes';
 
 const Thanks = () => {
   const thanksText = useRef<HTMLTextAreaElement>(null);
@@ -99,7 +99,7 @@ const Morning = () => {
     </ModalContentDiv>
   );
 };
-const TodayModal = ({ status }: { status: string }) => {
+const TodayModal = ({ status }: { status: string | null }) => {
   if (status === 'study') {
     return <Study />;
   } else if (status === 'morning') {
@@ -109,7 +109,7 @@ const TodayModal = ({ status }: { status: string }) => {
   }
 };
 
-const TodayChallModal = ({ setIsOpen, status }: AlertProps) => {
+const TodayChallModal = ({ setIsOpen, status }: TodayProps) => {
   return (
     <ModalPortal>
       <ModalWrapper>
