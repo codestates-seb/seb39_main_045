@@ -6,7 +6,7 @@ interface UserInfoType {
   usename: string
   status: string
   progress: number
-  challengeType: string
+  challengeType: string | null
   providerType: string
   now: number
   targetDate: number

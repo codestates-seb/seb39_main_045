@@ -58,9 +58,12 @@ export const challFormSlice = createSlice({
         ...state.challenge_form,
         isValid: payload.isValid
       };
+    },
+    clearChooseForm: (state) => {
+      state.challenge_form = initialChallenge;
     }
   }
 });
-export const { setChall, setDate, setTime, setIsValid } =
+export const { setChall, setDate, setTime, setIsValid, clearChooseForm } =
   challFormSlice.actions;
 export default challFormSlice.reducer;

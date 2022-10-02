@@ -1,6 +1,9 @@
 export interface AlertProps extends DefaultProps {
   status: string
 }
+export interface TodayProps extends DefaultProps {
+  status: string | null
+}
 export interface DefaultProps {
   setIsOpen: (state: boolean) => void
 }

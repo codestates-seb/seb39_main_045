@@ -34,12 +34,14 @@ const SelectModal = ({ setIsOpen }: DefaultProps) => {
       setIsInputOpen(false);
     }
   }, [challenge.challengeType]);
+  React.useEffect(() => {
+    if (challengeType !== null) setIsOpen(false);
+  }, [challengeType]);
+
   const handleSubmit = () => {
     void verifyForm();
   };
-  React.useEffect(() => {
-    setIsOpen(false);
-  }, [challengeType]);
+
   return (
     <ModalPortal>
       <ModalWrapper>

@@ -1,4 +1,4 @@
-import { setIsValid } from 'feature/challenge/form';
+import { setIsValid, clearChooseForm } from 'feature/challenge/form';
 import { updateUser } from 'feature/profile/user';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store/store';
@@ -14,6 +14,7 @@ const challSubmit = async (
   const { data, status } = await postChall(challengeType, formData);
   if (status < 300) {
     dispatch(updateUser({ ...data.data, status: 'in_progress' }));
+    dispatch(clearChooseForm());
   } else {
     alert('챌린지 등록에 실패했습니다 다시 시도해 주세요');
   }
