@@ -11,12 +11,9 @@ public class StudyResponseDto {
 
     private int progress;
 
-    private String imagePath; // 이미지 경로 url, String 값
-
     @Builder
-    public StudyResponseDto(int progress, String imagePath) {
+    public StudyResponseDto(int progress) {
         this.progress = progress;
-        this.imagePath = imagePath;
     }
 }
 
