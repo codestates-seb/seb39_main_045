@@ -8,14 +8,13 @@ import useSelectorTyped from 'utils/useSelectorTyped';
 import debouncingChanges from './debouncingChanges';
 
 const Signup = () => {
-  const { email, username, password, isValidEmail, isValidPassword, isValidUserName, error } = useSelectorTyped((state) => state.form.signup_form);
+  const { isValidEmail, isValidPassword, isValidUserName, error } = useSelectorTyped((state) => state.form.signup_form);
   const navigate = useNavigate();
   const { doSignup } = useSignupFlows();
   const { onChange } = debouncingChanges();
 
   const handleSignup = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log({ email, username, password });
     void doSignup();
   };
 
@@ -32,7 +31,6 @@ const Signup = () => {
           id="email"
           type="email"
           required
-          value={email}
           onChange={onChange}
         />
         <Content.Check>
@@ -62,7 +60,7 @@ const Signup = () => {
           {isValidPassword ? '' : '비밀번호의 길이는 8자 이상 20자 이상입니다.'}
         </Content.Check>
         <Content.Error>
-          {error === '' ? '' : '가입 실패 : 입력 정보를 확인해주세요.'}
+          {error === '' ? '' : `가입 실패 : ${error}`}
         </Content.Error>
         <AuthLoginBtn type="submit">
           가입하기

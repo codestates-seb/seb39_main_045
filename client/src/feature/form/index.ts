@@ -12,15 +12,17 @@ interface SignupForm {
   isValidEmail: boolean
   isValidPassword: boolean
   isValidUserName: boolean
+  requestStatus: string
   error: string
 }
 interface EditForm {
-  username?: string
+  username: string | null
   prePassword: string
-  newPassword?: string
+  newPassword: string | null
   isValidUserName?: boolean
   isValidPrePassword: boolean
   isValidNewPassword?: boolean
+  requestStatus: string
   error: string
 }
 interface IForm {
@@ -42,11 +44,15 @@ const initialState: IForm = {
     isValidEmail: false,
     isValidPassword: false,
     isValidUserName: false,
+    requestStatus: '',
     error: ''
   },
   edit_form: {
+    username: null,
     prePassword: '',
+    newPassword: null,
     isValidPrePassword: false,
+    requestStatus: '',
     error: ''
   }
 };
@@ -133,6 +139,36 @@ export const formSlice = createSlice({
     ) => {
       state.signup_form.error = payload;
     },
+    setSignupRequestStatus: (
+      state,
+      { payload }: PayloadAction<string>
+    ) => {
+      state.signup_form.requestStatus = payload;
+    },
+    setEditUsernameValidity: (
+      state,
+      { payload }: PayloadAction<boolean>
+    ) => {
+      state.edit_form.isValidUserName = payload;
+    },
+    setEditPrePasswordValidity: (
+      state,
+      { payload }: PayloadAction<boolean>
+    ) => {
+      state.edit_form.isValidPrePassword = payload;
+    },
+    setEditNewPasswordValidity: (
+      state,
+      { payload }: PayloadAction<boolean>
+    ) => {
+      state.edit_form.isValidNewPassword = payload;
+    },
+    setEditRequestStatus: (
+      state,
+      { payload }: PayloadAction<string>
+    ) => {
+      state.edit_form.requestStatus = payload;
+    },
     setEditError: (
       state,
       { payload }: PayloadAction<string>
@@ -154,7 +190,12 @@ export const {
   setSignupEmailValidity,
   setSignupPasswordValidity,
   setSignupUsernameValidity,
+  setSignupRequestStatus,
   setSignupError,
+  setEditUsernameValidity,
+  setEditPrePasswordValidity,
+  setEditNewPasswordValidity,
+  setEditRequestStatus,
   setEditError
 } = formSlice.actions;
 export default formSlice.reducer;
