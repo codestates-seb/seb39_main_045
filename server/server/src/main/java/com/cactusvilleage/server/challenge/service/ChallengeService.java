@@ -3,6 +3,7 @@ package com.cactusvilleage.server.challenge.service;
 import com.cactusvilleage.server.auth.entities.Member;
 import com.cactusvilleage.server.auth.service.MemberService;
 import com.cactusvilleage.server.auth.util.SecurityUtil;
+import com.cactusvilleage.server.challenge.delegation.DelegationData;
 import com.cactusvilleage.server.challenge.entities.Challenge;
 import com.cactusvilleage.server.challenge.repository.ChallengeRepository;
 import com.cactusvilleage.server.challenge.web.dto.request.EnrollDto;
@@ -15,9 +16,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.cactusvilleage.server.auth.entities.Status.NONE;
+import static com.cactusvilleage.server.challenge.entities.Status.*;
 import static com.cactusvilleage.server.global.exception.ExceptionCode.*;
-import static com.cactusvilleage.server.auth.entities.Status.IN_PROGRESS;
 
 
 @Service
@@ -33,7 +33,7 @@ public class ChallengeService {
         Member member = memberService.findMember(SecurityUtil.getCurrentMemberId());
 
         List<Challenge> validateChallenge = challengeRepository.findAll().stream()
-                .filter(found -> found.isActive() && found.getMember().getId().equals(SecurityUtil.getCurrentMemberId()))
+                .filter(found -> found.getStatus().equals(IN_PROGRESS) && found.getMember().getId().equals(SecurityUtil.getCurrentMemberId()))
                 .collect(Collectors.toList());
 
         // 회원 한 명당 하나의 챌린지만 등록할 수 있다
@@ -46,35 +46,23 @@ public class ChallengeService {
                 .challengeType(Challenge.ChallengeType.valueOf(type.toUpperCase())) // 쿼리파라미터로 받는 것과 Entity 매핑
                 .targetDate(enrollDto.getTargetDate())
                 .targetTime(enrollDto.getTargetTime())
-                .active(true) // 챌린지 등록할 때 active true 설정
                 .build();
 
-        member.setStatus(IN_PROGRESS);
+        challenge.setStatus(IN_PROGRESS);
         challenge.setMember(member);
         challengeRepository.save(challenge);
 
         // Controller 에서 responseDto 타입을 반환해야하기 때문에 매핑
         return EnrollResponseDto.builder()
                 .challengeType(type)
-                .active(challenge.isActive())
                 .build();
     }
 
     public void delete() {
+        DelegationData data = new DelegationData(challengeRepository);
+        Challenge challenge = data.validateChallenge();
 
-        List<Challenge> validStream = challengeRepository.findAll().stream()
-                .filter(found -> found.isActive() && found.getMember().getId().equals(SecurityUtil.getCurrentMemberId()))
-                .collect(Collectors.toList());
-
-        if (validStream.size() != 1) {
-            throw new BusinessLogicException(ExceptionCode.ENROLL_CHALLENGE_CANNOT_BE_DUPLICATED);
-        }
-
-        Challenge challenge = validStream.get(0);
-        challenge.deleteChallenge(true, false);
-        Member member = memberService.findMember(SecurityUtil.getCurrentMemberId());
-        member.setStatus(NONE);
-        challenge.setMember(member);
+        challenge.setStatus(DELETED);
 
         challengeRepository.save(challenge);
     }

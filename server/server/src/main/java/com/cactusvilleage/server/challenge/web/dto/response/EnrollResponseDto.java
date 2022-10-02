@@ -8,13 +8,10 @@ public class EnrollResponseDto {
 
     private String challengeType;
 
-    private boolean active;
-
     private int progress;
 
     @Builder
-    public EnrollResponseDto(String challengeType, boolean active) {
+    public EnrollResponseDto(String challengeType) {
         this.challengeType = challengeType;
-        this.active = active;
     }
 }
