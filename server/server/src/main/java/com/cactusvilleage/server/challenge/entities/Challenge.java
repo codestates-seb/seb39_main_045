@@ -28,7 +28,7 @@ public class Challenge extends Auditable {
     private ChallengeType challengeType;
 
     @Column(updatable = false)
-    private int targetDate;
+    private Integer targetDate;
 
     @Column(updatable = false)
     private Integer targetTime;
@@ -43,7 +43,7 @@ public class Challenge extends Auditable {
     private Status status;
 
     @Builder
-    public Challenge(ChallengeType challengeType, int targetDate, int targetTime) {
+    public Challenge(ChallengeType challengeType, Integer targetDate, Integer targetTime) {
         this.challengeType = challengeType;
         this.targetDate = targetDate;
         this.targetTime = targetTime;

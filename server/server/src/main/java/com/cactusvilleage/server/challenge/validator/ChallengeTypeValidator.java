@@ -4,19 +4,13 @@ package com.cactusvilleage.server.challenge.validator;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class ChallengeTypeValidator implements ConstraintValidator<InvalidChallengeType, String> {
+public class ChallengeTypeValidator implements ConstraintValidator<ValidatedChallengeType, String> {
+
 
     @Override
-    public boolean isValid(String value, ConstraintValidatorContext context) {
+    public boolean isValid(String type, ConstraintValidatorContext context) {
 
-        switch (value) {
-            case "morning":
-            case "thanks":
-            case "study":
-                return true;
-            default:
-                return false;
-        }
-
+        return type != null && (type.equals("study") || type.equals("thanks") || type.equals("morning"));
     }
+
 }

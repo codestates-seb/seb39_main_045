@@ -52,6 +52,8 @@ public class HistoryStudyService {
 
         int progress = challenge.getHistories().size() / challenge.getTargetDate() * 100;
 
+        // TODO progress가 100이면 스탬프 찍기
+
         // controller responseDto 타입 반환을 위해 매핑
         return StudyResponseDto.builder()
                 .progress(progress)
