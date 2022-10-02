@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@ToString
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -42,6 +43,9 @@ public class Challenge extends Auditable {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    @Column(columnDefinition = "TINYINT", length = 1)
+    private boolean batch;
+
     @Builder
     public Challenge(ChallengeType challengeType, int targetDate, int targetTime) {
         this.challengeType = challengeType;
@@ -57,6 +61,10 @@ public class Challenge extends Auditable {
     @JsonManagedReference // json 출력 시, 순환참조 방지
     @OneToMany(mappedBy = "challenge")
     private List<History> histories = new ArrayList<>();
+
+    public void setStamp(int stamp) {
+        this.stamp = stamp;
+    }
 
     public void setStatus(Status status) {
         this.status = status;
