@@ -41,18 +41,21 @@ public class HistoryStudyService {
 
         // Dto <--> Entity 매핑 및 서비스 로직에서 Entity 매핑
         History history = History.builder()
-                .day(1)
                 .time(studyDto.getTime()) // dto <--> entity
-                .imagePath(path)
+                .contents(path)
                 .build();
+
+        history.setChallenge(challenge);
 
         // historyRepository 저장
         historyRepository.save(history);
 
+        int progress = challenge.getHistories().size() / challenge.getTargetDate() * 100;
+
         // controller responseDto 타입 반환을 위해 매핑
         return StudyResponseDto.builder()
-                .progress(history.getProgress())
-                .imagePath(history.getImagePath())
+                .progress(progress)
+                .imagePath(history.getContents())
                 .build();
     }
 }

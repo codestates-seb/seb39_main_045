@@ -11,11 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Entity
-@ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Challenge extends Auditable {
 
     @Id
@@ -53,7 +51,7 @@ public class Challenge extends Auditable {
         this.stamp = stamp;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
     @JsonIgnore // 리스폰스 무시
     private Member member;

@@ -5,7 +5,6 @@ import com.cactusvilleage.server.challenge.web.dto.request.StudyDto;
 import com.cactusvilleage.server.challenge.web.dto.response.StudyResponseDto;
 import com.cactusvilleage.server.global.response.SingleResponseDto;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +19,9 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/api/v1/histories")
 @RequiredArgsConstructor
-@Slf4j
 public class HistoryController {
 
     private final HistoryStudyService historyStudyService;
-
 
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
