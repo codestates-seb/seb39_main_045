@@ -2,6 +2,7 @@ package com.cactusvilleage.server.auth.service;
 
 import com.cactusvilleage.server.auth.entities.Authority;
 import com.cactusvilleage.server.auth.entities.Member;
+import com.cactusvilleage.server.challenge.entities.Status;
 import com.cactusvilleage.server.auth.entities.oauth.OAuth2UserInfo;
 import com.cactusvilleage.server.auth.entities.oauth.OAuth2UserInfoFactory;
 import com.cactusvilleage.server.auth.entities.oauth.ProviderType;

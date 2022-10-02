@@ -4,20 +4,16 @@ import com.cactusvilleage.server.auth.entities.Member;
 import com.cactusvilleage.server.global.audit.Auditable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Challenge extends Auditable {
 
     @Id
@@ -41,21 +37,19 @@ public class Challenge extends Auditable {
     private int stamp;
 
     @Column(columnDefinition = "TINYINT", length = 1)
-    private boolean active;
+    private boolean notified;
 
-    @Column(columnDefinition = "TINYINT", length = 1)
-    private boolean deleted;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     @Builder
-    public Challenge(ChallengeType challengeType, int targetDate, int targetTime, boolean active, int stamp) {
+    public Challenge(ChallengeType challengeType, int targetDate, int targetTime) {
         this.challengeType = challengeType;
         this.targetDate = targetDate;
         this.targetTime = targetTime;
-        this.active = active;
-        this.stamp = stamp;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
     @JsonIgnore // 리스폰스 무시
     private Member member;
@@ -63,6 +57,14 @@ public class Challenge extends Auditable {
     @JsonManagedReference // json 출력 시, 순환참조 방지
     @OneToMany(mappedBy = "challenge")
     private List<History> histories = new ArrayList<>();
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public void setNotified(boolean notified) {
+        this.notified = notified;
+    }
 
     public void setMember(Member member) {
         if (this.member != null) {  // 기존 Member와 연관관계가 있다면 Member에서 해당 Challenge 삭제

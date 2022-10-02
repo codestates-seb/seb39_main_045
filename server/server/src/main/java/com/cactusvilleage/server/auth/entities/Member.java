@@ -2,6 +2,7 @@ package com.cactusvilleage.server.auth.entities;
 
 import com.cactusvilleage.server.auth.entities.oauth.ProviderType;
 import com.cactusvilleage.server.challenge.entities.Challenge;
+import com.cactusvilleage.server.challenge.entities.Status;
 import com.cactusvilleage.server.global.audit.Auditable;
 import lombok.*;
 
@@ -10,10 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,13 +26,10 @@ public class Member extends Auditable {
     private String username;
     @Column(columnDefinition = "TINYINT", length = 1)
     private boolean deleted;
-
     @Enumerated(EnumType.STRING)
     private Authority authority;
-
     @Enumerated(EnumType.STRING)
     private ProviderType providerType;
-
     private String providerId;
 
     @Builder
@@ -60,13 +57,10 @@ public class Member extends Auditable {
         this.password = password;
     }
 
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-    }
-
-    public void deleteMember(String email, String username) {
+    public void deleteMember(String email, String username, boolean deleted) {
         this.email = email;
         this.username = username;
+        this.deleted = deleted;
     }
 
     public void addChallenge(Challenge challenge) {
