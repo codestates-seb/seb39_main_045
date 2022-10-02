@@ -3,7 +3,7 @@ package com.cactusvilleage.server.auth.service;
 import com.cactusvilleage.server.auth.email.EmailSender;
 import com.cactusvilleage.server.auth.entities.Member;
 import com.cactusvilleage.server.auth.entities.RefreshToken;
-import com.cactusvilleage.server.auth.entities.Status;
+import com.cactusvilleage.server.challenge.entities.Status;
 import com.cactusvilleage.server.auth.entities.oauth.ProviderType;
 import com.cactusvilleage.server.auth.repository.MemberRepository;
 import com.cactusvilleage.server.auth.repository.RefreshTokenRepository;
@@ -29,6 +29,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.context.Context;
 
 import javax.servlet.http.Cookie;
@@ -41,11 +42,12 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static com.cactusvilleage.server.auth.entities.Status.*;
+import static com.cactusvilleage.server.challenge.entities.Status.*;
 import static com.cactusvilleage.server.global.exception.ExceptionCode.*;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 @Slf4j
 public class MemberService {
 
@@ -162,47 +164,46 @@ public class MemberService {
     }
 
     private MemberInfoResponse getMemberInfo(Member member) {
-        Status status = member.getStatus();
-        Challenge challenge = null;
+        Challenge challenge = getRecentChallenge(member);
+        if (challenge == null || challenge.getStatus().equals(DELETED) || challenge.isNotified()) {
+            return MemberInfoResponse.builder()
+                    .email(member.getEmail())
+                    .username(member.getUsername())
+                    .status("none")
+                    .providerType(member.getProviderType().toString().toLowerCase())
+                    .build();
+        } else {
+            Status status = challenge.getStatus();
+            if (status.equals(SUCCESS) || status.equals(FAIL)) {
+                challenge.setNotified(true);
+                challengeRepository.save(challenge);
+            }
+            int progress = challenge.getHistories().size() / challenge.getTargetDate() * 100;
+            int now = (int) Duration.between(challenge.getCreatedAt().toLocalDate().atStartOfDay(), LocalDate.now().atStartOfDay()).toDays() + 1;
 
-        if (status.equals(SUCCESS) || status.equals(FAIL)) {
-            member.setStatus(NONE);
-            memberRepository.save(member);
-            challenge = challengeRepository.findTopByOrderByIdDesc();
-        }
-        if (status.equals(IN_PROGRESS)) {
-            challenge = getActiveChallenge(member);
-        } else if (status.equals(NONE)) {
             return MemberInfoResponse.builder()
                     .email(member.getEmail())
                     .username(member.getUsername())
                     .status(status.toString().toLowerCase())
+                    .progress(progress)
+                    .challengeType(challenge.getChallengeType().toString().toLowerCase())
+                    .now(now)
+                    .targetDate(challenge.getTargetDate())
                     .providerType(member.getProviderType().toString().toLowerCase())
                     .build();
         }
 
-        assert challenge != null;
-        int progress = challenge.getHistories().size() / challenge.getTargetDate();
-        int now = (int) Duration.between(challenge.getCreatedAt().toLocalDate().atStartOfDay(), LocalDate.now().atStartOfDay()).toDays() + 1;
-
-        return MemberInfoResponse.builder()
-                .email(member.getEmail())
-                .username(member.getUsername())
-                .status(status.toString().toLowerCase())
-                .progress(progress)
-                .challengeType(challenge.getChallengeType().toString().toLowerCase())
-                .now(now)
-                .targetDate(challenge.getTargetDate())
-                .providerType(member.getProviderType().toString().toLowerCase())
-                .build();
     }
 
-    private Challenge getActiveChallenge(Member member) {
-        List<Challenge> challenges = member.getChallenges().stream()
-                .filter(Challenge::isActive)
-                .collect(Collectors.toList());
-        assert challenges.size() == 1;
-        return challenges.get(0);
+    private Challenge getRecentChallenge(Member member) {
+        if (member.getChallenges().isEmpty()) {
+            return null;
+        }
+
+        return member.getChallenges().stream()
+                .sorted((o1, o2) -> Long.compare(o2.getId(), o1.getId()))
+                .collect(Collectors.toList())
+                .get(0);
     }
 
     private RefreshToken getRefreshToken(HttpServletRequest request) {
