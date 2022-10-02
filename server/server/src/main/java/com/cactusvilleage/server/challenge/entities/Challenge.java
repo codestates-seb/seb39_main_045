@@ -43,12 +43,11 @@ public class Challenge extends Auditable {
     private boolean deleted;
 
     @Builder
-    public Challenge(ChallengeType challengeType, int targetDate, int targetTime, boolean active, int stamp) {
+    public Challenge(ChallengeType challengeType, int targetDate, Integer targetTime, boolean active) {
         this.challengeType = challengeType;
         this.targetDate = targetDate;
         this.targetTime = targetTime;
         this.active = active;
-        this.stamp = stamp;
     }
 
     @ManyToOne(fetch = FetchType.LAZY)

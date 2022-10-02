@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.cactusvilleage.server.global.exception.ExceptionCode.*;
@@ -39,12 +40,17 @@ public class ChallengeService {
             throw new BusinessLogicException(ENROLL_CHALLENGE_CANNOT_BE_DUPLICATED);
         }
 
-        // Dto <--> Entity 매핑
+        // 감사 챌린지 말고 다른 챌린지는 targetTime 필드가 필수 값이라는 exception 발생
+        if (!type.equals(Challenge.ChallengeType.THANKS.toString().toLowerCase())
+        && enrollDto.getTargetTime() == null) {
+            throw new BusinessLogicException(CHALLENGE_TARGET_TIME_NOT_NULL);
+        }
+
+       // Dto <--> Entity 매핑
         Challenge challenge = Challenge.builder()
                 .challengeType(Challenge.ChallengeType.valueOf(type.toUpperCase())) // 쿼리파라미터로 받는 것과 Entity 매핑
                 .targetDate(enrollDto.getTargetDate())
                 .targetTime(enrollDto.getTargetTime())
-                .active(true) // 챌린지 등록할 때 active true 설정
                 .build();
 
         member.setStatus(IN_PROGRESS);
@@ -54,7 +60,6 @@ public class ChallengeService {
         // Controller 에서 responseDto 타입을 반환해야하기 때문에 매핑
         return EnrollResponseDto.builder()
                 .challengeType(type)
-                .active(challenge.isActive())
                 .build();
     }
 }

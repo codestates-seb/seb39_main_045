@@ -15,9 +15,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 @Constraint(validatedBy = ChallengeTypeValidator.class)
 @Documented
-public @interface InvalidChallengeType {
+public @interface ValidatedChallengeType {
 
-    String message() default "유효하지 않은 타입입니다";
+    String message() default "챌린지 타입은 'study', 'thanks', 'morning' 만 지정 가능합니다";
 
     Class<?>[] groups() default {};
 

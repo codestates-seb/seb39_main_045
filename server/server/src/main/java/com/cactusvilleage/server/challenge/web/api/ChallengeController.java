@@ -1,7 +1,8 @@
 package com.cactusvilleage.server.challenge.web.api;
 
-import com.cactusvilleage.server.challenge.validator.InvalidChallengeType;
+import com.cactusvilleage.server.challenge.validator.ValidatedChallengeType;
 import com.cactusvilleage.server.challenge.service.ChallengeService;
+import com.cactusvilleage.server.challenge.validator.ValidatedTargetDate;
 import com.cactusvilleage.server.challenge.web.dto.request.EnrollDto;
 import com.cactusvilleage.server.challenge.web.dto.response.EnrollResponseDto;
 import com.cactusvilleage.server.global.response.SingleResponseDto;
@@ -10,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 
 @RestController
@@ -21,8 +24,8 @@ public class ChallengeController {
     private final ChallengeService challengeService;
 
     @PostMapping
-    public ResponseEntity enrollChallenge(@RequestBody EnrollDto enrollDto,
-                                          @RequestParam("type") @InvalidChallengeType String type) {
+    public ResponseEntity enrollChallenge(@RequestBody @Valid EnrollDto enrollDto,
+                                          @RequestParam("type") @Valid @ValidatedChallengeType String type) {
 
         EnrollResponseDto response = challengeService.enrollChallenge(enrollDto, type);
 
