@@ -57,7 +57,6 @@ public class HistoryStudyService {
         // controller responseDto 타입 반환을 위해 매핑
         return StudyResponseDto.builder()
                 .progress(progress)
-                .imagePath(history.getContents())
                 .build();
     }
 }
