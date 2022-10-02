@@ -37,18 +37,16 @@ public class Challenge extends Auditable {
     private int stamp;
 
     @Column(columnDefinition = "TINYINT", length = 1)
-    private boolean active;
+    private boolean notified;
 
-    @Column(columnDefinition = "TINYINT", length = 1)
-    private boolean deleted;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     @Builder
-    public Challenge(ChallengeType challengeType, int targetDate, int targetTime, boolean active, int stamp) {
+    public Challenge(ChallengeType challengeType, int targetDate, int targetTime) {
         this.challengeType = challengeType;
         this.targetDate = targetDate;
         this.targetTime = targetTime;
-        this.active = active;
-        this.stamp = stamp;
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -60,9 +58,12 @@ public class Challenge extends Auditable {
     @OneToMany(mappedBy = "challenge")
     private List<History> histories = new ArrayList<>();
 
-    public void deleteChallenge(boolean deleted, boolean active) {
-        this.deleted = deleted;
-        this.active = active;
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public void setNotified(boolean notified) {
+        this.notified = notified;
     }
 
     public void setMember(Member member) {
