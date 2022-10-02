@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.cactusvilleage.server.auth.entities.Status.NONE;
 import static com.cactusvilleage.server.global.exception.ExceptionCode.*;
 import static com.cactusvilleage.server.auth.entities.Status.IN_PROGRESS;
 
@@ -71,6 +72,9 @@ public class ChallengeService {
 
         Challenge challenge = validStream.get(0);
         challenge.deleteChallenge(true, false);
+        Member member = memberService.findMember(SecurityUtil.getCurrentMemberId());
+        member.setStatus(NONE);
+        challenge.setMember(member);
 
         challengeRepository.save(challenge);
     }
