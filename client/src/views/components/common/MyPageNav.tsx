@@ -7,7 +7,7 @@ const MyPageNav = () => {
   const navigate = useNavigate();
 
   return (
-    <TapHomeBtn as='button' onClick={() => navigate('/mypage')}>
+    <TapHomeBtn role='button' onClick={() => navigate('/mypage')}>
       <TapHomeIcon className="material-symbols-outlined">keyboard_backspace</TapHomeIcon>
       마이페이지
     </TapHomeBtn>

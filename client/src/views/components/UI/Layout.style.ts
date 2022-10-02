@@ -46,8 +46,8 @@ const ContentBox = styled.div`
 
 const PageContainer = styled(FlexColumn)`
   background-color: var(--mypage-bg-beige);
-  height: calc(100vh - 70px);
-  padding: 24px;
+  padding: 24px 24px 96px 24px;
+  min-height: 100vh;
   font-weight: 600;
 `;
 

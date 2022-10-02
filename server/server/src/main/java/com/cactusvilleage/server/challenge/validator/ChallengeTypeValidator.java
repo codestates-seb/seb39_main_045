@@ -1,4 +1,4 @@
-package com.cactusvilleage.server.auth.validator;
+package com.cactusvilleage.server.challenge.validator;
 
 
 import javax.validation.ConstraintValidator;

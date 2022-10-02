@@ -30,9 +30,19 @@ public interface CookieUtil {
         return Optional.empty();
     }
 
-    default void addCookie(HttpServletResponse response, String name, String value, int maxAge, boolean httpOnly) {
+    default void addCookie(HttpServletRequest request, HttpServletResponse response, String name, String value, int maxAge, boolean httpOnly) {
+        String host = request.getHeader("Host");
+        String domain;
+
+        //로컬 테스트 설정
+        if (host.equals("localhost:8080") || host.equals("localhost:3000")) {
+            domain = "localhost";
+        } else {
+            domain = "cactus-villeage.com";
+        }
+
         ResponseCookie cookie = ResponseCookie.from(name, value)
-                .domain("cactus-villeage.com")
+                .domain(domain)
 //                .sameSite("None")
                 .secure(false)
                 .path("/")

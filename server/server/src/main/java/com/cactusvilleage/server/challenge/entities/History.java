@@ -2,18 +2,14 @@ package com.cactusvilleage.server.challenge.entities;
 
 import com.cactusvilleage.server.global.audit.Auditable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.UUID;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class History extends Auditable {
 
     @Id
@@ -28,23 +24,17 @@ public class History extends Auditable {
     private String time; // 공부시간, 기상시간
 
     @Column(updatable = false, columnDefinition = "TEXT")
-    private String contents; // 감사 일기 text, Multipart/form-data로 온 text
+    private String contents; // 감사 일기 text, Multipart/form-data 이미지 url
 
-    @Column
-    private String imagePath; // Multipart/form-data로 온 image -> S3 image 저장 -> 해당 경로
-
-    @Column
-    private int progress; // 챌린지 진행도
 
     @Builder
-    public History(String contents, String time, String imagePath, int progress) {
+    public History(String time, String contents) {
         this.time = time;
         this.contents = contents;
-        this.imagePath = imagePath;
-        this.progress = progress;
+
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CHALLENGE_ID")
     @JsonIgnore
     private Challenge challenge;

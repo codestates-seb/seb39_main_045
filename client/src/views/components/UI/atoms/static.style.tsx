@@ -6,7 +6,7 @@ const SpanWithIcon = css`
 `;
 
 const Border1 = css`
-  box-shadow: 2px 3px 5px rgba(192, 180, 152, 0.2);
+  box-shadow: 2px 3px 6px rgba(192, 180, 152, 0.2);
   border-radius: 10px;
 `;
 
@@ -28,11 +28,17 @@ const MrgTop = css`
   margin-top: 12px;
 `;
 
+const Green = css`
+  background: #e0f5ce;
+  box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.05);
+`;
+
 export const Statics = {
   SpanWithIcon,
   Border1,
   Border2,
   SelfCenter,
   Trans,
-  MrgTop
+  MrgTop,
+  Green
 };
