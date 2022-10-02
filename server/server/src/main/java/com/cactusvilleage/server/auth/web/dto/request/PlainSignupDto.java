@@ -15,7 +15,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import static com.cactusvilleage.server.auth.entities.Authority.ROLE_USER;
-import static com.cactusvilleage.server.auth.entities.Status.NONE;
 import static com.cactusvilleage.server.auth.entities.oauth.ProviderType.CACTUS;
 
 @Getter
@@ -42,7 +41,6 @@ public class PlainSignupDto {
                 .password(passwordEncoder.encode(password))
                 .authority(ROLE_USER)
                 .providerType(CACTUS)
-                .status(NONE)
                 .build();
     }
 }

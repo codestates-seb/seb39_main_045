@@ -2,7 +2,7 @@ package com.cactusvilleage.server.auth.service;
 
 import com.cactusvilleage.server.auth.entities.Authority;
 import com.cactusvilleage.server.auth.entities.Member;
-import com.cactusvilleage.server.auth.entities.Status;
+import com.cactusvilleage.server.challenge.entities.Status;
 import com.cactusvilleage.server.auth.entities.oauth.OAuth2UserInfo;
 import com.cactusvilleage.server.auth.entities.oauth.OAuth2UserInfoFactory;
 import com.cactusvilleage.server.auth.entities.oauth.ProviderType;
@@ -99,7 +99,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 .email(userInfo.getEmail())
                 .authority(Authority.ROLE_USER)
                 .providerType(providerType)
-                .status(Status.NONE)
                 .build();
 
         checkUsername(userInfo, member);
