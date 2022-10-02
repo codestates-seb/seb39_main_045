@@ -8,6 +8,7 @@ import com.cactusvilleage.server.challenge.repository.ChallengeRepository;
 import com.cactusvilleage.server.challenge.web.dto.request.EnrollDto;
 import com.cactusvilleage.server.challenge.web.dto.response.EnrollResponseDto;
 import com.cactusvilleage.server.global.exception.BusinessLogicException;
+import com.cactusvilleage.server.global.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -57,4 +58,21 @@ public class ChallengeService {
                 .active(challenge.isActive())
                 .build();
     }
+
+    public void delete() {
+
+        List<Challenge> validStream = challengeRepository.findAll().stream()
+                .filter(found -> found.isActive() && found.getMember().getId().equals(SecurityUtil.getCurrentMemberId()))
+                .collect(Collectors.toList());
+
+        if (validStream.size() != 1) {
+            throw new BusinessLogicException(ExceptionCode.ENROLL_CHALLENGE_CANNOT_BE_DUPLICATED);
+        }
+
+        Challenge challenge = validStream.get(0);
+        challenge.deleteChallenge(true, false);
+
+        challengeRepository.save(challenge);
+    }
+
 }

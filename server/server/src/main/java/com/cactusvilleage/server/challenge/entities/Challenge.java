@@ -60,6 +60,11 @@ public class Challenge extends Auditable {
     @OneToMany(mappedBy = "challenge")
     private List<History> histories = new ArrayList<>();
 
+    public void deleteChallenge(boolean deleted, boolean active) {
+        this.deleted = deleted;
+        this.active = active;
+    }
+
     public void setMember(Member member) {
         if (this.member != null) {  // 기존 Member와 연관관계가 있다면 Member에서 해당 Challenge 삭제
             this.member.getChallenges().remove(this);
