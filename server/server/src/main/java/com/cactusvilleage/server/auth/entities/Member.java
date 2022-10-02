@@ -2,6 +2,7 @@ package com.cactusvilleage.server.auth.entities;
 
 import com.cactusvilleage.server.auth.entities.oauth.ProviderType;
 import com.cactusvilleage.server.challenge.entities.Challenge;
+import com.cactusvilleage.server.challenge.entities.Status;
 import com.cactusvilleage.server.global.audit.Auditable;
 import lombok.*;
 
@@ -30,18 +31,15 @@ public class Member extends Auditable {
     @Enumerated(EnumType.STRING)
     private ProviderType providerType;
     private String providerId;
-    @Enumerated(EnumType.STRING)
-    private Status status;
 
     @Builder
-    public Member(String email, String password, String username, Authority authority, ProviderType providerType, String providerId, Status status) {
+    public Member(String email, String password, String username, Authority authority, ProviderType providerType, String providerId) {
         this.email = email;
         this.password = password;
         this.username = username;
         this.authority = authority;
         this.providerType = providerType;
         this.providerId = providerId;
-        this.status = status;
     }
 
     @OneToMany(mappedBy = "member")
@@ -63,9 +61,6 @@ public class Member extends Auditable {
         this.email = email;
         this.username = username;
         this.deleted = deleted;
-    }
-    public void setStatus(Status status) {
-        this.status = status;
     }
 
     public void addChallenge(Challenge challenge) {

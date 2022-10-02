@@ -3,11 +3,13 @@ package com.cactusvilleage.server.challenge.service;
 import com.cactusvilleage.server.auth.entities.Member;
 import com.cactusvilleage.server.auth.service.MemberService;
 import com.cactusvilleage.server.auth.util.SecurityUtil;
+import com.cactusvilleage.server.challenge.delegation.DelegationData;
 import com.cactusvilleage.server.challenge.entities.Challenge;
 import com.cactusvilleage.server.challenge.repository.ChallengeRepository;
 import com.cactusvilleage.server.challenge.web.dto.request.EnrollDto;
 import com.cactusvilleage.server.challenge.web.dto.response.EnrollResponseDto;
 import com.cactusvilleage.server.global.exception.BusinessLogicException;
+import com.cactusvilleage.server.global.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +17,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.cactusvilleage.server.challenge.entities.Status.*;
 import static com.cactusvilleage.server.global.exception.ExceptionCode.*;
-import static com.cactusvilleage.server.auth.entities.Status.IN_PROGRESS;
 
 
 @Service
@@ -32,7 +34,7 @@ public class ChallengeService {
         Member member = memberService.findMember(SecurityUtil.getCurrentMemberId());
 
         List<Challenge> validateChallenge = challengeRepository.findAll().stream()
-                .filter(found -> found.isActive() && found.getMember().getId().equals(SecurityUtil.getCurrentMemberId()))
+                .filter(found -> found.getStatus().equals(IN_PROGRESS) && found.getMember().getId().equals(SecurityUtil.getCurrentMemberId()))
                 .collect(Collectors.toList());
 
         // 회원 한 명당 하나의 챌린지만 등록할 수 있다
@@ -53,7 +55,7 @@ public class ChallengeService {
                 .targetTime(enrollDto.getTargetTime())
                 .build();
 
-        member.setStatus(IN_PROGRESS);
+        challenge.setStatus(IN_PROGRESS);
         challenge.setMember(member);
         challengeRepository.save(challenge);
 
@@ -62,4 +64,14 @@ public class ChallengeService {
                 .challengeType(type)
                 .build();
     }
+
+    public void delete() {
+        DelegationData data = new DelegationData(challengeRepository);
+        Challenge challenge = data.validateChallenge();
+
+        challenge.setStatus(DELETED);
+
+        challengeRepository.save(challenge);
+    }
+
 }

@@ -33,4 +33,10 @@ public class ChallengeController {
                 new SingleResponseDto<>(response), HttpStatus.CREATED);
     }
 
+    @DeleteMapping
+    public ResponseEntity deleteChallenge() {
+        challengeService.delete();
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
 }

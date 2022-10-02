@@ -28,7 +28,7 @@ public class Challenge extends Auditable {
     private ChallengeType challengeType;
 
     @Column(updatable = false)
-    private int targetDate;
+    private Integer targetDate;
 
     @Column(updatable = false)
     private Integer targetTime;
@@ -37,17 +37,16 @@ public class Challenge extends Auditable {
     private int stamp;
 
     @Column(columnDefinition = "TINYINT", length = 1)
-    private boolean active;
+    private boolean notified;
 
-    @Column(columnDefinition = "TINYINT", length = 1)
-    private boolean deleted;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     @Builder
-    public Challenge(ChallengeType challengeType, int targetDate, Integer targetTime, boolean active) {
+    public Challenge(ChallengeType challengeType, Integer targetDate, Integer targetTime) {
         this.challengeType = challengeType;
         this.targetDate = targetDate;
         this.targetTime = targetTime;
-        this.active = active;
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -58,6 +57,14 @@ public class Challenge extends Auditable {
     @JsonManagedReference // json 출력 시, 순환참조 방지
     @OneToMany(mappedBy = "challenge")
     private List<History> histories = new ArrayList<>();
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public void setNotified(boolean notified) {
+        this.notified = notified;
+    }
 
     public void setMember(Member member) {
         if (this.member != null) {  // 기존 Member와 연관관계가 있다면 Member에서 해당 Challenge 삭제
