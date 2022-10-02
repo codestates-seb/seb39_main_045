@@ -10,10 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -53,9 +53,8 @@ public class ChallengeService {
 
         // Controller 에서 responseDto 타입을 반환해야하기 때문에 매핑
         return EnrollResponseDto.builder()
-                .challengeType(challenge.getChallengeType())
+                .challengeType(type)
                 .active(challenge.isActive())
-                .progress(0)
                 .build();
     }
 }
