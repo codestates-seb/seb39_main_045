@@ -6,6 +6,7 @@ const ShareBtn = styled.button`
   ${Statics.Border1};
   height: 30px;
   width: 90px;
+  min-width: fit-content;
   margin-right: 5px;
   span {
     ${Statics.SpanWithIcon}
