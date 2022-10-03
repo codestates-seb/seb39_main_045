@@ -90,13 +90,9 @@ public class MemberService {
         Member foundMember = findMember(memberId);
 
         if (foundMember.getProviderType().equals(ProviderType.CACTUS)) {
-            if (editDto.getPrePassword() == null) {
-                throw new BusinessLogicException(PRE_PASSWORD_REQUIRED);
-            }
             verifyPassword(foundMember.getEmail(), editDto.getPrePassword());
 
-            Optional.ofNullable(editDto.getUsername())
-                    .ifPresent(foundMember::setUsername);
+            foundMember.setUsername(editDto.getUsername());
             Optional.ofNullable(editDto.getNewPassword())
                     .ifPresent(password -> foundMember.setPassword(passwordEncoder.encode(password)));
 

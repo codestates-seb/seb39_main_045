@@ -9,6 +9,9 @@ public class UsernameSpaceValidator implements ConstraintValidator<SpaceCantBeAt
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
+        if (value == null) {
+            return true;
+        }
         return !value.startsWith(" ") && !value.endsWith(" ");
     }
 }
