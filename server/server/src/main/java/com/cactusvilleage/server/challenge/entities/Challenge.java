@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@ToString
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
