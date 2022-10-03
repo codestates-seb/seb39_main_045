@@ -4,7 +4,6 @@ import com.cactusvilleage.server.challenge.service.ChallengeService;
 import com.cactusvilleage.server.challenge.validator.ChallengeStatus;
 import com.cactusvilleage.server.challenge.validator.ValidatedChallengeType;
 import com.cactusvilleage.server.challenge.web.dto.request.EnrollDto;
-import com.cactusvilleage.server.challenge.web.dto.response.ActiveChallengeResponseDto;
 import com.cactusvilleage.server.challenge.web.dto.response.EnrollResponseDto;
 import com.cactusvilleage.server.global.response.SingleResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -45,7 +44,6 @@ public class ChallengeController {
 
     @GetMapping
     public ResponseEntity getChallengeRecords(@RequestParam @Nullable @ChallengeStatus String active) {
-        ActiveChallengeResponseDto response = challengeService.getRecords(active);
-        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
+        return challengeService.getRecords(active);
     }
 }
