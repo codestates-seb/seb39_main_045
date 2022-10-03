@@ -17,9 +17,6 @@ public class History extends Auditable {
     @Column(name = "HISTORY_ID")
     private Long id;
 
-    @Column(columnDefinition = "BINARY(16)")
-    private UUID uuid = UUID.randomUUID();
-
     @Column(updatable = false)
     private String time; // 공부시간, 기상시간
 
@@ -42,14 +39,13 @@ public class History extends Auditable {
     public void setChallenge(Challenge challenge) {
         if (this.challenge != null) {
             this.challenge.getHistories().remove(this);
+        }
 
-            this.challenge = challenge;
-            if (!challenge.getHistories().contains(this)) {
-                challenge.addHistory(this);
-
-            }
+        this.challenge = challenge;
+        if (!challenge.getHistories().contains(this)) {
+            challenge.addHistory(this);
         }
     }
-
 }
+
 

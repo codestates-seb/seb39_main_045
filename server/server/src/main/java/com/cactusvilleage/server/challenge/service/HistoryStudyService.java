@@ -50,7 +50,7 @@ public class HistoryStudyService {
         // historyRepository 저장
         historyRepository.save(history);
 
-        int progress = challenge.getHistories().size() / challenge.getTargetDate() * 100;
+        int progress = (int) ((double) challenge.getHistories().size() / challenge.getTargetDate() * 100);
 
         // TODO progress가 100이면 스탬프 찍기
 
