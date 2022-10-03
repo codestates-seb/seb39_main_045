@@ -9,7 +9,7 @@ import org.springframework.lang.Nullable;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class EnrollDto {
 
-    // ChallengeType 헤더로 받음
+    // ChallengeType 은 헤더로 
 
     @ValidatedTargetDate
     private Integer targetDate;
