@@ -4,7 +4,6 @@ import com.cactusvilleage.server.challenge.web.dto.response.ChallengeInfoRespons
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +26,7 @@ public class AllInfoDto implements ChallengeInfoResponseDto {
     @NoArgsConstructor
     public static class Challenges {
         private String index;
+        private String createdAt;
         private boolean success;
         private String type;
         private int targetDate;
@@ -34,8 +34,9 @@ public class AllInfoDto implements ChallengeInfoResponseDto {
         private List<Histories> histories = new ArrayList<>();
 
         @Builder
-        public Challenges(String index, boolean success, String type, int targetDate, int targetTime, List<Histories> histories) {
+        public Challenges(String index, String createdAt, boolean success, String type, int targetDate, int targetTime, List<Histories> histories) {
             this.index = index;
+            this.createdAt = createdAt;
             this.success = success;
             this.type = type;
             this.targetDate = targetDate;

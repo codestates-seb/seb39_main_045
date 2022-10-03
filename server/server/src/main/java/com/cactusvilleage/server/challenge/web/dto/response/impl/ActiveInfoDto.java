@@ -12,13 +12,16 @@ public class ActiveInfoDto implements ChallengeInfoResponseDto {
     private String challengeType;
     private int targetDate;
     private int progress;
+    private String createdAt;
     private List<Histories> histories = new ArrayList<>();
 
     @Builder
-    public ActiveInfoDto(String challengeType, int targetDate, int progress, List<Histories> histories) {
+
+    public ActiveInfoDto(String challengeType, int targetDate, int progress, String createdAt, List<Histories> histories) {
         this.challengeType = challengeType;
         this.targetDate = targetDate;
         this.progress = progress;
+        this.createdAt = createdAt;
         this.histories = histories;
     }
 }
