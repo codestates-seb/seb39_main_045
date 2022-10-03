@@ -23,8 +23,7 @@ public class ChallengeStatusJobScheduler {
     private final JobLauncher jobLauncher;
     private final ChallengeStatusJob challengeStatusJob;
 
-//    @Scheduled(cron = "0 0 0 * * *")
-    @Scheduled(cron = "0 0/5 * * * ?")
+    @Scheduled(cron = "0 0 0 * * *")
     public void challengeStatusJobSchedule() {
         Map<String, JobParameter> jobParameterMap = new HashMap<>();
         jobParameterMap.put("time", new JobParameter(System.currentTimeMillis()));
