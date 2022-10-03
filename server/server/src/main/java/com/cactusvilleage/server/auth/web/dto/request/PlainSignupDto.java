@@ -30,8 +30,8 @@ public class PlainSignupDto {
     @SpaceCantBeAtBeginOrEnd
     private String username;
 
-    @Size(min = 8, max = 20)
     @NotBlank
+    @Size(min = 8, max = 20, message = "비밀번호 값은 최소 8자에서 최대 20자 이하입니다.")
     private String password;
 
     public Member toMember(PasswordEncoder passwordEncoder) {
