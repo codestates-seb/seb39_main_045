@@ -46,4 +46,9 @@ public class ChallengeController {
     public ResponseEntity getChallengeRecords(@RequestParam @Nullable @ChallengeStatus String active) {
         return challengeService.getRecords(active);
     }
+
+    @GetMapping("/water")
+    public ResponseEntity sendMessage() {
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

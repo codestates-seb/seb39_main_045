@@ -138,6 +138,7 @@ public class ChallengeService {
         }
     }
 
+
     private List<ChallengeInfoResponseDto.Histories> setHistoryInfo(Challenge challenge) {
         AtomicInteger index = new AtomicInteger(1);
 
