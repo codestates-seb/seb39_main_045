@@ -174,7 +174,7 @@ public class MemberService {
                 challenge.setNotified(true);
                 challengeRepository.save(challenge);
             }
-            int progress = challenge.getHistories().size() / challenge.getTargetDate() * 100;
+            int progress = (int) ((double) challenge.getHistories().size() / challenge.getTargetDate()) * 100;
             int now = (int) Duration.between(challenge.getCreatedAt().toLocalDate().atStartOfDay(), LocalDate.now().atStartOfDay()).toDays() + 1;
 
             return MemberInfoResponse.builder()
