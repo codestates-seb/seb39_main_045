@@ -58,6 +58,10 @@ public class Challenge extends Auditable {
     @OneToMany(mappedBy = "challenge")
     private List<History> histories = new ArrayList<>();
 
+    public void setStamp(int stamp) {
+        this.stamp = stamp;
+    }
+
     public void setStatus(Status status) {
         this.status = status;
     }
