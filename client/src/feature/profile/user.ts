@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 interface UserInfoType {
   // [index: string]: string | number
   email: string | null
-  usename: string
+  username: string
   status: string
   progress: number
   challengeType: string | null
@@ -19,7 +19,7 @@ interface UserType {
 
 const initialUserInfo: UserInfoType = {
   email: '',
-  usename: '',
+  username: '',
   status: '',
   progress: -365,
   challengeType: '',
@@ -42,8 +42,8 @@ export const userSlice = createSlice({
       state.loginStatus = true;
     },
 
-    updateUser: (state, { payload }: PayloadAction<Partial<UserInfoType>>) => {
-      state.userInfo = { ...state.userInfo, ...payload };
+    updateUser: (state, { payload }: PayloadAction<string>) => {
+      state.userInfo = { ...state.userInfo, username: payload };
     },
 
     logoutUser: (state) => {

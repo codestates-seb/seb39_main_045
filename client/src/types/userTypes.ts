@@ -9,7 +9,5 @@ export interface LoginData {
 }
 
 export interface EditInfo {
-  username: string
-  prePassword: string | null
-  newPassword: string | null
+  [key: string]: string
 }
