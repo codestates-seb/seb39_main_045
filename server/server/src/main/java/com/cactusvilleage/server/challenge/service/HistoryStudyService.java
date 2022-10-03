@@ -21,7 +21,7 @@ import static com.cactusvilleage.server.global.exception.ExceptionCode.*;
 public class HistoryStudyService {
     private final HistoryRepository historyRepository;
     private final ChallengeRepository challengeRepository;
-    private final S3Upload s3Upload;
+    private final S3Service s3Service;
 
     public StudyResponseDto uploadStudyHistory(StudyDto studyDto,
                                                MultipartFile multipartFile) throws IOException {
@@ -36,8 +36,8 @@ public class HistoryStudyService {
             throw new BusinessLogicException(CHALLENGE_TYPE_MISS_MATCH);
         }
 
-        // multipartFile를 s3Upload 서비스를 불러와서 담는다
-        String path = s3Upload.upload(multipartFile);
+        // multipartFile를 s3Serive 서비스의 upload 메소드를 호출해서 담는다
+        String path = s3Service.upload(multipartFile);
 
         // Dto <--> Entity 매핑 및 서비스 로직에서 Entity 매핑
         History history = History.builder()

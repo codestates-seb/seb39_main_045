@@ -13,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Positive;
 import java.io.IOException;
 
 
@@ -23,7 +22,6 @@ import java.io.IOException;
 public class HistoryController {
 
     private final HistoryStudyService historyStudyService;
-
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity uploadHistories(@RequestPart @Valid StudyDto request,
