@@ -9,6 +9,7 @@ import com.cactusvilleage.server.challenge.repository.ChallengeRepository;
 import com.cactusvilleage.server.challenge.web.dto.request.EnrollDto;
 import com.cactusvilleage.server.challenge.web.dto.response.ChallengeInfoResponseDto;
 import com.cactusvilleage.server.challenge.web.dto.response.EnrollResponseDto;
+import com.cactusvilleage.server.challenge.web.dto.response.WateringResponseDto;
 import com.cactusvilleage.server.challenge.web.dto.response.impl.ActiveInfoDto;
 import com.cactusvilleage.server.challenge.web.dto.response.impl.AllInfoDto;
 import com.cactusvilleage.server.global.exception.BusinessLogicException;
@@ -18,8 +19,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -136,6 +142,22 @@ public class ChallengeService {
 
             return new ResponseEntity<>(new SingleResponseDto<>(activeInfo), HttpStatus.OK);
         }
+    }
+
+    public ResponseEntity getMessage() {
+        DelegationData data = new DelegationData(challengeRepository);
+        data.validateChallenge();
+
+        try {
+            File file = ResourceUtils.getFile(ResourceUtils.CLASSPATH_URL_PREFIX + "water.txt");
+            List<String> lines = Files.readAllLines(file.toPath());
+            int index = new Random().nextInt(lines.size());
+            String text = lines.get(index);
+            return new ResponseEntity<>(new SingleResponseDto<>(new WateringResponseDto(text)), HttpStatus.OK);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 

@@ -49,6 +49,6 @@ public class ChallengeController {
 
     @GetMapping("/water")
     public ResponseEntity sendMessage() {
-        return new ResponseEntity<>(HttpStatus.OK);
+        return challengeService.getMessage();
     }
 }
