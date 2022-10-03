@@ -15,7 +15,5 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class ServerApplication {
     public static void main(String[] args) {
         SpringApplication.run(ServerApplication.class, args);
-        int number = (int)(((double) 3 / 7) * 100);
-        System.out.println("number = " + number);
     }
 }
