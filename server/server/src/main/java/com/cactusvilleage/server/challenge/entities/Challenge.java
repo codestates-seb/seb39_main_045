@@ -43,9 +43,6 @@ public class Challenge extends Auditable {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @Column(columnDefinition = "TINYINT", length = 1)
-    private boolean batch;
-
     @Builder
     public Challenge(ChallengeType challengeType, int targetDate, int targetTime) {
         this.challengeType = challengeType;
