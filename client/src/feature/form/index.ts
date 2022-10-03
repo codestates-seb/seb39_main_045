@@ -16,10 +16,10 @@ interface SignupForm {
   error: string
 }
 interface EditForm {
-  username: string | null
+  username: string
   prePassword: string
   newPassword: string | null
-  isValidUserName?: boolean
+  isValidUserName: boolean
   isValidPrePassword: boolean
   isValidNewPassword?: boolean
   requestStatus: string
@@ -48,10 +48,11 @@ const initialState: IForm = {
     error: ''
   },
   edit_form: {
-    username: null,
+    username: '',
     prePassword: '',
     newPassword: null,
     isValidPrePassword: false,
+    isValidUserName: false,
     requestStatus: '',
     error: ''
   }

@@ -1,6 +1,15 @@
 import debounce from 'utils/debounce';
 import { useDispatch } from 'react-redux';
-import { setSignupEmail, setSignupUsername, setSignupPassword, setSignupEmailValidity, setSignupPasswordValidity, setSignupUsernameValidity } from 'feature/form';
+import {
+  setSignupEmail,
+  setSignupUsername,
+  setSignupPassword,
+  setSignupEmailValidity,
+  setSignupPasswordValidity,
+  setSignupUsernameValidity,
+  setSignupRequestStatus,
+  setSignupError
+} from 'feature/form';
 import { emailValidate, userNameValidate, passwordValidate } from 'utils/validates';
 
 const handleDebouncedChange = () => {
@@ -14,7 +23,10 @@ const handleDebouncedChange = () => {
   const debouncedPasswordValidate = debounce((value) => dispatch(setSignupPasswordValidity(passwordValidate(value))));
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(setSignupRequestStatus(''));
+    dispatch(setSignupError(''));
     const { id, value } = e.currentTarget;
+
     switch (id) {
       case 'email':
         debouncedSetEmail(value);
