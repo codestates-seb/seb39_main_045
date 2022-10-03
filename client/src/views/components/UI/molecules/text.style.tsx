@@ -29,6 +29,12 @@ const Error = styled.div`
   margin: 10px;
 `;
 
+const Status = styled.div`
+  text-align: center;
+  color: skyblue;
+  margin: 10px;
+`;
+
 export const Title = {
   Main: Title24,
   Sub: Title20,
@@ -38,5 +44,6 @@ export const Title = {
 export const Content = {
   Diary,
   Check,
-  Error
+  Error,
+  Status
 };

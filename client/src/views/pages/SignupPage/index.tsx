@@ -6,9 +6,11 @@ import { useNavigate } from 'react-router-dom';
 import useSignupFlows from './useSignupFlows';
 import useSelectorTyped from 'utils/useSelectorTyped';
 import debouncingChanges from './debouncingChanges';
+import useSignupPageMounted from './useSignupPageMounted';
 
 const Signup = () => {
-  const { isValidEmail, isValidPassword, isValidUserName, error } = useSelectorTyped((state) => state.form.signup_form);
+  useSignupPageMounted();
+  const { isValidEmail, isValidPassword, isValidUserName, requestStatus, error } = useSelectorTyped((state) => state.form.signup_form);
   const navigate = useNavigate();
   const { doSignup } = useSignupFlows();
   const { onChange } = debouncingChanges();
@@ -62,6 +64,9 @@ const Signup = () => {
         <Content.Error>
           {error === '' ? '' : `가입 실패 : ${error}`}
         </Content.Error>
+        <Content.Status>
+          {requestStatus === '' ? '' : requestStatus}
+        </Content.Status>
         <AuthLoginBtn type="submit">
           가입하기
         </AuthLoginBtn>
