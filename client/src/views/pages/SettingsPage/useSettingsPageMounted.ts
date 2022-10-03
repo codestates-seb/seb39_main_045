@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { setEditUsernameValidity, setEditPrePasswordValidity, setEditNewPasswordValidity, setEditError, setEditRequestStatus } from 'feature/form';
+import { setEditUsernameValidity, setEditPrePasswordValidity, setEditError, setEditRequestStatus } from 'feature/form';
 import React from 'react';
 
 const useSettingsPageMounted = () => {
@@ -7,7 +7,6 @@ const useSettingsPageMounted = () => {
   React.useEffect(() => {
     dispatch(setEditUsernameValidity(false));
     dispatch(setEditPrePasswordValidity(false));
-    dispatch(setEditNewPasswordValidity(false));
     dispatch(setEditError(''));
     dispatch(setEditRequestStatus(''));
   }, []);

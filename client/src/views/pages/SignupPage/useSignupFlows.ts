@@ -10,12 +10,11 @@ const useSignupFlows = () => {
   const { email, username, password, isValidEmail, isValidPassword, isValidUserName } = useSelectorTyped((state) => state.form.signup_form);
 
   const doSignup = async () => {
-    dispatch(setSignupRequestStatus('처리중입니다...'));
     if (!isValidEmail || !isValidPassword || !isValidUserName) {
-      dispatch(setSignupRequestStatus(''));
       dispatch(setSignupError('입력 정보를 확인해주세요.'));
       return false;
     }
+    dispatch(setSignupRequestStatus('처리중입니다...'));
     const { data, status } = await postSignup({ email, username, password });
     if (status < 300) {
       dispatch(setSignupRequestStatus('가입되었습니다! 3초 후 로그인 페이지로 이동합니다.'));

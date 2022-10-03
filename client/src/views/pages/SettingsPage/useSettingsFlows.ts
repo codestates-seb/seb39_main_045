@@ -6,27 +6,19 @@ import { EditInfo } from 'types/userTypes';
 import { useDispatch } from 'react-redux';
 
 const useSettingsFlows = () => {
-  const originName = useSelectorTyped(state => state.user.userInfo.username);
   const dispatch = useDispatch();
   const { username, prePassword, newPassword, isValidUserName, isValidPrePassword, isValidNewPassword } = useSelectorTyped((state) => state.form.edit_form);
 
-  if (username.length === 0) {
-    dispatch(setEditUsernameValidity(true));
-  }
-  if (newPassword?.length === 0) {
+  if (newPassword?.length === 0 || newPassword === null) {
     dispatch(setEditNewPasswordValidity(true));
   }
 
-  const inputData: EditInfo = { prePassword };
-  if (username !== originName && username.length > 0) {
-    inputData.username = username;
-  }
-  if (newPassword !== null) {
+  const inputData: EditInfo = { username, prePassword };
+  if (typeof newPassword === 'string' && newPassword.length > 0) {
     inputData.newPassword = newPassword;
   }
 
   const doEditInfo = async () => {
-    dispatch(setEditRequestStatus('처리중입니다...'));
     if (!isValidPrePassword) {
       dispatch(setEditError('기존 비밀번호를 확인해주세요'));
       return false;
@@ -39,6 +31,7 @@ const useSettingsFlows = () => {
       dispatch(setEditError('비밀번호 조건을 확인해주세요'));
       return false;
     } else {
+      dispatch(setEditRequestStatus('처리중입니다...'));
       const { data, status } = await patchEditInfo({ ...inputData });
       if (status < 300) {
         dispatch(setEditRequestStatus('변경되었습니다.'));
