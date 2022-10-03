@@ -9,7 +9,6 @@ import lombok.ToString;
 import java.util.ArrayList;
 import java.util.List;
 
-@ToString
 @Getter
 @NoArgsConstructor
 public class AllInfoDto implements ChallengeInfoResponseDto {
