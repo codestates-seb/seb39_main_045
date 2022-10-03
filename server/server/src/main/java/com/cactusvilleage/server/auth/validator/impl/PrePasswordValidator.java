@@ -24,7 +24,6 @@ public class PrePasswordValidator implements ConstraintValidator<PrePasswordRequ
                 .orElseThrow(() -> new BusinessLogicException(MEMBER_NOT_FOUND));
         ProviderType providerType = member.getProviderType();
         return (value != null && providerType.equals(CACTUS) && !value.isEmpty())
-                || (providerType.equals(KAKAO) && value != null)
-                || (providerType.equals(GOOGLE) && value != null);
+                || providerType.equals(KAKAO) || providerType.equals(GOOGLE);
     }
 }
