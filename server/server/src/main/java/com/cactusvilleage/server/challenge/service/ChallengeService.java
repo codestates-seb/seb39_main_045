@@ -7,18 +7,23 @@ import com.cactusvilleage.server.challenge.delegation.DelegationData;
 import com.cactusvilleage.server.challenge.entities.Challenge;
 import com.cactusvilleage.server.challenge.repository.ChallengeRepository;
 import com.cactusvilleage.server.challenge.web.dto.request.EnrollDto;
-import com.cactusvilleage.server.challenge.web.dto.response.ActiveChallengeResponseDto;
+import com.cactusvilleage.server.challenge.web.dto.response.ChallengeInfoResponseDto;
 import com.cactusvilleage.server.challenge.web.dto.response.EnrollResponseDto;
+import com.cactusvilleage.server.challenge.web.dto.response.impl.ActiveInfoDto;
+import com.cactusvilleage.server.challenge.web.dto.response.impl.AllInfoDto;
 import com.cactusvilleage.server.global.exception.BusinessLogicException;
+import com.cactusvilleage.server.global.response.SingleResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-import static com.cactusvilleage.server.challenge.entities.Status.DELETED;
-import static com.cactusvilleage.server.challenge.entities.Status.IN_PROGRESS;
+import static com.cactusvilleage.server.challenge.entities.Status.*;
 import static com.cactusvilleage.server.global.exception.ExceptionCode.CHALLENGE_TARGET_TIME_NOT_NULL;
 import static com.cactusvilleage.server.global.exception.ExceptionCode.ENROLL_CHALLENGE_CANNOT_BE_DUPLICATED;
 
@@ -77,29 +82,71 @@ public class ChallengeService {
         challengeRepository.save(challenge);
     }
 
-    public ActiveChallengeResponseDto getRecords(String active) {
+    public ResponseEntity getRecords(String active) {
         if (active == null) {
-            //전체 챌
+            List<Challenge> all = challengeRepository.findAllByMemberId(SecurityUtil.getCurrentMemberId());
+            List<Challenge> done = all.stream()
+                    .filter(challenge -> challenge.getStatus().equals(SUCCESS) || challenge.getStatus().equals(FAIL))
+                    .collect(Collectors.toList());
+
+            if (done.isEmpty()) {
+                AllInfoDto allInfo = AllInfoDto.builder()
+                        .totalDate(0)
+                        .totalChall(0)
+                        .challenges(null)
+                        .build();
+
+                return new ResponseEntity<>(new SingleResponseDto<>(allInfo), HttpStatus.OK);
+            }
+
+            int totalDate = done.stream()
+                    .map(Challenge::getHistories)
+                    .map(List::size)
+                    .mapToInt(i -> i)
+                    .sum();
+
+            AllInfoDto allInfo = AllInfoDto.builder()
+                    .totalDate(totalDate)
+                    .totalChall(done.size())
+                    .challenges(done.stream()
+                            .map(cEntity -> AllInfoDto.Challenges.builder()
+                                    .index(cEntity.getUuid().toString())
+                                    .success(cEntity.getStatus().equals(SUCCESS))
+                                    .type(cEntity.getChallengeType().toString().toLowerCase())
+                                    .targetDate(cEntity.getTargetDate())
+                                    .targetTime(cEntity.getTargetTime())
+                                    .histories(setHistoryInfo(cEntity))
+                                    .build())
+                            .collect(Collectors.toList())
+                    )
+                    .build();
+
+            return new ResponseEntity<>(new SingleResponseDto<>(allInfo), HttpStatus.OK);
+
         } else {
-            //액티브 챌
             DelegationData data = new DelegationData(challengeRepository);
             Challenge challenge = data.validateChallenge();
 
-            return ActiveChallengeResponseDto.builder()
+            ActiveInfoDto activeInfo = ActiveInfoDto.builder()
                     .challengeType(challenge.getChallengeType().toString().toLowerCase())
                     .targetDate(challenge.getTargetDate())
-                    .progress(((int) ((double) challenge.getHistories().size() / challenge.getTargetDate()) * 100))
-                    .histories(challenge.getHistories().stream()
-                            .map(origin -> {
-                                return ActiveChallengeResponseDto.Histories.builder()
-                                        .day(origin.getId().intValue())
-                                        .contents(origin.getContents())
-                                        .time(origin.getTime())
-                                        .build();
-                            })
-                            .collect(Collectors.toList()))
+                    .progress((int) ((double) challenge.getHistories().size() / challenge.getTargetDate() * 100))
+                    .histories(setHistoryInfo(challenge))
                     .build();
+
+            return new ResponseEntity<>(new SingleResponseDto<>(activeInfo), HttpStatus.OK);
         }
-        return null;
+    }
+
+    private List<ChallengeInfoResponseDto.Histories> setHistoryInfo(Challenge challenge) {
+        AtomicInteger index = new AtomicInteger(1);
+
+        return challenge.getHistories().stream()
+                .map(origin -> ActiveInfoDto.Histories.builder()
+                        .day(index.getAndIncrement())
+                        .contents(origin.getContents())
+                        .time(origin.getTime())
+                        .build())
+                .collect(Collectors.toList());
     }
 }
