@@ -18,7 +18,7 @@ import javax.validation.Valid;
 
 
 @RestController
-@RequestMapping("/api/v1/challenges")
+@RequestMapping("/api/v2/challenges")
 @RequiredArgsConstructor
 @Validated
 @Slf4j

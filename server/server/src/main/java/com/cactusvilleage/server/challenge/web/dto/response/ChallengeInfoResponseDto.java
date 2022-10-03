@@ -9,12 +9,14 @@ public interface ChallengeInfoResponseDto {
     @NoArgsConstructor
     class Histories {
         private int day;
+        private String createdAt;
         private String contents;
         private String time;
 
         @Builder
-        public Histories(int day, String contents, String time) {
+        public Histories(int day, String createdAt, String contents, String time) {
             this.day = day;
+            this.createdAt = createdAt;
             this.contents = contents;
             this.time = time;
         }

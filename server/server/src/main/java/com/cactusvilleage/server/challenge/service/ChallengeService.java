@@ -111,6 +111,7 @@ public class ChallengeService {
                     .challenges(done.stream()
                             .map(cEntity -> AllInfoDto.Challenges.builder()
                                     .index(cEntity.getUuid().toString())
+                                    .createdAt(cEntity.getCreatedAt().toLocalDate().toString())
                                     .success(cEntity.getStatus().equals(SUCCESS))
                                     .type(cEntity.getChallengeType().toString().toLowerCase())
                                     .targetDate(cEntity.getTargetDate())
@@ -131,6 +132,7 @@ public class ChallengeService {
                     .challengeType(challenge.getChallengeType().toString().toLowerCase())
                     .targetDate(challenge.getTargetDate())
                     .progress((int) ((double) challenge.getHistories().size() / challenge.getTargetDate() * 100))
+                    .createdAt(challenge.getCreatedAt().toLocalDate().toString())
                     .histories(setHistoryInfo(challenge))
                     .build();
 
@@ -144,6 +146,7 @@ public class ChallengeService {
         return challenge.getHistories().stream()
                 .map(origin -> ActiveInfoDto.Histories.builder()
                         .day(index.getAndIncrement())
+                        .createdAt(origin.getCreatedAt().toLocalDate().toString())
                         .contents(origin.getContents())
                         .time(origin.getTime())
                         .build())
