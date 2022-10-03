@@ -18,7 +18,7 @@ const SelectModal = ({ setIsOpen }: DefaultProps) => {
   const [isInputOpen, setIsInputOpen] = React.useState(false);
   const dispatch = useDispatch();
   const challenge = useSelector(
-    (state: RootState) => state.challChoose.challenge_form
+    (state: RootState) => state.chall.challenge_form
   );
   const { challengeType } = useSelector(
     (state: RootState) => state.user.userInfo

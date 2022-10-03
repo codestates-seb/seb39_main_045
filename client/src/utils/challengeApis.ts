@@ -1,12 +1,12 @@
-import { instance } from './axiosInstance';
+import { instance, instanceV2 } from './axiosInstance';
 import { DefaultChalls, ExtendChalls } from 'types/challengePageTypes';
 const getNowChall = async () =>
-  await instance
+  await instanceV2
     .get('/challenges?active=true')
     .then((data) => data)
     .catch((err) => err.response);
 const getTotalChall = async () =>
-  await instance
+  await instanceV2
     .get('/challenges')
     .then((data) => data)
     .catch((err) => err.response);
@@ -19,22 +19,32 @@ const postChall = async (
   status: string,
   challData: DefaultChalls | ExtendChalls
 ) =>
-  await instance
+  await instanceV2
     .post(`/challenges?type=${status}`, challData)
     .then((data) => data)
     .catch((err) => err.response);
-const postTodayChall = async (challData: any) =>
+const postTodayStudy = async (challData: FormData) =>
+  await instance
+    .post('/histories', challData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    .then((data) => data)
+    .catch((err) => err.response);
+
+const postTodayChall = async (challData: { time: Date } | { text: string }) =>
   await instance
     .post('/histories', challData)
     .then((data) => data)
     .catch((err) => err.response);
 const getWater = async () =>
-  await instance
+  await instanceV2
     .get('/challenges/water')
     .then((data) => data)
     .catch((err) => err.response);
 const deleteChall = async () =>
-  await instance
+  await instanceV2
     .delete('/challenges')
     .then((data) => data)
     .catch((err) => err.response);
@@ -44,6 +54,7 @@ export {
   getTotalChall,
   getRanking,
   postChall,
+  postTodayStudy,
   postTodayChall,
   getWater,
   deleteChall

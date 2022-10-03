@@ -5,8 +5,17 @@ interface Challenge {
   targetTime: number
   isValid: boolean
 }
+interface Thanks {
+  text: string
+}
+interface Study {
+  image: string
+  time: number
+}
 interface ChallengeForm {
   challenge_form: Challenge
+  thanks_form: Thanks
+  study_form: Study
 }
 const initialChallenge = {
   challengeType: 'none',
@@ -14,13 +23,21 @@ const initialChallenge = {
   targetTime: 0,
   isValid: false
 };
-
+const initialThanks = {
+  text: ''
+};
+const initialStudy = {
+  image: '',
+  time: 0
+};
 const initialState: ChallengeForm = {
-  challenge_form: initialChallenge
+  challenge_form: initialChallenge,
+  thanks_form: initialThanks,
+  study_form: initialStudy
 };
 
 export const challFormSlice = createSlice({
-  name: 'challChoose',
+  name: 'chall',
   initialState,
   reducers: {
     setChall: (
@@ -61,9 +78,42 @@ export const challFormSlice = createSlice({
     },
     clearChooseForm: (state) => {
       state.challenge_form = initialChallenge;
+    },
+    setThanksText: (state, { payload }: PayloadAction<Thanks>) => {
+      state.thanks_form = {
+        ...state.thanks_form,
+        ...payload
+      };
+    },
+    clearThanksText: (state) => {
+      state.thanks_form = initialThanks;
+    },
+    setStudyImage: (
+      state,
+      { payload }: PayloadAction<Pick<Study, 'image'>>
+    ) => {
+      state.study_form = {
+        ...state.study_form,
+        image: payload.image
+      };
+    },
+    setStudyTime: (state, { payload }: PayloadAction<Pick<Study, 'time'>>) => {
+      state.study_form = {
+        ...state.study_form,
+        time: payload.time
+      };
     }
   }
 });
-export const { setChall, setDate, setTime, setIsValid, clearChooseForm } =
-  challFormSlice.actions;
+export const {
+  setChall,
+  setDate,
+  setTime,
+  setIsValid,
+  clearChooseForm,
+  setThanksText,
+  clearThanksText,
+  setStudyImage,
+  setStudyTime
+} = challFormSlice.actions;
 export default challFormSlice.reducer;

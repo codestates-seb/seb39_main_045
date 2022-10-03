@@ -22,7 +22,7 @@ const challSubmit = async (
 
 const challVerify = () => {
   const { challengeType, targetDate, targetTime } = useSelector(
-    (state: RootState) => state.challChoose.challenge_form
+    (state: RootState) => state.chall.challenge_form
   );
   const dispatch = useDispatch();
   const verifyForm = () => {

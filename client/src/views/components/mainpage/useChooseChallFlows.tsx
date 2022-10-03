@@ -5,7 +5,7 @@ import challVerify from './challVerify';
 const useChooseChallFlows = () => {
   const dispatch = useDispatch();
   const { isValid, challengeType, targetDate, targetTime } = useSelector(
-    (state: RootState) => state.challChoose.challenge_form
+    (state: RootState) => state.chall.challenge_form
   );
   // challVerify();
   const challSubmit = async (): Promise<void> => {
