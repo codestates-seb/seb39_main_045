@@ -236,11 +236,11 @@ public class ChallengeService {
                 }
                 return rankers;
             } else {
-                List<RankingResponseDto.Rankers> validRankers = getValidRankers(collect, collect.size(), rankers);
+                List<RankingResponseDto.Rankers> validRankers = getValidRankers(collect, collect.size(), new ArrayList<>());
                 int rank = validRankers.size();
 
-                for (int i = 0; i <= index - rankers.size(); i++) {
-                    if (validRankers.size() - 1 <= i) {
+                for (int i = 0; i < index - validRankers.size(); i++) {
+                    if (validRankers.size() - 1 >= i) {
                         if (validRankers.get(i).getUsername().equals(members.get(i).getUsername())) {
                             continue;
                         }
