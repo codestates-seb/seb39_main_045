@@ -2,12 +2,11 @@ import React from 'react';
 import SadCactus from '../icons/modal/SadCactus';
 import { ModalWrapper, ModalContents } from './modal.style';
 import ModalPortal from './ModalPortal';
-import { AlertProps, AlertMsg } from '../../../types/mainPageTypes';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from 'store/store';
-import useAlertFlows from './useAlertFlows';
+import { AlertMsg } from '../../../types/mainPageTypes';
+import { useDispatch } from 'react-redux';
 
-import { setIsConfirm } from 'feature/challenge/form';
+import useAlertFlows from './useAlertFlows';
+import { setAlertOpen } from 'feature/challenge/form';
 
 const msg: AlertMsg = {
   giveup:
@@ -17,37 +16,45 @@ const msg: AlertMsg = {
     '정말 떠나실 건가요?\n탈퇴하시면 회원 정보와 함께\n지금까지의 챌린지 기록이\n 모두 삭제됩니다.'
 };
 
-const AlertModal = ({ setIsOpen, status }: AlertProps) => {
+const AlertModal = ({ status }: { status: string }) => {
   const func = useAlertFlows(status);
   const dispatch = useDispatch();
-  const { isConfirm } = useSelector(
-    (state: RootState) => state.chall.alert_modal
-  );
-  React.useEffect(() => {
-    if (isConfirm) {
-      setIsOpen(false);
-      dispatch(setIsConfirm({ isConfirm: false }));
-    }
-  }, [isConfirm]);
-
-  const handleConfirm = () => {
-    void func();
-  };
 
   return (
     <ModalPortal>
       <ModalWrapper>
-        <div onClick={() => setIsOpen(false)}></div>
+        <div
+          onClick={() =>
+            dispatch(setAlertOpen({ isOpen: false, status: 'none' }))
+          }
+        ></div>
         <ModalContents>
-          <button className="material-icons" onClick={() => setIsOpen(false)}>
+          <button
+            className="material-icons"
+            onClick={() =>
+              dispatch(setAlertOpen({ isOpen: false, status: 'none' }))
+            }
+          >
             close
           </button>
 
           <SadCactus />
           <div>{msg[status]}</div>
           <div>
-            <button onClick={handleConfirm}>확인</button>
-            <button onClick={() => setIsOpen(false)}>돌아가기</button>
+            <button
+              onClick={() => {
+                void func();
+              }}
+            >
+              확인
+            </button>
+            <button
+              onClick={() =>
+                dispatch(setAlertOpen({ isOpen: false, status: 'none' }))
+              }
+            >
+              돌아가기
+            </button>
           </div>
         </ModalContents>
       </ModalWrapper>

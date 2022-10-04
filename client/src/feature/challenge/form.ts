@@ -6,10 +6,11 @@ interface Challenge {
   isValid: boolean
 }
 interface Submit {
-  isSubmit: boolean
+  isOpen: boolean
 }
 interface Alert {
-  isConfirm: boolean
+  isOpen: boolean
+  status: string
 }
 
 interface ChallengeForm {
@@ -25,16 +26,17 @@ const initialChallenge = {
   isValid: false
 };
 
-const initialTodaySubmit: Submit = {
-  isSubmit: false
+const initialTodayOpen: Submit = {
+  isOpen: false
 };
-const initialAlertModal: Alert = {
-  isConfirm: false
+const initialAlertOpen: Alert = {
+  isOpen: false,
+  status: 'none'
 };
 const initialState: ChallengeForm = {
   challenge_form: initialChallenge,
-  form_today_submit: initialTodaySubmit,
-  alert_modal: initialAlertModal
+  form_today_submit: initialTodayOpen,
+  alert_modal: initialAlertOpen
 };
 export const challFormSlice = createSlice({
   name: 'chall',
@@ -79,11 +81,11 @@ export const challFormSlice = createSlice({
     clearChooseForm: (state) => {
       state.challenge_form = initialChallenge;
     },
-    setIsSubmit: (state, { payload }: PayloadAction<Submit>) => {
-      state.form_today_submit = { ...payload };
-    },
-    setIsConfirm: (state, { payload }: PayloadAction<Alert>) => {
+    setAlertOpen: (state, { payload }: PayloadAction<Alert>) => {
       state.alert_modal = { ...payload };
+    },
+    setTodayOpen: (state, { payload }: PayloadAction<boolean>) => {
+      state.form_today_submit.isOpen = payload;
     }
   }
 });
@@ -93,7 +95,7 @@ export const {
   setTime,
   setIsValid,
   clearChooseForm,
-  setIsSubmit,
-  setIsConfirm
+  setAlertOpen,
+  setTodayOpen
 } = challFormSlice.actions;
 export default challFormSlice.reducer;

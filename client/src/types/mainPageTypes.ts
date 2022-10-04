@@ -22,15 +22,27 @@ export interface Choose {
   challenge: string | null
   day: string | null
 }
-export interface StudyPreview {
-  files: File
-  setPicPreview: (state: string) => void
-  dispatch: Dispatch<AnyAction>
+type TodayChall = string | 'study' | 'morning' | 'thanks';
+export interface TodayEl {
+  [index: TodayChall]: JSX.Element
+  study: JSX.Element
+  morning: JSX.Element
+  thanks: JSX.Element
 }
-
-// export interface Alert {
-//   [index: string]: string
-//   alertType: AlertType
-//   alertMsg: string
-//   alertFunc: () => void
-// }
+export interface TodayTitle {
+  [index: TodayChall]: string
+  study: string
+  morning: string
+  thanks: string
+}
+type SuccessFailType = string | 'success' | 'fail';
+export interface SuccessFailMsg {
+  [index: SuccessFailType]: string
+  success: string
+  fail: string
+}
+export interface SuccessFail {
+  [index: string]: SuccessFailMsg
+  title: SuccessFailMsg
+  msg: SuccessFailMsg
+}

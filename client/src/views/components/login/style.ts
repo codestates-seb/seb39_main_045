@@ -6,7 +6,6 @@ export const AuthWrapper = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  margin-bottom: 70px;
 `;
 export const AuthTitle = styled.h2`
   text-align: center;
@@ -82,9 +81,11 @@ export const SnsLogin = styled.div`
     width: 188px;
     height: 48px;
     margin-bottom: 5px;
+    cursor: pointer;
   }
   img:last-of-type {
     filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.3));
+    cursor: pointer;
   }
 `;
 export const WayToSignup = styled.div`

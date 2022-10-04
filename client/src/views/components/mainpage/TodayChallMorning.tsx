@@ -15,9 +15,6 @@ const MorningTime = () => {
 
 const Morning = () => {
   const dispatch = useDispatch();
-  const handleSubmit = () => {
-    void morningSubmit(dispatch);
-  };
   return (
     <ModalContentDiv>
       <div className="wrapper">
@@ -25,7 +22,13 @@ const Morning = () => {
         <MorningTime />
         <div>버튼을 눌러 챌린지를 완료하세요!</div>
       </div>
-      <ModalBtn.submit onClick={handleSubmit}>챌린지 완료!</ModalBtn.submit>
+      <ModalBtn.submit
+        onClick={() => {
+          void morningSubmit(dispatch);
+        }}
+      >
+        챌린지 완료!
+      </ModalBtn.submit>
     </ModalContentDiv>
   );
 };
