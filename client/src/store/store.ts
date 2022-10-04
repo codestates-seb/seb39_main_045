@@ -1,15 +1,19 @@
 import { configureStore } from '@reduxjs/toolkit';
 import formReducer from '../feature/form';
 import userReducer from '../feature/profile/user';
-import locationSlice from '../feature/location';
+import locationReducer from '../feature/location';
 import challReducer from 'feature/challenge/form';
+import activeChallengeReducer from 'feature/challenge/activeChallenge';
+import previousChallengesReducer from 'feature/challenge/previousChallenges';
 
 export const store = configureStore({
   reducer: {
     chall: challReducer,
     user: userReducer,
-    location: locationSlice,
-    form: formReducer
+    location: locationReducer,
+    form: formReducer,
+    activeChallenge: activeChallengeReducer,
+    previousChallenges: previousChallengesReducer
   },
   devTools: true
 });

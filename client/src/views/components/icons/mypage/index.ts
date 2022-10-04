@@ -18,6 +18,7 @@ import MemoNotebook from './Notebook';
 import MemoRank from './Rank';
 import MemoCredit from './Credit';
 import MemoNoticeCactus from './NoticeCactus';
+import MemoSadCactus from './SadCactus';
 
 export const MypageIcon = {
   Day1: MemoDay1,
@@ -39,5 +40,6 @@ export const MypageIcon = {
   Notebook: MemoNotebook,
   Rank: MemoRank,
   Credit: MemoCredit,
-  NoticeCactus: MemoNoticeCactus
+  NoticeCactus: MemoNoticeCactus,
+  SadCactus: MemoSadCactus
 };

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ColumnWrapper, FlexRowMenu, HalfTapMenu, GreenContainer } from './PreviousChallenges.style';
 import { Title } from 'views/components/UI/molecules/text.style';
 import { Layout } from 'views/components/UI/Layout.style';
@@ -7,9 +7,11 @@ import PreviousHome from './Home';
 import PreviousStudy from './Study';
 import PreviousDiary from './Diary';
 import PreviousMorning from './Morning';
+import usePreviousChallenges from './usePreviousChallenges';
 
 const MyPageWrapper = () => {
-  const [currentTab, setCurrentTab] = useState('home');
+  void usePreviousChallenges();
+  const [currentTab, setCurrentTab] = React.useState<string>('home');
   const onClick = (tab: string) => {
     setCurrentTab(tab);
   };

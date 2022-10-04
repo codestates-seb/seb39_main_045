@@ -1,30 +1,26 @@
 import React from 'react';
-import { Layout } from 'views/components/UI/Layout.style';
-import { TitleIcon } from 'views/components/UI/atoms/icon.style';
-import { Title, Content } from 'views/components/UI/molecules/text.style';
+import { Center } from './PreviousChallenges.style';
+import useSelectorTyped from 'utils/useSelectorTyped';
+import { MypageIcon } from 'views/components/icons/mypage';
+import MorningItem from './MorningItem';
+import { selectMorningTypeChallenge } from 'utils/selectors';
 
 const PreviousMorning = () => {
-  const dummy = [{ day: '2022년 5월 5일', time: '2' },
-    { day: '2022년 5월 5일', time: '12' },
-    { day: '2022년 5월 5일', time: '2' },
-    { day: '2022년 5월 5일', time: '2' },
-    { day: '2022년 5월 5일', time: '2' },
-    { day: '2022년 5월 5일', time: '2' }];
+  const filteredMorning = useSelectorTyped(selectMorningTypeChallenge);
 
   return (
     <>
-    {dummy.map((el, idx) => {
-      return (
-        <Layout.ChallengeWrapper key={idx}>
-          <Title.Day>{el.day}</Title.Day>
-          <Content.Diary>
-            <TitleIcon className="material-symbols-outlined">wb_sunny</TitleIcon>
-            목표: {el.time}시
-            <div>00시 00분 0에 일어났어요</div>
-          </Content.Diary>
-        </Layout.ChallengeWrapper>
-      );
-    })}
+      {filteredMorning !== undefined && filteredMorning.length > 0
+        ? filteredMorning?.map((morning, morningIdx) => {
+          return (
+            <MorningItem key={morningIdx} morning={morning} />
+          );
+        })
+        : <Center>
+          <MypageIcon.SadCactus />
+          제출한 기록이 없어요
+        </Center>
+      }
     </>
   );
 };

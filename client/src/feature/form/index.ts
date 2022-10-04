@@ -5,7 +5,7 @@ interface LoginForm {
   isValid: boolean
 }
 
-interface SignupForm {
+export interface SignupForm {
   email: string
   username: string
   password: string
@@ -15,7 +15,7 @@ interface SignupForm {
   requestStatus: string
   error: string
 }
-interface EditForm {
+export interface EditForm {
   username: string
   prePassword: string
   newPassword: string | null

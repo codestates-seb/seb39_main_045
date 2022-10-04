@@ -1,30 +1,26 @@
 import React from 'react';
-import { Layout } from 'views/components/UI/Layout.style';
-import { Title, Content } from 'views/components/UI/molecules/text.style';
-import { TapHomeIcon } from 'views/components/UI/atoms/icon.style';
+import { Center } from './PreviousChallenges.style';
+import useSelectorTyped from 'utils/useSelectorTyped';
+import { MypageIcon } from 'views/components/icons/mypage';
+import { selectDiaryTypeChallenge } from 'utils/selectors';
+import DiaryItem from './DiaryItem';
 
 const PreviousDiary = () => {
-  const dummy = [{ day: '2022년 5월 5일', content: '오늘은 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날이다 감사합니다 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 ' },
-    { day: '2022년 5월 5일', content: '오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 ' },
-    { day: '2022년 5월 5일', content: '오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 ' },
-    { day: '2022년 5월 5일', content: '오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 ' },
-    { day: '2022년 5월 5일', content: '오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 ' },
-    { day: '2022년 5월 5일', content: '오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 오늘은 어린이날 ' }];
+  const filteredDiaries = useSelectorTyped(selectDiaryTypeChallenge);
 
   return (
     <>
-      {
-        dummy.map((el, idx) => {
+      {filteredDiaries !== undefined && filteredDiaries.length > 0
+        ? filteredDiaries?.map((diary, diaryIdx) => {
           return (
-            <Layout.ChallengeWrapper key={idx}>
-              <Title.Day>{el.day}</Title.Day>
-              <Content.Diary>
-              <TapHomeIcon className="material-symbols-outlined">notes</TapHomeIcon>
-                {el.content}
-              </Content.Diary>
-            </Layout.ChallengeWrapper>
+            <DiaryItem key={diaryIdx} diary={diary} />
           );
-        })}
+        })
+        : <Center>
+          <MypageIcon.SadCactus />
+          제출한 기록이 없어요
+        </Center>
+      }
     </>
   );
 };
