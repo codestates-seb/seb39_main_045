@@ -9,6 +9,7 @@ import com.cactusvilleage.server.challenge.repository.ChallengeRepository;
 import com.cactusvilleage.server.challenge.web.dto.request.EnrollDto;
 import com.cactusvilleage.server.challenge.web.dto.response.ChallengeInfoResponseDto;
 import com.cactusvilleage.server.challenge.web.dto.response.EnrollResponseDto;
+import com.cactusvilleage.server.challenge.web.dto.response.RankingResponseDto;
 import com.cactusvilleage.server.challenge.web.dto.response.WateringResponseDto;
 import com.cactusvilleage.server.challenge.web.dto.response.impl.ActiveInfoDto;
 import com.cactusvilleage.server.challenge.web.dto.response.impl.AllInfoDto;
@@ -165,21 +166,15 @@ public class ChallengeService {
     public void test() {
         List<Map.Entry<Member, Long>> collect = challengeRepository.findAll().stream()
                 .filter(success -> success.getStatus().equals(SUCCESS))
-//                .collect(Collectors.groupingBy(Challenge::getMember, LinkedHashMap::new, Collectors.counting()))
                 .collect(Collectors.groupingBy(Challenge::getMember, Collectors.counting()))
                 .entrySet().stream()
                 .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
                 .collect(Collectors.toList());
 
-//                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (x, y) -> y, LinkedHashMap::new))
+//        RankingResponseDto.builder()
+//                .rankings()
 
 
-        /**
-         * Map -> 멤버, 스탬프 개수
-         * 스탬프 개수로 정렬
-         */
-
-        log.info("어케 나옴? {}", collect);
     }
 
 
