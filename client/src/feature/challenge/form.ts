@@ -5,37 +5,37 @@ interface Challenge {
   targetTime: number
   isValid: boolean
 }
-interface Thanks {
-  text: string
+interface Submit {
+  isSubmit: boolean
 }
-interface Study {
-  image: string
-  time: number
+interface Alert {
+  isConfirm: boolean
 }
+
 interface ChallengeForm {
   challenge_form: Challenge
-  thanks_form: Thanks
-  study_form: Study
+  form_today_submit: Submit
+  alert_modal: Alert
 }
+
 const initialChallenge = {
   challengeType: 'none',
   targetDate: 0,
   targetTime: 0,
   isValid: false
 };
-const initialThanks = {
-  text: ''
+
+const initialTodaySubmit: Submit = {
+  isSubmit: false
 };
-const initialStudy = {
-  image: '',
-  time: 0
+const initialAlertModal: Alert = {
+  isConfirm: false
 };
 const initialState: ChallengeForm = {
   challenge_form: initialChallenge,
-  thanks_form: initialThanks,
-  study_form: initialStudy
+  form_today_submit: initialTodaySubmit,
+  alert_modal: initialAlertModal
 };
-
 export const challFormSlice = createSlice({
   name: 'chall',
   initialState,
@@ -79,29 +79,11 @@ export const challFormSlice = createSlice({
     clearChooseForm: (state) => {
       state.challenge_form = initialChallenge;
     },
-    setThanksText: (state, { payload }: PayloadAction<Thanks>) => {
-      state.thanks_form = {
-        ...state.thanks_form,
-        ...payload
-      };
+    setIsSubmit: (state, { payload }: PayloadAction<Submit>) => {
+      state.form_today_submit = { ...payload };
     },
-    clearThanksText: (state) => {
-      state.thanks_form = initialThanks;
-    },
-    setStudyImage: (
-      state,
-      { payload }: PayloadAction<Pick<Study, 'image'>>
-    ) => {
-      state.study_form = {
-        ...state.study_form,
-        image: payload.image
-      };
-    },
-    setStudyTime: (state, { payload }: PayloadAction<Pick<Study, 'time'>>) => {
-      state.study_form = {
-        ...state.study_form,
-        time: payload.time
-      };
+    setIsConfirm: (state, { payload }: PayloadAction<Alert>) => {
+      state.alert_modal = { ...payload };
     }
   }
 });
@@ -111,9 +93,7 @@ export const {
   setTime,
   setIsValid,
   clearChooseForm,
-  setThanksText,
-  clearThanksText,
-  setStudyImage,
-  setStudyTime
+  setIsSubmit,
+  setIsConfirm
 } = challFormSlice.actions;
 export default challFormSlice.reducer;

@@ -26,12 +26,10 @@ const MainCactus = () => {
   }, [loginStatus]);
 
   useEffect(() => {
-    if (user.status === 'fail') {
+    if (user.status === 'fail' || user.progress === 100) {
       setIsOpen(true);
     }
-    // setIsOpen(true);
-    console.log('성공페이지확인용');
-  }, []);
+  }, [user.status, user.progress]);
 
   return (
     <CactusWrapper>
@@ -50,7 +48,10 @@ const MainCactus = () => {
       </NavBtns>
       <Cactus percent={user.progress} />
       {isOpen && (
-        <SuccessFailModal status={user.status} setIsOpen={setIsOpen} />
+        <SuccessFailModal
+          status={user.progress === 100 ? 'success' : user.status}
+          setIsOpen={setIsOpen}
+        />
       )}
     </CactusWrapper>
   );

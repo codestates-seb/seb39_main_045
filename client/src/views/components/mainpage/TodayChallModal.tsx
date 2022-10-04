@@ -6,7 +6,9 @@ import Study from './TodayChallStudy';
 import Thanks from './TodayChallThanks';
 import Morning from './TodayChallMorning';
 import { RootState } from 'store/store';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { setIsSubmit } from 'feature/challenge/form';
 type TodayChall = string | 'study' | 'morning' | 'thanks';
 interface TodayEl {
   [index: TodayChall]: JSX.Element
@@ -20,11 +22,17 @@ const todayChall: TodayEl = {
   thanks: <Thanks />
 };
 const TodayChallModal = ({ setIsOpen, status }: TodayProps) => {
-  const { progress } = useSelector((state: RootState) => state.user.userInfo);
+  const dispatch = useDispatch();
+  const { isSubmit } = useSelector(
+    (state: RootState) => state.chall.form_today_submit
+  );
 
-  // React.useEffect(() => {
-  //   setIsOpen(false);
-  // }, [progress]);
+  React.useEffect(() => {
+    if (isSubmit) {
+      setIsOpen(false);
+      dispatch(setIsSubmit({ isSubmit: false }));
+    }
+  }, [isSubmit]);
 
   return (
     <ModalPortal>

@@ -1,27 +1,24 @@
 import React, { useState } from 'react';
 import { ModalBtn, TimeDiv, ModalContentWithPic } from './modal.style';
-import { studyPreview, studySubmit } from './todayChallFunctions';
+import { studySubmit } from './todayChallFunctions';
 import previewImg from '../../../assets/img/preview.png';
-import { useDispatch, useSelector } from 'react-redux';
-import { setStudyTime } from 'feature/challenge/form';
-import { RootState } from 'store/store';
+import { useDispatch } from 'react-redux';
 
 const Study = () => {
   const [picPreview, setPicPreview] = useState(previewImg);
-  const [file, setFile] = useState<string | File>('');
-  const { time } = useSelector((state: RootState) => state.chall.study_form);
-
   const dispatch = useDispatch();
   const handlePreview = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files !== null) {
-      void studyPreview(e.target.files[0], setPicPreview, setFile);
+    if (e.currentTarget.files !== null) {
+      setPicPreview(URL.createObjectURL(e.currentTarget.files[0]));
     }
   };
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(e.target);
-    console.log(e.target[0].files[0]);
-    void studySubmit(dispatch, file, time);
+    void studySubmit(
+      dispatch,
+      e.currentTarget.photo.files[0],
+      e.currentTarget.time.value
+    );
   };
   return (
     <ModalContentWithPic onSubmit={handleSubmit}>
@@ -36,15 +33,7 @@ const Study = () => {
       />
       <label htmlFor="time">총 공부시간</label>
       <TimeDiv>
-        <input
-          type="number"
-          min="1"
-          max="23"
-          id="time"
-          onChange={(e) =>
-            dispatch(setStudyTime({ time: Number(e.target.value) }))
-          }
-        />
+        <input type="number" min="1" max="23" id="time" />
         <span> 시간</span>
         <div className="desc">*시간 범위: 1 ~ 23시간</div>
       </TimeDiv>

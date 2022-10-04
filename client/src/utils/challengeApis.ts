@@ -33,7 +33,7 @@ const postTodayStudy = async (challData: FormData) =>
     .then((data) => data)
     .catch((err) => err.response);
 
-const postTodayChall = async (challData: { time: Date } | { text: string }) =>
+const postTodayChall = async (challData: { time: string } | { text: string }) =>
   await instance
     .post('/histories', challData)
     .then((data) => data)

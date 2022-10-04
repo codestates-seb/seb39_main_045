@@ -1,11 +1,15 @@
 import { postTodayChall, postTodayStudy } from 'utils/challengeApis';
 import { AnyAction, Dispatch } from '@reduxjs/toolkit';
 import { updateUser } from 'feature/profile/user';
-import { clearThanksText } from 'feature/challenge/form';
+import { setIsSubmit } from 'feature/challenge/form';
 const morningSubmit = async (dispatch: Dispatch<AnyAction>) => {
-  const { data, status } = await postTodayChall({ time: new Date() });
+  // new Date().toLocaleString('ko-KR');
+  const { data, status } = await postTodayChall({
+    time: new Date().toLocaleString('ko-KR')
+  });
   if (status < 300) {
-    console.log(data);
+    dispatch(updateUser(data.data));
+    dispatch(setIsSubmit({ isSubmit: true }));
   } else if (status === 401) {
     alert('일일 챌린지 등록에 실패했습니다');
   } else if (status === 403) {
@@ -24,7 +28,7 @@ const thanksSubmit = async (dispatch: Dispatch<AnyAction>, text: string) => {
   if (status < 300) {
     console.log(data);
     dispatch(updateUser(data.data));
-    dispatch(clearThanksText());
+    dispatch(setIsSubmit({ isSubmit: true }));
   } else if (status === 401) {
     alert('일일 챌린지 등록에 실패했습니다');
   } else if (status === 403) {
@@ -33,33 +37,13 @@ const thanksSubmit = async (dispatch: Dispatch<AnyAction>, text: string) => {
     alert('챌린지 등록 중에 예상치 못한 에러가 발생했습니다');
   }
 };
-const studyPreview = (
-  files: File,
-  setPicPreview: (state: string) => void,
-  setFile: (state: string | File) => void
-) => {
-  // dispatch: Dispatch<AnyAction>
-  if (files.size > 1000000) {
-    alert('사진 용량이 너무 큽니다');
-    return;
-  }
-  // console.log(JSON.stringify(files));
-  // dispatch(setStudyImage({image:files }));
-  const reader = new FileReader();
-  reader.readAsDataURL(files);
-  reader.onload = () => {
-    if (typeof reader.result === 'string') {
-      setPicPreview(reader.result);
-    }
-  };
-  setFile(files);
-};
+
 const studySubmit = async (
   dispatch: Dispatch<AnyAction>,
-  image: File | string,
+  image: File | undefined,
   time: number
 ) => {
-  if (image === '' || time === 0) {
+  if (image === undefined || time === 0) {
     alert('사진과 시간 기입은 필수입니다');
     return;
   }
@@ -76,6 +60,7 @@ const studySubmit = async (
   const { data, status } = await postTodayStudy(form);
   if (status < 300) {
     dispatch(updateUser(data.data));
+    dispatch(setIsSubmit({ isSubmit: true }));
   } else if (status === 401) {
     alert('일일 챌린지 등록에 실패했습니다');
   } else if (status === 403) {
@@ -84,4 +69,4 @@ const studySubmit = async (
     alert('챌린지 등록 중에 예상치 못한 에러가 발생했습니다');
   }
 };
-export { thanksSubmit, morningSubmit, studyPreview, studySubmit };
+export { thanksSubmit, morningSubmit, studySubmit };
