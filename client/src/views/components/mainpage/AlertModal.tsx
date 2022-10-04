@@ -3,9 +3,11 @@ import SadCactus from '../icons/modal/SadCactus';
 import { ModalWrapper, ModalContents } from './modal.style';
 import ModalPortal from './ModalPortal';
 import { AlertProps, AlertMsg } from '../../../types/mainPageTypes';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'store/store';
 import useAlertFlows from './useAlertFlows';
+
+import { setIsConfirm } from 'feature/challenge/form';
 
 const msg: AlertMsg = {
   giveup:
@@ -17,19 +19,21 @@ const msg: AlertMsg = {
 
 const AlertModal = ({ setIsOpen, status }: AlertProps) => {
   const func = useAlertFlows(status);
-  const { loginStatus } = useSelector((state: RootState) => state.user);
-  const { progress } = useSelector((state: RootState) => state.user.userInfo);
+  const dispatch = useDispatch();
+  const { isConfirm } = useSelector(
+    (state: RootState) => state.chall.alert_modal
+  );
   React.useEffect(() => {
-    if (!loginStatus) setIsOpen(false);
-  }, [loginStatus]);
+    if (isConfirm) {
+      setIsOpen(false);
+      dispatch(setIsConfirm({ isConfirm: false }));
+    }
+  }, [isConfirm]);
+
   const handleConfirm = () => {
     void func();
   };
-  React.useEffect(() => {
-    if (status === 'giveup' && progress === -365) {
-      setIsOpen(false);
-    }
-  }, [progress]);
+
   return (
     <ModalPortal>
       <ModalWrapper>

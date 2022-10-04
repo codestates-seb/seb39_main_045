@@ -5,9 +5,19 @@ interface Challenge {
   targetTime: number
   isValid: boolean
 }
+interface Submit {
+  isSubmit: boolean
+}
+interface Alert {
+  isConfirm: boolean
+}
+
 interface ChallengeForm {
   challenge_form: Challenge
+  form_today_submit: Submit
+  alert_modal: Alert
 }
+
 const initialChallenge = {
   challengeType: 'none',
   targetDate: 0,
@@ -15,12 +25,19 @@ const initialChallenge = {
   isValid: false
 };
 
-const initialState: ChallengeForm = {
-  challenge_form: initialChallenge
+const initialTodaySubmit: Submit = {
+  isSubmit: false
 };
-
+const initialAlertModal: Alert = {
+  isConfirm: false
+};
+const initialState: ChallengeForm = {
+  challenge_form: initialChallenge,
+  form_today_submit: initialTodaySubmit,
+  alert_modal: initialAlertModal
+};
 export const challFormSlice = createSlice({
-  name: 'challChoose',
+  name: 'chall',
   initialState,
   reducers: {
     setChall: (
@@ -61,9 +78,22 @@ export const challFormSlice = createSlice({
     },
     clearChooseForm: (state) => {
       state.challenge_form = initialChallenge;
+    },
+    setIsSubmit: (state, { payload }: PayloadAction<Submit>) => {
+      state.form_today_submit = { ...payload };
+    },
+    setIsConfirm: (state, { payload }: PayloadAction<Alert>) => {
+      state.alert_modal = { ...payload };
     }
   }
 });
-export const { setChall, setDate, setTime, setIsValid, clearChooseForm } =
-  challFormSlice.actions;
+export const {
+  setChall,
+  setDate,
+  setTime,
+  setIsValid,
+  clearChooseForm,
+  setIsSubmit,
+  setIsConfirm
+} = challFormSlice.actions;
 export default challFormSlice.reducer;

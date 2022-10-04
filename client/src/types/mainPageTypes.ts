@@ -1,3 +1,5 @@
+import { AnyAction, Dispatch } from '@reduxjs/toolkit';
+
 export interface AlertProps extends DefaultProps {
   status: string
 }
@@ -7,9 +9,10 @@ export interface TodayProps extends DefaultProps {
 export interface DefaultProps {
   setIsOpen: (state: boolean) => void
 }
+type AlertType = string | 'giveup' | 'logout' | 'resign';
 
 export interface AlertMsg {
-  [index: string]: string
+  [index: AlertType]: string
   giveup: string
   logout: string
   resign: string
@@ -19,7 +22,11 @@ export interface Choose {
   challenge: string | null
   day: string | null
 }
-type AlertType = string | 'giveup' | 'logout' | 'resign';
+export interface StudyPreview {
+  files: File
+  setPicPreview: (state: string) => void
+  dispatch: Dispatch<AnyAction>
+}
 
 // export interface Alert {
 //   [index: string]: string

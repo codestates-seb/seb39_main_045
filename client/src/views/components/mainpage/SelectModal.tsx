@@ -11,17 +11,17 @@ import {
   ModalBtn,
   SelectModalContent
 } from './modal.style';
-import { setChall, setDate } from 'feature/challenge/form';
+import { setChall, setDate, setIsSubmit } from 'feature/challenge/form';
 import challVerify from './challVerify';
 
 const SelectModal = ({ setIsOpen }: DefaultProps) => {
   const [isInputOpen, setIsInputOpen] = React.useState(false);
   const dispatch = useDispatch();
   const challenge = useSelector(
-    (state: RootState) => state.challChoose.challenge_form
+    (state: RootState) => state.chall.challenge_form
   );
-  const { challengeType } = useSelector(
-    (state: RootState) => state.user.userInfo
+  const { isSubmit } = useSelector(
+    (state: RootState) => state.chall.form_today_submit
   );
   const verifyForm = challVerify();
   React.useEffect(() => {
@@ -35,8 +35,11 @@ const SelectModal = ({ setIsOpen }: DefaultProps) => {
     }
   }, [challenge.challengeType]);
   React.useEffect(() => {
-    if (challengeType !== null) setIsOpen(false);
-  }, [challengeType]);
+    if (isSubmit) {
+      setIsOpen(false);
+      dispatch(setIsSubmit({ isSubmit: false }));
+    }
+  }, [isSubmit]);
 
   const handleSubmit = () => {
     void verifyForm();
