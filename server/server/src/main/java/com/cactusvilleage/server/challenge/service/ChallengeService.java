@@ -28,7 +28,6 @@ import java.nio.file.Files;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static com.cactusvilleage.server.challenge.entities.Status.*;
 import static com.cactusvilleage.server.global.exception.ExceptionCode.CHALLENGE_TARGET_TIME_NOT_NULL;
@@ -163,7 +162,7 @@ public class ChallengeService {
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    public void test() {
+    public ResponseEntity getRankInfo() {
         List<Map.Entry<Member, Long>> collect = challengeRepository.findAll().stream()
                 .filter(success -> success.getStatus().equals(SUCCESS))
                 .collect(Collectors.groupingBy(Challenge::getMember, Collectors.counting()))
@@ -171,12 +170,77 @@ public class ChallengeService {
                 .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
                 .collect(Collectors.toList());
 
-//        RankingResponseDto.builder()
-//                .rankings()
+        Member member = memberService.findMember(SecurityUtil.getCurrentMemberId());
 
+        RankingResponseDto response = RankingResponseDto.builder()
+                .rankers(getRankers(collect, 3))
+                .myRanking(getMyRank(collect, member))
+                .myStamps(getMyStamps(member))
+                .build();
 
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
+    private Integer getRank(List<Map.Entry<Member, Long>> collect, Member member) {
+        Optional<Long> optionalRank = collect.stream()
+                .filter(map -> map.getKey().equals(member))
+                .findFirst()
+                .map(Map.Entry::getValue);
+
+        if (optionalRank.isEmpty()) {
+            return collect.size() + 1;
+        } else {
+            Map.Entry<Member, Long> me = collect.stream()
+                    .filter(key -> key.getKey().equals(member))
+                    .findFirst()
+                    .orElseThrow();
+
+            return collect.indexOf(me) + 1;
+        }
+    }
+
+    private List<RankingResponseDto.Rankers> getRankers(List<Map.Entry<Member, Long>> collect, int index) {
+        List<RankingResponseDto.Rankers> rankers = new ArrayList<>();
+        for (int i = 0; i < index; i++) {
+            Member member = collect.get(i).getKey();
+            RankingResponseDto.Rankers ranker = RankingResponseDto.Rankers.builder()
+                    .rank(getRank(collect, member))
+                    .username(member.getUsername())
+                    .stamps(collect.get(i).getValue().intValue())
+                    .build();
+            rankers.add(ranker);
+        }
+
+        return rankers;
+    }
+
+    private RankingResponseDto.MyRanking getMyRank(List<Map.Entry<Member, Long>> collect, Member member) {
+        Optional<RankingResponseDto.Rankers> any = getRankers(collect, 3).stream()
+                .filter(ranker -> ranker.getUsername().equals(member.getUsername()))
+                .findAny();
+
+        if (any.isPresent()) {
+            return null;
+        } else {
+            return RankingResponseDto.MyRanking.builder()
+                    .rank(getRank(collect, member))
+                    .username(member.getUsername())
+                    .stamps(getMyStamps(member).size())
+                    .build();
+        }
+    }
+
+    private List<Integer> getMyStamps(Member member) {
+        List<Integer> stamps = member.getChallenges().stream()
+                .map(Challenge::getStamp)
+                .filter(stamp -> stamp != 0)
+                .collect(Collectors.toList());
+        if (stamps.isEmpty()) {
+            return new ArrayList<>();
+        } else {
+            return stamps;
+        }
+    }
 
     private List<ChallengeInfoResponseDto.Histories> setHistoryInfo(Challenge challenge) {
         AtomicInteger index = new AtomicInteger(1);

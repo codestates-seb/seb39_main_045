@@ -4,21 +4,49 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 @Getter
 @NoArgsConstructor
 public class RankingResponseDto {
-    private List<LinkedHashMap<Long, String>> rankings;
-    private Map<Long, String> myRanking;
-    private List<Integer> stamps;
+    private List<RankingResponseDto.Rankers> rankers;
+    private RankingResponseDto.MyRanking myRanking;
+    private List<Integer> myStamps;
 
     @Builder
-    public RankingResponseDto(List<LinkedHashMap<Long, String>> rankings, Map<Long, String> myRanking, List<Integer> stamps) {
-        this.rankings = rankings;
+    public RankingResponseDto(List<Rankers> rankers, MyRanking myRanking, List<Integer> myStamps) {
+        this.rankers = rankers;
         this.myRanking = myRanking;
-        this.stamps = stamps;
+        this.myStamps = myStamps;
+    }
+
+    @Getter
+    @NoArgsConstructor
+    public static class Rankers {
+        private int rank;
+        private String username;
+        private int stamps;
+
+        @Builder
+        public Rankers(int rank, String username, int stamps) {
+            this.rank = rank;
+            this.username = username;
+            this.stamps = stamps;
+        }
+    }
+
+    @Getter
+    @NoArgsConstructor
+    public static class MyRanking {
+        private int rank;
+        private String username;
+        private int stamps;
+
+        @Builder
+        public MyRanking(int rank, String username, int stamps) {
+            this.rank = rank;
+            this.username = username;
+            this.stamps = stamps;
+        }
     }
 }
