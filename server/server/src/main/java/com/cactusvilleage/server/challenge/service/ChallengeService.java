@@ -41,6 +41,7 @@ public class ChallengeService {
 
     private final MemberService memberService;
     private final ChallengeRepository challengeRepository;
+    private final static int RANKER_SIZE = 3;
 
     public EnrollResponseDto enrollChallenge(EnrollDto enrollDto, String type) {
 
@@ -173,7 +174,7 @@ public class ChallengeService {
         Member member = memberService.findMember(SecurityUtil.getCurrentMemberId());
 
         RankingResponseDto response = RankingResponseDto.builder()
-                .rankers(getRankers(collect, 3))
+                .rankers(getRankers(collect, RANKER_SIZE))
                 .myRanking(getMyRank(collect, member))
                 .myStamps(getMyStamps(member))
                 .build();
@@ -225,7 +226,7 @@ public class ChallengeService {
     }
 
     private RankingResponseDto.MyRanking getMyRank(List<Map.Entry<Member, Long>> collect, Member member) {
-        Optional<RankingResponseDto.Rankers> any = getRankers(collect, 3).stream()
+        Optional<RankingResponseDto.Rankers> any = getRankers(collect, RANKER_SIZE).stream()
                 .filter(ranker -> ranker.getUsername().equals(member.getUsername()))
                 .findAny();
 
