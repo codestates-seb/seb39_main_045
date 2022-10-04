@@ -3,9 +3,11 @@ import { TapHome, TapMenu, TapUserInfo } from './mypage.style';
 import { MypageIcon } from 'views/components/icons/mypage';
 import { useNavigate } from 'react-router-dom';
 import { Layout } from 'views/components/UI/Layout.style';
+import useSelectorTyped from 'utils/useSelectorTyped';
 
 const Mypage = () => {
   const navigate = useNavigate();
+  const { username, email } = useSelectorTyped(state => state.user.userInfo);
 
   return (
     <Layout.PageContainer>
@@ -13,9 +15,9 @@ const Mypage = () => {
         마이페이지
       </TapHome>
       <TapUserInfo role='button' onClick={() => navigate('/settings')}>
-        <div>인장님, 안녕하세요!</div>
+        <div>{username}님, 안녕하세요!</div>
         <MypageIcon.Arrow />
-        <div>abc@naver.com</div>
+        <div>{email}</div>
       </TapUserInfo>
       <TapMenu role='button' onClick={() => navigate('/active-challenges')}>
         <MypageIcon.Garden />

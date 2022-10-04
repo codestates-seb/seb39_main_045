@@ -28,6 +28,9 @@ const MypageSettings = () => {
       <MyPageNav />
       <Title.Main>내 정보 수정</Title.Main>
       <Form onSubmit={handleEditInfo}>
+        <Content.Check>
+          📢 카카오/구글로 가입하신 회원은 현재 페이지에서 비밀번호 변경이 불가능합니다.
+        </Content.Check>
         <AuthLabel htmlFor="username">닉네임</AuthLabel>
         <AuthInput
           id="username"
