@@ -17,14 +17,21 @@ import com.cactusvilleage.server.global.exception.BusinessLogicException;
 import com.cactusvilleage.server.global.response.SingleResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -42,6 +49,8 @@ public class ChallengeService {
     private final MemberService memberService;
     private final ChallengeRepository challengeRepository;
     private final static int RANKER_SIZE = 3;
+    @Value("classpath:/static/water.txt")
+    private Resource fileResource;
 
     public EnrollResponseDto enrollChallenge(EnrollDto enrollDto, String type) {
 
@@ -152,15 +161,21 @@ public class ChallengeService {
         data.validateChallenge();
 
         try {
-            File file = ResourceUtils.getFile(ResourceUtils.FILE_URL_PREFIX + "static/water.txt");
-            List<String> lines = Files.readAllLines(file.toPath());
+//            File file = ResourceUtils.getFile(ResourceUtils.CLASSPATH_URL_PREFIX + "static/water.txt");
+//            List<String> lines = Files.readAllLines(file.toPath());
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(fileResource.getInputStream()));
+
+            List<String> lines = br.lines().collect(Collectors.toList());
             int index = new Random().nextInt(lines.size());
             String text = lines.get(index);
+
             return new ResponseEntity<>(new SingleResponseDto<>(new WateringResponseDto(text)), HttpStatus.OK);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(new SingleResponseDto<>(new WateringResponseDto("윤진님이 이걸 안 보시면 좋겠다 ^^~")), HttpStatus.OK);
     }
 
     public ResponseEntity getRankInfo() {
