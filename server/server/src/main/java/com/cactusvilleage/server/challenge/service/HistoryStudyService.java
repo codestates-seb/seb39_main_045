@@ -70,6 +70,16 @@ public class HistoryStudyService {
             }
         }
 
+        // 진행도 계산
+        int progress = (int) ((double) challenge.getHistories().size() / challenge.getTargetDate() * 100);
+
+        // 챌린지 완료(진행도 100)하면 status Success, 도장 찍기 1~8 랜덤 숫자
+        if (progress == 100) {
+            challenge.setStatus(SUCCESS);
+            challenge.setStamp(new Random().nextInt(8) + 1);
+            historyRepository.save(history);
+        }
+
         //json 문자열을 int로 변환
         int time = Integer.parseInt(studyDto.getTime());
 
@@ -78,16 +88,10 @@ public class HistoryStudyService {
             challenge.setStatus(IN_PROGRESS);
         } else {
             challenge.setStatus(FAIL);
+            progress = -1;
         }
 
-        // 진행도 계산
-        int progress = (int) ((double) challenge.getHistories().size() / challenge.getTargetDate() * 100);
-
-        // 챌린지 완료(진행도 100)하면 status Success, 도장 찍기 1~8 랜덤 숫자
-        if (progress == 100) {
-            challenge.setStatus(SUCCESS);
-            challenge.setStamp(new Random().nextInt(8) + 1);
-        }
+        historyRepository.save(history);
 
         // controller responseDto 타입 반환을 위해 매핑
         return HistoryResponseDto.builder()
