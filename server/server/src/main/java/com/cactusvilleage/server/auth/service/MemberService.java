@@ -54,7 +54,7 @@ public class MemberService {
     private final ChallengeRepository challengeRepository;
     private final AuthenticationManagerBuilder authBuilder;
     private final PasswordEncoder passwordEncoder;
-    private final EmailSender awsSesUtils;
+    private final EmailSender awsSesSender;
     private final CookieUtil jwtCookieUtil;
 
     public void signup(PlainSignupDto signupDto) {
@@ -126,7 +126,7 @@ public class MemberService {
         context.setVariable("username", recoveryDto.getUsername());
         context.setVariable("tempPassword", tempPassword);
 
-        awsSesUtils.singleEmailRequest(email, "선인장 키우기의 임시 비밀번호입니다", "recovery", context);
+        awsSesSender.singleEmailRequest(email, "선인장 키우기의 임시 비밀번호입니다", "recovery", context);
     }
 
     public void delete(HttpServletRequest request, HttpServletResponse response) {

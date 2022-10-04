@@ -7,31 +7,25 @@ import com.cactusvilleage.server.challenge.delegation.DelegationData;
 import com.cactusvilleage.server.challenge.entities.Challenge;
 import com.cactusvilleage.server.challenge.repository.ChallengeRepository;
 import com.cactusvilleage.server.challenge.web.dto.request.EnrollDto;
-import com.cactusvilleage.server.challenge.web.dto.response.ChallengeInfoResponseDto;
+import com.cactusvilleage.server.challenge.web.dto.response.HistoryInfoResponseDto;
 import com.cactusvilleage.server.challenge.web.dto.response.EnrollResponseDto;
 import com.cactusvilleage.server.challenge.web.dto.response.RankingResponseDto;
 import com.cactusvilleage.server.challenge.web.dto.response.WateringResponseDto;
-import com.cactusvilleage.server.challenge.web.dto.response.impl.ActiveInfoDto;
-import com.cactusvilleage.server.challenge.web.dto.response.impl.AllInfoDto;
+import com.cactusvilleage.server.challenge.web.dto.response.ActiveInfoDto;
+import com.cactusvilleage.server.challenge.web.dto.response.AllInfoDto;
 import com.cactusvilleage.server.global.exception.BusinessLogicException;
 import com.cactusvilleage.server.global.response.SingleResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ResourceUtils;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -268,11 +262,11 @@ public class ChallengeService {
         }
     }
 
-    private List<ChallengeInfoResponseDto.Histories> setHistoryInfo(Challenge challenge) {
+    private List<HistoryInfoResponseDto> setHistoryInfo(Challenge challenge) {
         AtomicInteger index = new AtomicInteger(1);
 
         return challenge.getHistories().stream()
-                .map(origin -> ActiveInfoDto.Histories.builder()
+                .map(origin -> HistoryInfoResponseDto.builder()
                         .day(index.getAndIncrement())
                         .createdAt(origin.getCreatedAt().toLocalDate().toString())
                         .contents(origin.getContents())
