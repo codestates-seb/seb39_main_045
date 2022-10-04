@@ -25,9 +25,9 @@ const STAMP_COLOR = [
   }
 ] as const;
 
-const iconMap = Object.entries(Stamp).map(([key, Component]) => <Component key={`${key}_stamp_key`} />);
+const iconMap: JSX.Element[] = Object.entries(Stamp).map(([key, Component]) => <Component key={`${key}_stamp_key`} />);
 
-const getRandomNumber = () => {
+const getRandomNumber = (): number => {
   return Math.floor(Math.random() * 5);
 };
 
@@ -37,13 +37,13 @@ const StampList = () => {
   // {dummy.stamps.length.toString() + '개'}
   return (
     <StampContiner>
-    {dummy.stamps.map((stamp, idx) => {
-      return (
-        <IconWrapper key={idx} bgColor={STAMP_COLOR[nums[idx]].bgColor} borderColor={STAMP_COLOR[nums[idx]].borderColor}>
-          {iconMap[stamp - 1]}
-        </IconWrapper>
-      );
-    })}
+      {dummy.stamps.map((stamp, idx) => {
+        return (
+          <IconWrapper key={idx} bgColor={STAMP_COLOR[nums[idx]].bgColor} borderColor={STAMP_COLOR[nums[idx]].borderColor}>
+            {iconMap[stamp - 1]}
+          </IconWrapper>
+        );
+      })}
     </StampContiner>
   );
 };

@@ -25,7 +25,7 @@ const Signup = () => {
     <AuthWrapper>
       <AuthTitle>회원가입</AuthTitle>
       <AuthForm onSubmit={handleSignup}>
-        <Content.Check onClick={() => navigate('/login')}>
+        <Content.Check role="button" onClick={() => navigate('/login')}>
           <Icon.LeftArrow />
           로그인
         </Content.Check>

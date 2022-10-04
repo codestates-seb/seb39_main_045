@@ -21,7 +21,7 @@ const InitialChallenge: ActiveChallenge = {
   targetDate: 0,
   progress: 0,
   histories: [],
-  requestStatus: null,
+  requestStatus: '',
   stringProgress: '0'
 };
 
@@ -39,7 +39,7 @@ export const activeChallengeSlice = createSlice({
     setTypeToKorean: (state, { payload }: PayloadAction<string | null>) => {
       state.challengeType = payload;
     },
-    setProgressToString: (state, { payload }: PayloadAction<string | string>) => {
+    setProgressToString: (state, { payload }: PayloadAction<string>) => {
       state.stringProgress = payload;
     }
   }
