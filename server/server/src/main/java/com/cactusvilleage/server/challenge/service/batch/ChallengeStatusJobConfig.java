@@ -28,7 +28,7 @@ import static com.cactusvilleage.server.challenge.entities.Status.*;
 @Slf4j
 @RequiredArgsConstructor
 @Configuration
-public class ChallengeStatusJob {
+public class ChallengeStatusJobConfig {
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
     private final ChallengeRepository challengeRepository;
