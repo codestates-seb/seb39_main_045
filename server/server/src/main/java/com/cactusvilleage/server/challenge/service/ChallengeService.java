@@ -3,7 +3,7 @@ package com.cactusvilleage.server.challenge.service;
 import com.cactusvilleage.server.auth.entities.Member;
 import com.cactusvilleage.server.auth.service.MemberService;
 import com.cactusvilleage.server.auth.util.SecurityUtil;
-import com.cactusvilleage.server.challenge.delegation.DelegationData;
+import com.cactusvilleage.server.challenge.validator.ChallengeValidator;
 import com.cactusvilleage.server.challenge.entities.Challenge;
 import com.cactusvilleage.server.challenge.repository.ChallengeRepository;
 import com.cactusvilleage.server.challenge.web.dto.request.EnrollDto;
@@ -18,20 +18,14 @@ import com.cactusvilleage.server.global.response.SingleResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ResourceUtils;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -90,8 +84,8 @@ public class ChallengeService {
     }
 
     public void delete() {
-        DelegationData data = new DelegationData(challengeRepository);
-        Challenge challenge = data.validateChallenge();
+        ChallengeValidator data = new ChallengeValidator(challengeRepository);
+        Challenge challenge = data.validateActiveChallenge();
 
         challenge.setStatus(DELETED);
 
@@ -141,8 +135,8 @@ public class ChallengeService {
             return new ResponseEntity<>(new SingleResponseDto<>(allInfo), HttpStatus.OK);
 
         } else {
-            DelegationData data = new DelegationData(challengeRepository);
-            Challenge challenge = data.validateChallenge();
+            ChallengeValidator data = new ChallengeValidator(challengeRepository);
+            Challenge challenge = data.validateActiveChallenge();
 
             ActiveInfoDto activeInfo = ActiveInfoDto.builder()
                     .challengeType(challenge.getChallengeType().toString().toLowerCase())
@@ -157,8 +151,8 @@ public class ChallengeService {
     }
 
     public ResponseEntity getMessage() {
-        DelegationData data = new DelegationData(challengeRepository);
-        data.validateChallenge();
+        ChallengeValidator data = new ChallengeValidator(challengeRepository);
+        data.validateActiveChallenge();
 
         try {
 //            File file = ResourceUtils.getFile(ResourceUtils.CLASSPATH_URL_PREFIX + "static/water.txt");

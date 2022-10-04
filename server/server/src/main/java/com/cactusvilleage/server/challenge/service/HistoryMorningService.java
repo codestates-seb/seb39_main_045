@@ -1,7 +1,7 @@
 package com.cactusvilleage.server.challenge.service;
 
 
-import com.cactusvilleage.server.challenge.delegation.DelegationData;
+import com.cactusvilleage.server.challenge.validator.ChallengeValidator;
 import com.cactusvilleage.server.challenge.entities.Challenge;
 import com.cactusvilleage.server.challenge.entities.History;
 import com.cactusvilleage.server.challenge.repository.ChallengeRepository;
@@ -30,9 +30,9 @@ public class HistoryMorningService {
 
     public HistoryResponseDto uploadMorningHistory(MorningDto morningDto) {
 
-        DelegationData data = new DelegationData(challengeRepository);
+        ChallengeValidator data = new ChallengeValidator(challengeRepository);
 
-        Challenge challenge = data.validateChallenge();
+        Challenge challenge = data.validateActiveChallenge();
 
         Challenge.ChallengeType type = challenge.getChallengeType();
 
