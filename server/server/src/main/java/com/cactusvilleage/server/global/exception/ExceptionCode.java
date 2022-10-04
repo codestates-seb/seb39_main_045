@@ -23,6 +23,8 @@ public enum ExceptionCode {
     CHALLENGE_NOT_FOUND(404, "진행 중인 챌린지를 찾을 수 없습니다"),
     CHALLENGE_TYPE_MISS_MATCH(400, "챌린지 타입이 맞지 않습니다"),
     CHALLENGE_TARGET_TIME_NOT_NULL(400, "목표 시간은 필수 값 입니다"),
+
+    ENROLL_HISTORY_CANNOT_BE_DUPLICATED(400, "히스토리는 하루에 한 번만 등록 가능합니다"),
     NOT_SUPPORTED_PROVIDER(400, "지원하지 않는 소셜 경로입니다.");
 
     @Getter
