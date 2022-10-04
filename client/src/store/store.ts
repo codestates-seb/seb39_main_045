@@ -5,6 +5,7 @@ import locationReducer from '../feature/location';
 import challReducer from 'feature/challenge/form';
 import activeChallengeReducer from 'feature/challenge/activeChallenge';
 import previousChallengesReducer from 'feature/challenge/previousChallenges';
+import rankingReducer from 'feature/ranking';
 
 export const store = configureStore({
   reducer: {
@@ -13,7 +14,8 @@ export const store = configureStore({
     location: locationReducer,
     form: formReducer,
     activeChallenge: activeChallengeReducer,
-    previousChallenges: previousChallengesReducer
+    previousChallenges: previousChallengesReducer,
+    rankingReducer
   },
   devTools: true
 });

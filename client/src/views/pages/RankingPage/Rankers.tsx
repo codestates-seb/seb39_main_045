@@ -2,6 +2,8 @@ import React from 'react';
 import { RankBox } from './RankingsPage.style';
 import { MypageIcon } from 'views/components/icons/mypage';
 import { Layout } from 'views/components/UI/Layout.style';
+import useSelectorTyped from 'utils/useSelectorTyped';
+import type { IRankings, Ranker } from 'feature/ranking';
 
 const iconMap = [
   <MypageIcon.GoldMedal key="goldMedal" />,
@@ -9,29 +11,42 @@ const iconMap = [
   <MypageIcon.BronzeMedal key="bronzeMedal" />
 ];
 
-const dummy = [{ username: '이름', stamps: 35 }, { username: '이름', stamps: 35 }, { username: '이름', stamps: 35 }];
-
 const Rankers = () => {
+  const { requestStatus, rankers, myRanking }: Partial<IRankings> = useSelectorTyped(state =>
+    state.rankingReducer);
+
   return (
     <Layout.ContentBox>
       <Layout.AlignCenter>
-        {iconMap.map((el, idx) => {
-          return (
-            <RankBox key={idx}>
-              {iconMap[idx]}
-              <div>{dummy[idx].username}</div>
-              <div>{dummy[idx].stamps}</div>
-            </RankBox>
-          );
-        })}
-        <MypageIcon.More />
-        <RankBox>
-          <div>50위</div>
-          <div>나</div>
-          <div>5</div>
-        </RankBox>
+        {
+          requestStatus !== null
+            ? requestStatus
+            : rankers.map((ranker: Ranker, rankIdx: number) => {
+              const { rank, username, stamps }: Ranker = ranker;
+
+              return (
+                <RankBox key={rankIdx}>
+                  {iconMap[rank]}
+                  <div>{username}</div>
+                  <div>{stamps}</div>
+                </RankBox>
+              );
+            })}
+        {
+          myRanking !== null
+            ? (
+              <>
+                <MypageIcon.More />
+                <RankBox>
+                  <div>{myRanking.rank}위</div>
+                  <div>{myRanking.username}</div>
+                  <div>{myRanking.stamps}</div>
+                </RankBox>
+              </>)
+            : null
+        }
       </Layout.AlignCenter>
-  </Layout.ContentBox>
+    </Layout.ContentBox>
   );
 };
 
