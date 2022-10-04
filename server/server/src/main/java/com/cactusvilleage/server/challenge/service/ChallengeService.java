@@ -220,13 +220,13 @@ public class ChallengeService {
         }
     }
 
-    private List<RankingResponseDto.Rankers> getRankers(List<Map.Entry<Member, Long>> collect, int index) {
+    private List<RankingResponseDto.Rankers> getRankers(List<Map.Entry<Member, Long>> collect, int rankerSize) {
         List<RankingResponseDto.Rankers> rankers = new ArrayList<>();
 
-        if (collect.size() < index) {
+        if (collect.size() < rankerSize) {
             List<Member> members = memberRepository.findAllByDeleted(false, Sort.by(Sort.Direction.ASC, "id"));
             if (collect.isEmpty()) {
-                for (int i = 0; i < index; i++) {
+                for (int i = 0; i < rankerSize; i++) {
                     RankingResponseDto.Rankers ranker = RankingResponseDto.Rankers.builder()
                             .rank(i + 1)
                             .username(members.get(i).getUsername())
@@ -237,26 +237,24 @@ public class ChallengeService {
                 return rankers;
             } else {
                 List<RankingResponseDto.Rankers> validRankers = getValidRankers(collect, collect.size(), new ArrayList<>());
-                int rank = validRankers.size();
+                int index = 0;
 
-                for (int i = 0; i < index - validRankers.size(); i++) {
-                    if (validRankers.size() - 1 >= i) {
-                        if (validRankers.get(i).getUsername().equals(members.get(i).getUsername())) {
-                            continue;
-                        }
+                while (validRankers.size() != rankerSize) {
+                    if (!validRankers.get(index).getUsername().equals(members.get(index).getUsername())) {
+                        RankingResponseDto.Rankers ranker = RankingResponseDto.Rankers.builder()
+                                .rank(validRankers.size() + 1)
+                                .username(members.get(index).getUsername())
+                                .stamps(0)
+                                .build();
+                        validRankers.add(ranker);
                     }
-
-                    RankingResponseDto.Rankers ranker = RankingResponseDto.Rankers.builder()
-                            .rank(rank + (i+1))
-                            .username(members.get(i).getUsername())
-                            .stamps(0)
-                            .build();
-                    validRankers.add(ranker);
+                    index++;
                 }
+
                 return validRankers;
             }
         } else {
-            return getValidRankers(collect, index, rankers);
+            return getValidRankers(collect, rankerSize, rankers);
         }
     }
 
