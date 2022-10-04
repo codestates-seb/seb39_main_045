@@ -35,7 +35,7 @@ public interface CookieUtil {
         String domain;
 
         //로컬 테스트 설정
-        if (host.equals("localhost:8080") || host.equals("localhost:3000")) {
+        if (host.equals("localhost:8080")) {
             domain = "localhost";
         } else {
             domain = "cactus-villeage.com";
