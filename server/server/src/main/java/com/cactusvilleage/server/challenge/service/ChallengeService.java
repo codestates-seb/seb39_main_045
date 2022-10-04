@@ -238,9 +238,12 @@ public class ChallengeService {
                 rankers = getValidRankers(collect, collect.size(), rankers);
 
                 for (int i = 0; i <= index - rankers.size(); i++) {
-                    if (rankers.size() - 1 <= i && rankers.get(i).getUsername().equals(members.get(i).getUsername())) {
-                        continue;
+                    if (rankers.size() - 1 <= i) {
+                        if (rankers.get(i).getUsername().equals(members.get(i).getUsername())) {
+                            continue;
+                        }
                     }
+
                     RankingResponseDto.Rankers ranker = RankingResponseDto.Rankers.builder()
                             .rank(i + 1)
                             .username(members.get(i).getUsername())
