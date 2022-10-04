@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/v1/morning")
+@RequestMapping("/api/v1/histories")
 @RequiredArgsConstructor
 public class MorningController {
 
     private final HistoryMorningService historyMorningService;
 
-    @PostMapping
+    @PostMapping(path = "/morning")
     public ResponseEntity uploadMorning(@RequestBody @Valid MorningDto morningDto) {
 
         HistoryResponseDto response = historyMorningService.uploadMorningHistory(morningDto);
