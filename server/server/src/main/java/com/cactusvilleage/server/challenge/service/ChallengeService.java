@@ -225,7 +225,6 @@ public class ChallengeService {
 
         if (collect.size() < index) {
             List<Member> members = memberRepository.findAllByDeleted(false, Sort.by(Sort.Direction.ASC, "id"));
-            log.info("?????? {}", members);
             if (collect.isEmpty()) {
                 for (int i = 0; i < index; i++) {
                     RankingResponseDto.Rankers ranker = RankingResponseDto.Rankers.builder()
@@ -237,7 +236,22 @@ public class ChallengeService {
                 }
             } else {
                 rankers = getValidRankers(collect, collect.size(), rankers);
-                for (int i = 0; i <= index - rankers.size(); i++) {
+
+                Member member = memberService.findMember(SecurityUtil.getCurrentMemberId());
+
+                List<RankingResponseDto.Rankers> rankerMe = rankers.stream()
+                        .filter(ranker -> ranker.getUsername().equals(member.getUsername()))
+                        .collect(Collectors.toList());
+
+                int endIndex;
+
+                if (!rankerMe.isEmpty()) {
+                    endIndex = index - rankers.size() - 1;
+                } else {
+                    endIndex = index - rankers.size();
+                }
+
+                for (int i = 0; i <= endIndex; i++) {
                     RankingResponseDto.Rankers ranker = RankingResponseDto.Rankers.builder()
                             .rank(i + 1)
                             .username(members.get(i).getUsername())
