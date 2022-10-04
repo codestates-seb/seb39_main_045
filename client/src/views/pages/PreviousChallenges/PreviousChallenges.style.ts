@@ -41,7 +41,11 @@ export const ImageBox = styled.img`
 `;
 
 export const Center = styled(Layout.FlexColumn)`
-align-items: center;
-justify-content: center;
-height: 100%;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  z-index: 5;
+  & :first-child {
+    margin-bottom: 12px;
+  }
 `;
