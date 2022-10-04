@@ -1,4 +1,4 @@
-package com.cactusvilleage.server.auth.email;
+package com.cactusvilleage.server.global.infra.email;
 
 import org.springframework.stereotype.Component;
 import org.thymeleaf.context.Context;

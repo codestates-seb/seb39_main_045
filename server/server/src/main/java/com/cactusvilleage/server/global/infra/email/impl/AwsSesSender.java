@@ -1,6 +1,6 @@
-package com.cactusvilleage.server.auth.email.impl;
+package com.cactusvilleage.server.global.infra.email.impl;
 
-import com.cactusvilleage.server.auth.email.EmailSender;
+import com.cactusvilleage.server.global.infra.email.EmailSender;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.context.Context;
@@ -10,7 +10,7 @@ import software.amazon.awssdk.services.ses.model.*;
 
 @Component
 @AllArgsConstructor
-public class AwsSesUtils implements EmailSender {
+public class AwsSesSender implements EmailSender {
     private final SesAsyncClient asyncClient;
     private final SpringTemplateEngine templateEngine;
 
