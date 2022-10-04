@@ -62,6 +62,16 @@ public class HistoryMorningService {
             }
         }
 
+        // 진행도 계산
+        int progress = (int) ((double) challenge.getHistories().size() / challenge.getTargetDate() * 100);
+
+        // 챌린지 완료(진행도 100)하면 status Success, 도장 찍기 1~8 랜덤 숫자
+        if (progress == 100) {
+            challenge.setStatus(SUCCESS);
+            challenge.setStamp(new Random().nextInt(8) + 1);
+            historyRepository.save(history);
+        }
+
         // 클라이언트가 morningDto의 time을 localDateTime을 가공한 String 값으로 온다 (e.g "4:46:41 PM")
         // 시간 부분만 남길 수 있게 처리
         String strTime = morningDto.getTime();
@@ -76,16 +86,10 @@ public class HistoryMorningService {
             challenge.setStatus(IN_PROGRESS);
         } else {
             challenge.setStatus(FAIL);
+            progress = -1;
         }
 
-        // 진행도 계산
-        int progress = (int) ((double) challenge.getHistories().size() / challenge.getTargetDate() * 100);
-
-        // 챌린지 완료(진행도 100)하면 status Success, 도장 찍기 1~8 랜덤 숫자
-        if (progress == 100) {
-            challenge.setStatus(SUCCESS);
-            challenge.setStamp(new Random().nextInt(8) + 1);
-        }
+        historyRepository.save(history);
 
         return HistoryResponseDto.builder()
                 .progress(progress)
