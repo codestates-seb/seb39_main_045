@@ -26,7 +26,7 @@ const MainCactus = () => {
   }, [loginStatus]);
 
   useEffect(() => {
-    if (user.status === 'fail' || user.progress === 100) {
+    if (user.status === 'fail' || user.status === 'success') {
       setIsOpen(true);
     }
   }, [user.status, user.progress]);
@@ -48,10 +48,7 @@ const MainCactus = () => {
       </NavBtns>
       <Cactus percent={user.progress} />
       {isOpen && (
-        <SuccessFailModal
-          status={user.progress === 100 ? 'success' : user.status}
-          setIsOpen={setIsOpen}
-        />
+        <SuccessFailModal status={user.status} setIsOpen={setIsOpen} />
       )}
     </CactusWrapper>
   );
