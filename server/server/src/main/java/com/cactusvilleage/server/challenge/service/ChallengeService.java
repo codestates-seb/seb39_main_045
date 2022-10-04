@@ -240,13 +240,15 @@ public class ChallengeService {
                 int index = 0;
 
                 while (validRankers.size() != rankerSize) {
-                    if (!validRankers.get(index).getUsername().equals(members.get(index).getUsername())) {
-                        RankingResponseDto.Rankers ranker = RankingResponseDto.Rankers.builder()
-                                .rank(validRankers.size() + 1)
-                                .username(members.get(index).getUsername())
-                                .stamps(0)
-                                .build();
-                        validRankers.add(ranker);
+                    if (validRankers.size() - 1 >= index) {
+                        if (!validRankers.get(index).getUsername().equals(members.get(index).getUsername())) {
+                            RankingResponseDto.Rankers ranker = RankingResponseDto.Rankers.builder()
+                                    .rank(validRankers.size() + 1)
+                                    .username(members.get(index).getUsername())
+                                    .stamps(0)
+                                    .build();
+                            validRankers.add(ranker);
+                        }
                     }
                     index++;
                 }
