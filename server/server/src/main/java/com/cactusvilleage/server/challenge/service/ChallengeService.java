@@ -234,25 +234,27 @@ public class ChallengeService {
                             .build();
                     rankers.add(ranker);
                 }
+                return rankers;
             } else {
-                rankers = getValidRankers(collect, collect.size(), rankers);
+                List<RankingResponseDto.Rankers> validRankers = getValidRankers(collect, collect.size(), rankers);
+                int rank = validRankers.size();
 
                 for (int i = 0; i <= index - rankers.size(); i++) {
-                    if (rankers.size() - 1 <= i) {
-                        if (rankers.get(i).getUsername().equals(members.get(i).getUsername())) {
+                    if (validRankers.size() - 1 <= i) {
+                        if (validRankers.get(i).getUsername().equals(members.get(i).getUsername())) {
                             continue;
                         }
                     }
 
                     RankingResponseDto.Rankers ranker = RankingResponseDto.Rankers.builder()
-                            .rank(i + 1)
+                            .rank(rank + (i+1))
                             .username(members.get(i).getUsername())
                             .stamps(0)
                             .build();
-                    rankers.add(ranker);
+                    validRankers.add(ranker);
                 }
+                return validRankers;
             }
-            return rankers;
         } else {
             return getValidRankers(collect, index, rankers);
         }
