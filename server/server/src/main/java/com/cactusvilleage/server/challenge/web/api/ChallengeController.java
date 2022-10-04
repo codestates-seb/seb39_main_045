@@ -51,4 +51,9 @@ public class ChallengeController {
     public ResponseEntity sendMessage() {
         return challengeService.getMessage();
     }
+
+    @GetMapping("/test")
+    public void test() {
+        challengeService.test();
+    }
 }

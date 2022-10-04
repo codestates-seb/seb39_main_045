@@ -24,10 +24,10 @@ import org.springframework.util.ResourceUtils;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.cactusvilleage.server.challenge.entities.Status.*;
 import static com.cactusvilleage.server.global.exception.ExceptionCode.CHALLENGE_TARGET_TIME_NOT_NULL;
@@ -160,6 +160,26 @@ public class ChallengeService {
             e.printStackTrace();
         }
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    public void test() {
+        List<Map.Entry<Member, Long>> collect = challengeRepository.findAll().stream()
+                .filter(success -> success.getStatus().equals(SUCCESS))
+//                .collect(Collectors.groupingBy(Challenge::getMember, LinkedHashMap::new, Collectors.counting()))
+                .collect(Collectors.groupingBy(Challenge::getMember, Collectors.counting()))
+                .entrySet().stream()
+                .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
+                .collect(Collectors.toList());
+
+//                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (x, y) -> y, LinkedHashMap::new))
+
+
+        /**
+         * Map -> 멤버, 스탬프 개수
+         * 스탬프 개수로 정렬
+         */
+
+        log.info("어케 나옴? {}", collect);
     }
 
 

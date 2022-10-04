@@ -1,6 +1,6 @@
 package com.cactusvilleage.server.challenge.service.scheduler;
 
-import com.cactusvilleage.server.challenge.service.batch.ChallengeStatusJob;
+import com.cactusvilleage.server.challenge.service.batch.ChallengeStatusJobConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.JobParameter;
@@ -21,7 +21,7 @@ import java.util.Map;
 @Configuration
 public class ChallengeStatusJobScheduler {
     private final JobLauncher jobLauncher;
-    private final ChallengeStatusJob challengeStatusJob;
+    private final ChallengeStatusJobConfig challengeStatusJobConfig;
 
     @Scheduled(cron = "0 0 0 * * *", zone = "Asia/Seoul")
     public void challengeStatusJobSchedule() {
@@ -30,7 +30,7 @@ public class ChallengeStatusJobScheduler {
         JobParameters parameters = new JobParameters(jobParameterMap);
 
         try {
-            jobLauncher.run(challengeStatusJob.challengeStatusJob(), parameters);
+            jobLauncher.run(challengeStatusJobConfig.challengeStatusJob(), parameters);
         } catch (JobExecutionAlreadyRunningException | JobRestartException | JobInstanceAlreadyCompleteException |
                  JobParametersInvalidException e) {
             log.info("스케줄링에서 먼가 터졌습니다", e);
