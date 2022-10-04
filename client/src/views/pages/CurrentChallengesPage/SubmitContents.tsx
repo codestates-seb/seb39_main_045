@@ -16,7 +16,7 @@ const SubmitContents = () => {
   const { histories }: IHistoriesProps = useSelectorTyped(state => state.activeChallenge);
 
   return (
-    <Layout.ScrollContainer>
+    <Layout.FlexColumn>
       {histories.map((history, historyIdx) => {
         const { day, createdAt, contents, time }: SubmitHistories = history;
         return (
@@ -24,12 +24,12 @@ const SubmitContents = () => {
             {iconMap[day - 1]}
             <div>{createdAt}</div>
             <div>{contents}</div>
-            <div>{time}</div>
+            <div>{time !== null ? `제출 시간: ${time}` : null}</div>
             {/* <img src='https://yt3.ggpht.com/jNJ6FV83KdlgTHor9nqmxPQi6zDMhXZJl9wBNWHVgixbUUZikFg_TGrxJ9CK7ZXW_2zzWvmi1g=s176-c-k-c0x00ffffff-no-rj'></img> */}
           </NowChallengeGrid>
         );
       })}
-    </Layout.ScrollContainer>
+    </Layout.FlexColumn>
   );
 };
 
