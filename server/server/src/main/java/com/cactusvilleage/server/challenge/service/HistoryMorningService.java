@@ -71,8 +71,8 @@ public class HistoryMorningService {
         //json 문자열을 int로 변환
         int time = Integer.parseInt(timeString);
 
-        // 일일 챌린지 도전과제 -> 실제 도전한 시간을 챌린지 목표 시간과 비교했을 때 같거나 크면 성공(진행중), 그게 아니면 실패
-        if ((time >= challenge.getTargetTime())) {
+        // 일일 모닝 챌린지 도전과제
+        if ((time < challenge.getTargetTime())) {
             challenge.setStatus(IN_PROGRESS);
         } else {
             challenge.setStatus(FAIL);
