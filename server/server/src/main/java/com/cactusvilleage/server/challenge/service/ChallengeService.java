@@ -155,9 +155,6 @@ public class ChallengeService {
         data.validateActiveChallenge();
 
         try {
-//            File file = ResourceUtils.getFile(ResourceUtils.CLASSPATH_URL_PREFIX + "static/water.txt");
-//            List<String> lines = Files.readAllLines(file.toPath());
-
             BufferedReader br = new BufferedReader(new InputStreamReader(fileResource.getInputStream()));
 
             List<String> lines = br.lines().collect(Collectors.toList());
@@ -168,8 +165,8 @@ public class ChallengeService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        return new ResponseEntity<>(new SingleResponseDto<>(new WateringResponseDto("윤진님이 이걸 안 보시면 좋겠다 ^^~")), HttpStatus.OK);
+        //default message when can't read static file
+        return new ResponseEntity<>(new SingleResponseDto<>(new WateringResponseDto("선인장 키우기와 함께 해주셔서 감사합니다! 앞으로도 화이팅!")), HttpStatus.OK);
     }
 
     public ResponseEntity getRankInfo() {
