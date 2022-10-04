@@ -2,6 +2,7 @@ package com.cactusvilleage.server.challenge.service.batch;
 
 import com.cactusvilleage.server.challenge.entities.Challenge;
 import com.cactusvilleage.server.challenge.repository.ChallengeRepository;
+import com.cactusvilleage.server.global.infra.webhook.impl.DiscordWebHookSender;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
@@ -33,14 +34,14 @@ public class ChallengeStatusJobConfig {
     private final StepBuilderFactory stepBuilderFactory;
     private final ChallengeRepository challengeRepository;
     private final EntityManagerFactory entityManagerFactory;
-    private final DiscordWebHookService discordWebHookService;
+    private final DiscordWebHookSender discordWebHookSender;
     private static final int CHUNK_SIZE = 5;
 
 
     @Bean
     public Job challengeStatusJob() {
         return jobBuilderFactory.get("challengeStatusJob")
-                .listener(new JobLoggerListener(discordWebHookService))
+                .listener(new JobLoggerListener(discordWebHookSender))
                 .incrementer(new RunIdIncrementer())
                 .start(challengeStatusStep())
                 .preventRestart()
