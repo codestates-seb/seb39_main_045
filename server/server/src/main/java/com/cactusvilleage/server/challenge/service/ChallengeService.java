@@ -9,6 +9,7 @@ import com.cactusvilleage.server.challenge.repository.ChallengeRepository;
 import com.cactusvilleage.server.challenge.web.dto.request.EnrollDto;
 import com.cactusvilleage.server.challenge.web.dto.response.ChallengeInfoResponseDto;
 import com.cactusvilleage.server.challenge.web.dto.response.EnrollResponseDto;
+import com.cactusvilleage.server.challenge.web.dto.response.RankingResponseDto;
 import com.cactusvilleage.server.challenge.web.dto.response.WateringResponseDto;
 import com.cactusvilleage.server.challenge.web.dto.response.impl.ActiveInfoDto;
 import com.cactusvilleage.server.challenge.web.dto.response.impl.AllInfoDto;
@@ -24,8 +25,7 @@ import org.springframework.util.ResourceUtils;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -162,6 +162,85 @@ public class ChallengeService {
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    public ResponseEntity getRankInfo() {
+        List<Map.Entry<Member, Long>> collect = challengeRepository.findAll().stream()
+                .filter(success -> success.getStatus().equals(SUCCESS))
+                .collect(Collectors.groupingBy(Challenge::getMember, Collectors.counting()))
+                .entrySet().stream()
+                .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
+                .collect(Collectors.toList());
+
+        Member member = memberService.findMember(SecurityUtil.getCurrentMemberId());
+
+        RankingResponseDto response = RankingResponseDto.builder()
+                .rankers(getRankers(collect, 3))
+                .myRanking(getMyRank(collect, member))
+                .myStamps(getMyStamps(member))
+                .build();
+
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
+    }
+
+    private Integer getRank(List<Map.Entry<Member, Long>> collect, Member member) {
+        Optional<Long> optionalRank = collect.stream()
+                .filter(map -> map.getKey().equals(member))
+                .findFirst()
+                .map(Map.Entry::getValue);
+
+        if (optionalRank.isEmpty()) {
+            return collect.size() + 1;
+        } else {
+            Map.Entry<Member, Long> me = collect.stream()
+                    .filter(key -> key.getKey().equals(member))
+                    .findFirst()
+                    .orElseThrow();
+
+            return collect.indexOf(me) + 1;
+        }
+    }
+
+    private List<RankingResponseDto.Rankers> getRankers(List<Map.Entry<Member, Long>> collect, int index) {
+        List<RankingResponseDto.Rankers> rankers = new ArrayList<>();
+        for (int i = 0; i < index; i++) {
+            Member member = collect.get(i).getKey();
+            RankingResponseDto.Rankers ranker = RankingResponseDto.Rankers.builder()
+                    .rank(getRank(collect, member))
+                    .username(member.getUsername())
+                    .stamps(collect.get(i).getValue().intValue())
+                    .build();
+            rankers.add(ranker);
+        }
+
+        return rankers;
+    }
+
+    private RankingResponseDto.MyRanking getMyRank(List<Map.Entry<Member, Long>> collect, Member member) {
+        Optional<RankingResponseDto.Rankers> any = getRankers(collect, 3).stream()
+                .filter(ranker -> ranker.getUsername().equals(member.getUsername()))
+                .findAny();
+
+        if (any.isPresent()) {
+            return null;
+        } else {
+            return RankingResponseDto.MyRanking.builder()
+                    .rank(getRank(collect, member))
+                    .username(member.getUsername())
+                    .stamps(getMyStamps(member).size())
+                    .build();
+        }
+    }
+
+    private List<Integer> getMyStamps(Member member) {
+        List<Integer> stamps = member.getChallenges().stream()
+                .map(Challenge::getStamp)
+                .filter(stamp -> stamp != 0)
+                .collect(Collectors.toList());
+        if (stamps.isEmpty()) {
+            return new ArrayList<>();
+        } else {
+            return stamps;
+        }
+    }
 
     private List<ChallengeInfoResponseDto.Histories> setHistoryInfo(Challenge challenge) {
         AtomicInteger index = new AtomicInteger(1);
