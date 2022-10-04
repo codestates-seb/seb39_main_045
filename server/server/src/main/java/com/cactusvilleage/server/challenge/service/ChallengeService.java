@@ -240,16 +240,20 @@ public class ChallengeService {
                 List<RankingResponseDto.Rankers> validRankers = getValidRankers(collect, collect.size(), new ArrayList<>());
 
                 for (Member member : members) {
-                    for (int i = 0; i < validRankers.size(); i++) {
-                        if (!member.getUsername().equals(validRankers.get(i).getUsername())) {
-                            RankingResponseDto.Rankers dummy = RankingResponseDto.Rankers.builder()
-                                    .rank(validRankers.size() + 1)
-                                    .username(member.getUsername())
-                                    .stamps(0)
-                                    .build();
-                            validRankers.add(dummy);
+                    boolean flag = false;
+                    for (RankingResponseDto.Rankers validRanker : validRankers) {
+                        flag = member.getUsername().equals(validRanker.getUsername());
+                        if (flag) {
                             break;
                         }
+                    }
+                    if (flag) {
+                        RankingResponseDto.Rankers dummy = RankingResponseDto.Rankers.builder()
+                                .rank(validRankers.size() + 1)
+                                .username(member.getUsername())
+                                .stamps(0)
+                                .build();
+                        validRankers.add(dummy);
                     }
                     if (validRankers.size() == rankerSize) {
                         break;
@@ -287,12 +291,8 @@ public class ChallengeService {
         }
 
         if (collect.size() < index) {
-            List<Member> members = memberRepository.findAllByDeleted(false, Sort.by(Sort.Direction.ASC, "id"));
-
-            int myRank = members.indexOf(member) + 1;
-
             return RankingResponseDto.MyRanking.builder()
-                    .rank(myRank)
+                    .rank(RANKER_SIZE + 1)
                     .username(member.getUsername())
                     .stamps(0)
                     .build();
