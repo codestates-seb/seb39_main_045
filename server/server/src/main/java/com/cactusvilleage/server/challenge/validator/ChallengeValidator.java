@@ -1,4 +1,4 @@
-package com.cactusvilleage.server.challenge.delegation;
+package com.cactusvilleage.server.challenge.validator;
 
 
 import com.cactusvilleage.server.auth.util.SecurityUtil;
@@ -21,20 +21,20 @@ import static com.cactusvilleage.server.global.exception.ExceptionCode.ENROLL_CH
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class DelegationData {
+public class ChallengeValidator {
 
     private final ChallengeRepository challengeRepository;
 
-    public Challenge validateChallenge() {
-        List<Challenge> validateChallenge = challengeRepository.findAll().stream()
+    public Challenge validateActiveChallenge() {
+        List<Challenge> validatedChallenges = challengeRepository.findAll().stream()
                 .filter(found -> found.getStatus().equals(IN_PROGRESS) && found.getMember().getId().equals(SecurityUtil.getCurrentMemberId()))
                 .collect(Collectors.toList());
-        if (validateChallenge.isEmpty()) {  // 리스트 비어있으면 챌린지 없다는 exception 반환
+        if (validatedChallenges.isEmpty()) {  // 리스트 비어있으면 챌린지 없다는 exception 반환
             throw new BusinessLogicException(CHALLENGE_NOT_FOUND);
-        } else if (validateChallenge.size() > 1) { // 리스트의 크기가 1 초과면 중복 챌린지라는 exception 반환
+        } else if (validatedChallenges.size() > 1) { // 리스트의 크기가 1 초과면 중복 챌린지라는 exception 반환
             throw new BusinessLogicException(ENROLL_CHALLENGE_CANNOT_BE_DUPLICATED);
         }
 
-        return validateChallenge.get(0);
+        return validatedChallenges.get(0);
     }
 }

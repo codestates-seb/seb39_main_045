@@ -3,7 +3,7 @@ package com.cactusvilleage.server.challenge.service;
 import com.cactusvilleage.server.auth.entities.Member;
 import com.cactusvilleage.server.auth.service.MemberService;
 import com.cactusvilleage.server.auth.util.SecurityUtil;
-import com.cactusvilleage.server.challenge.delegation.DelegationData;
+import com.cactusvilleage.server.challenge.validator.ChallengeValidator;
 import com.cactusvilleage.server.challenge.entities.Challenge;
 import com.cactusvilleage.server.challenge.repository.ChallengeRepository;
 import com.cactusvilleage.server.challenge.web.dto.request.EnrollDto;
@@ -84,8 +84,8 @@ public class ChallengeService {
     }
 
     public void delete() {
-        DelegationData data = new DelegationData(challengeRepository);
-        Challenge challenge = data.validateChallenge();
+        ChallengeValidator data = new ChallengeValidator(challengeRepository);
+        Challenge challenge = data.validateActiveChallenge();
 
         challenge.setStatus(DELETED);
 
@@ -135,8 +135,8 @@ public class ChallengeService {
             return new ResponseEntity<>(new SingleResponseDto<>(allInfo), HttpStatus.OK);
 
         } else {
-            DelegationData data = new DelegationData(challengeRepository);
-            Challenge challenge = data.validateChallenge();
+            ChallengeValidator data = new ChallengeValidator(challengeRepository);
+            Challenge challenge = data.validateActiveChallenge();
 
             ActiveInfoDto activeInfo = ActiveInfoDto.builder()
                     .challengeType(challenge.getChallengeType().toString().toLowerCase())
@@ -151,8 +151,8 @@ public class ChallengeService {
     }
 
     public ResponseEntity getMessage() {
-        DelegationData data = new DelegationData(challengeRepository);
-        data.validateChallenge();
+        ChallengeValidator data = new ChallengeValidator(challengeRepository);
+        data.validateActiveChallenge();
 
         try {
 //            File file = ResourceUtils.getFile(ResourceUtils.CLASSPATH_URL_PREFIX + "static/water.txt");
