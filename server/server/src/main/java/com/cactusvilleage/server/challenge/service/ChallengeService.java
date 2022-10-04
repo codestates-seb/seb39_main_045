@@ -1,6 +1,7 @@
 package com.cactusvilleage.server.challenge.service;
 
 import com.cactusvilleage.server.auth.entities.Member;
+import com.cactusvilleage.server.auth.repository.MemberRepository;
 import com.cactusvilleage.server.auth.service.MemberService;
 import com.cactusvilleage.server.auth.util.SecurityUtil;
 import com.cactusvilleage.server.challenge.validator.ChallengeValidator;
@@ -19,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -42,6 +44,7 @@ public class ChallengeService {
 
     private final MemberService memberService;
     private final ChallengeRepository challengeRepository;
+    private final MemberRepository memberRepository;
     private final static int RANKER_SIZE = 3;
     @Value("classpath:/static/water.txt")
     private Resource fileResource;
@@ -172,6 +175,7 @@ public class ChallengeService {
     public ResponseEntity getRankInfo() {
         List<Map.Entry<Member, Long>> collect = challengeRepository.findAll().stream()
                 .filter(success -> success.getStatus().equals(SUCCESS))
+                .filter(user -> !user.getMember().isDeleted())
                 .collect(Collectors.groupingBy(Challenge::getMember, Collectors.counting()))
                 .entrySet().stream()
                 .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
@@ -181,7 +185,7 @@ public class ChallengeService {
 
         RankingResponseDto response = RankingResponseDto.builder()
                 .rankers(getRankers(collect, RANKER_SIZE))
-                .myRanking(getMyRank(collect, member))
+                .myRanking(getMyRank(collect, member, RANKER_SIZE))
                 .myStamps(getMyStamps(member))
                 .build();
 
@@ -218,6 +222,37 @@ public class ChallengeService {
 
     private List<RankingResponseDto.Rankers> getRankers(List<Map.Entry<Member, Long>> collect, int index) {
         List<RankingResponseDto.Rankers> rankers = new ArrayList<>();
+
+        if (collect.size() < index) {
+            List<Member> members = memberRepository.findAllByDeleted(false, Sort.by(Sort.Direction.ASC, "id"));
+            log.info("?????? {}", members);
+            if (collect.isEmpty()) {
+                for (int i = 0; i < index; i++) {
+                    RankingResponseDto.Rankers ranker = RankingResponseDto.Rankers.builder()
+                            .rank(i + 1)
+                            .username(members.get(i).getUsername())
+                            .stamps(0)
+                            .build();
+                    rankers.add(ranker);
+                }
+            } else {
+                rankers = getValidRankers(collect, collect.size(), rankers);
+                for (int i = 0; i <= index - rankers.size(); i++) {
+                    RankingResponseDto.Rankers ranker = RankingResponseDto.Rankers.builder()
+                            .rank(i + 1)
+                            .username(members.get(i).getUsername())
+                            .stamps(0)
+                            .build();
+                    rankers.add(ranker);
+                }
+            }
+            return rankers;
+        } else {
+            return getValidRankers(collect, index, rankers);
+        }
+    }
+
+    private List<RankingResponseDto.Rankers> getValidRankers(List<Map.Entry<Member, Long>> collect, int index, List<RankingResponseDto.Rankers> rankers) {
         for (int i = 0; i < index; i++) {
             Member member = collect.get(i).getKey();
             RankingResponseDto.Rankers ranker = RankingResponseDto.Rankers.builder()
@@ -227,17 +262,29 @@ public class ChallengeService {
                     .build();
             rankers.add(ranker);
         }
-
         return rankers;
     }
 
-    private RankingResponseDto.MyRanking getMyRank(List<Map.Entry<Member, Long>> collect, Member member) {
-        Optional<RankingResponseDto.Rankers> any = getRankers(collect, RANKER_SIZE).stream()
+
+    private RankingResponseDto.MyRanking getMyRank(List<Map.Entry<Member, Long>> collect, Member member, int index) {
+        Optional<RankingResponseDto.Rankers> rankerMe = getRankers(collect, RANKER_SIZE).stream()
                 .filter(ranker -> ranker.getUsername().equals(member.getUsername()))
                 .findAny();
 
-        if (any.isPresent()) {
+        if (rankerMe.isPresent()) {
             return null;
+        }
+
+        if (collect.size() < index) {
+            List<Member> members = memberRepository.findAllByDeleted(false, Sort.by(Sort.Direction.ASC, "id"));
+
+            int myRank = members.indexOf(member) + 1;
+
+            return RankingResponseDto.MyRanking.builder()
+                    .rank(myRank)
+                    .username(member.getUsername())
+                    .stamps(0)
+                    .build();
         } else {
             return RankingResponseDto.MyRanking.builder()
                     .rank(getRank(collect, member))
