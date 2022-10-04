@@ -1,6 +1,5 @@
 package com.cactusvilleage.server.auth.service;
 
-import com.cactusvilleage.server.global.infra.email.EmailSender;
 import com.cactusvilleage.server.auth.entities.Member;
 import com.cactusvilleage.server.auth.entities.RefreshToken;
 import com.cactusvilleage.server.auth.entities.oauth.ProviderType;
@@ -13,10 +12,10 @@ import com.cactusvilleage.server.auth.web.dto.request.PlainLoginDto;
 import com.cactusvilleage.server.auth.web.dto.request.PlainSignupDto;
 import com.cactusvilleage.server.auth.web.dto.request.RecoveryDto;
 import com.cactusvilleage.server.auth.web.dto.response.EditResponseDto;
-import com.cactusvilleage.server.auth.web.dto.response.MemberInfoResponse;
+import com.cactusvilleage.server.auth.web.dto.response.MemberInfoResponseDto;
 import com.cactusvilleage.server.challenge.entities.Challenge;
-import com.cactusvilleage.server.challenge.repository.ChallengeRepository;
 import com.cactusvilleage.server.global.exception.BusinessLogicException;
+import com.cactusvilleage.server.global.infra.email.EmailSender;
 import com.cactusvilleage.server.global.response.SingleResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +39,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static com.cactusvilleage.server.challenge.entities.Status.*;
+import static com.cactusvilleage.server.challenge.entities.Status.DELETED;
 import static com.cactusvilleage.server.global.exception.ExceptionCode.*;
 
 @Service
@@ -51,7 +50,6 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final RefreshTokenRepository tokenRepository;
-    private final ChallengeRepository challengeRepository;
     private final AuthenticationManagerBuilder authBuilder;
     private final PasswordEncoder passwordEncoder;
     private final EmailSender awsSesSender;
@@ -69,7 +67,7 @@ public class MemberService {
         tokenRepository.checkRefreshToken(memberId);
         Member member = findMember(Long.parseLong(memberId));
 
-        MemberInfoResponse memberInfo = getMemberInfo(member);
+        MemberInfoResponseDto memberInfo = getMemberInfo(member);
         jwtCookieUtil.generateTokenCookies(request, response, authentication);
 
         return new ResponseEntity<>(new SingleResponseDto<>(memberInfo), HttpStatus.OK);
@@ -153,14 +151,14 @@ public class MemberService {
     public ResponseEntity memberInfo() {
         Long memberId = SecurityUtil.getCurrentMemberId();
         Member member = findMember(memberId);
-        MemberInfoResponse memberInfo = getMemberInfo(member);
+        MemberInfoResponseDto memberInfo = getMemberInfo(member);
         return new ResponseEntity<>(new SingleResponseDto<>(memberInfo), HttpStatus.OK);
     }
 
-    private MemberInfoResponse getMemberInfo(Member member) {
+    private MemberInfoResponseDto getMemberInfo(Member member) {
         Challenge challenge = getRecentChallenge(member);
         if (challenge == null || challenge.getStatus().equals(DELETED) || challenge.isNotified()) {
-            return MemberInfoResponse.builder()
+            return MemberInfoResponseDto.builder()
                     .email(member.getEmail())
                     .username(member.getUsername())
                     .status("none")
@@ -172,7 +170,7 @@ public class MemberService {
             int progress = (int) ((double) challenge.getHistories().size() / challenge.getTargetDate() * 100);
             int now = (int) Duration.between(challenge.getCreatedAt().toLocalDate().atStartOfDay(), LocalDate.now().atStartOfDay()).toDays() + 1;
 
-            return MemberInfoResponse.builder()
+            return MemberInfoResponseDto.builder()
                     .email(member.getEmail())
                     .username(member.getUsername())
                     .status(challenge.getStatus().toString().toLowerCase())

@@ -6,7 +6,6 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 
-//트랜잭션?
 public interface RefreshTokenRepository extends CrudRepository<RefreshToken, String> {
     List<RefreshToken> findAll();
     default void checkRefreshToken(String memberId) {

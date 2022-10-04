@@ -2,9 +2,11 @@ package com.cactusvilleage.server.auth.entities;
 
 import com.cactusvilleage.server.auth.entities.oauth.ProviderType;
 import com.cactusvilleage.server.challenge.entities.Challenge;
-import com.cactusvilleage.server.challenge.entities.Status;
 import com.cactusvilleage.server.global.audit.Auditable;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
