@@ -1,14 +1,15 @@
 import {
   setIsValid,
   clearChooseForm,
-  setIsSubmit
+  setTodayOpen
 } from 'feature/challenge/form';
 import { updateUser } from 'feature/profile/user';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'store/store';
+import { useDispatch } from 'react-redux';
 import { postChall } from 'utils/challengeApis';
 import { AnyAction, Dispatch } from '@reduxjs/toolkit';
 import { DefaultChalls, ExtendChalls } from '../../../types/challengePageTypes';
+import useSelectorTyped from 'utils/useSelectorTyped';
+
 // 엔드포인트가 같다. 같으면 데이터 verify만 하면된다.
 const challSubmit = async (
   dispatch: Dispatch<AnyAction>,
@@ -18,7 +19,7 @@ const challSubmit = async (
   const { data, status } = await postChall(challengeType, formData);
   if (status < 300) {
     dispatch(updateUser({ ...data.data, status: 'in_progress' }));
-    dispatch(setIsSubmit({ isSubmit: true }));
+    dispatch(setTodayOpen(false));
     dispatch(clearChooseForm());
   } else {
     alert('챌린지 등록에 실패했습니다 다시 시도해 주세요');
@@ -26,8 +27,8 @@ const challSubmit = async (
 };
 
 const challVerify = () => {
-  const { challengeType, targetDate, targetTime } = useSelector(
-    (state: RootState) => state.chall.challenge_form
+  const { challengeType, targetDate, targetTime } = useSelectorTyped(
+    (state) => state.chall.challenge_form
   );
   const dispatch = useDispatch();
   const verifyForm = () => {

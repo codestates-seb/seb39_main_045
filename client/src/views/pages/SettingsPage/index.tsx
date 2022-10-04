@@ -10,12 +10,25 @@ import debouncingChanges from './debouncingChanges';
 import useSelectorTyped from 'utils/useSelectorTyped';
 import useSettingsFlows from './useSettingsFlows';
 import useSettingsPageMounted from './useSettingsPageMounted';
+import { useDispatch } from 'react-redux';
+import { setAlertOpen } from 'feature/challenge/form';
 
 const MypageSettings = () => {
   useSettingsPageMounted();
-  const [isModalOpen, setIsModalOpen] = React.useState(false);
-  const { username } = useSelectorTyped(state => state.user.userInfo);
-  const { isValidUserName, isValidPrePassword, isValidNewPassword, requestStatus, error }: Partial<EditForm> = useSelectorTyped(state => state.form.edit_form);
+  const { username } = useSelectorTyped((state) => state.user.userInfo);
+  const dispatch = useDispatch();
+
+  const { isOpen, status } = useSelectorTyped(
+    (state) => state.chall.alert_modal
+  );
+
+  const {
+    isValidUserName,
+    isValidPrePassword,
+    isValidNewPassword,
+    requestStatus,
+    error
+  }: Partial<EditForm> = useSelectorTyped((state) => state.form.edit_form);
   const { onChange } = debouncingChanges();
   const { doEditInfo } = useSettingsFlows();
 
@@ -30,7 +43,8 @@ const MypageSettings = () => {
       <Title.Main>내 정보 수정</Title.Main>
       <Form onSubmit={handleEditInfo}>
         <Content.Check>
-          📢 카카오/구글로 가입하신 회원은 현재 페이지에서 비밀번호 변경이 불가능합니다.
+          📢 카카오/구글로 가입하신 회원은 현재 페이지에서 비밀번호 변경이
+          불가능합니다.
         </Content.Check>
         <AuthLabel htmlFor="username">닉네임</AuthLabel>
         <AuthInput
@@ -42,7 +56,9 @@ const MypageSettings = () => {
           defaultValue={username}
         />
         <Content.Check>
-          {isValidUserName ? '' : '새 닉네임은 2자 이상 8자 이하로 작성해주세요.'}
+          {isValidUserName
+            ? ''
+            : '새 닉네임은 2자 이상 8자 이하로 작성해주세요.'}
         </Content.Check>
         <AuthLabel htmlFor="prePassword">기존 비밀번호</AuthLabel>
         <AuthInput
@@ -53,7 +69,7 @@ const MypageSettings = () => {
           maxLength={20}
           onChange={onChange}
         />
-        <Content.Check >
+        <Content.Check>
           {isValidPrePassword ? '' : '필수 입력 항목입니다.'}
         </Content.Check>
         <AuthLabel htmlFor="newPassword">새 비밀번호</AuthLabel>
@@ -64,8 +80,10 @@ const MypageSettings = () => {
           maxLength={20}
           onChange={onChange}
         />
-        <Content.Check >
-          {(isValidNewPassword ?? false) ? '' : '새 비밀번호는 8자 이상 20자 이하로 작성해주세요.'}
+        <Content.Check>
+          {isValidNewPassword ?? false
+            ? ''
+            : '새 비밀번호는 8자 이상 20자 이하로 작성해주세요.'}
         </Content.Check>
         <Content.Error>
           {error === '' ? '' : `변경 실패 : ${error}`}
@@ -73,15 +91,16 @@ const MypageSettings = () => {
         <Content.Status>
           {requestStatus === '' ? '' : requestStatus}
         </Content.Status>
-        <Btn type="submit">
-          변경하기
-        </Btn>
+        <Btn type="submit">변경하기</Btn>
       </Form>
-      <Exit onClick={() => setIsModalOpen(!isModalOpen)}>선인장 키우기를 떠나실 건가요?</Exit>
-      {isModalOpen
-        ? <AlertModal setIsOpen={setIsModalOpen} status="resign" />
-        : null
-      }
+      <Exit
+        onClick={() =>
+          dispatch(setAlertOpen({ isOpen: true, status: 'resign' }))
+        }
+      >
+        선인장 키우기를 떠나실 건가요?
+      </Exit>
+      {isOpen && status === 'resign' && <AlertModal status="resign" />}
     </Layout.PageContainer>
   );
 };

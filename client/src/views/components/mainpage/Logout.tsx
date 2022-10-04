@@ -1,19 +1,33 @@
-import React, { useState } from 'react';
+import React from 'react';
 import AlertModal from './AlertModal';
 import { MainBtn } from './main.style';
+import { useDispatch } from 'react-redux';
+import { setAlertOpen } from 'feature/challenge/form';
+import useSelectorTyped from 'utils/useSelectorTyped';
 
 const Logout = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const { isOpen, status } = useSelectorTyped(
+    (state) => state.chall.alert_modal
+  );
+  const dispatch = useDispatch();
+
   return (
     <>
       <MainBtn.logout
         className="material-icons"
         id="logout"
-        onClick={() => setIsOpen(true)}
+        onClick={() =>
+          dispatch(
+            setAlertOpen({
+              isOpen: true,
+              status: 'logout'
+            })
+          )
+        }
       >
         logout
       </MainBtn.logout>
-      {isOpen && <AlertModal setIsOpen={setIsOpen} status={'logout'} />}
+      {isOpen && status === 'logout' && <AlertModal status={'logout'} />}
     </>
   );
 };

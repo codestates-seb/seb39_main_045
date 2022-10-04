@@ -1,5 +1,6 @@
 package com.cactusvilleage.server.challenge.service.batch;
 
+import com.cactusvilleage.server.global.infra.webhook.impl.DiscordWebHookSender;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.BatchStatus;
@@ -9,7 +10,7 @@ import org.springframework.batch.core.JobExecutionListener;
 @Slf4j
 @RequiredArgsConstructor
 public class JobLoggerListener implements JobExecutionListener {
-    private final DiscordWebHookService discordWebHookService;
+    private final DiscordWebHookSender discordWebHookSender;
     private static final String BEFORE_LOG = "Batch Job[{}] 이 시작됩니다.";
     private static final String AFTER_LOG = "Batch Job[{}]이 끝났습니다. (Status: {})";
     private static final String BEFORE_DISCORD = "[%s] 배치 작업이 시작되었어요!";
@@ -21,7 +22,7 @@ public class JobLoggerListener implements JobExecutionListener {
     public void beforeJob(JobExecution jobExecution) {
         String jobName = jobExecution.getJobInstance().getJobName();
         log.info(BEFORE_LOG, jobName);
-        discordWebHookService.callEvent(String.format(BEFORE_DISCORD, jobName));
+        discordWebHookSender.callEvent(String.format(BEFORE_DISCORD, jobName));
     }
 
     @Override
@@ -33,9 +34,9 @@ public class JobLoggerListener implements JobExecutionListener {
 
         if (jobExecution.getStatus() == BatchStatus.FAILED) {
             log.warn("잡이 실패했슈");
-            discordWebHookService.callEvent(String.format(FAIL_DISCORD, jobName));
+            discordWebHookSender.callEvent(String.format(FAIL_DISCORD, jobName));
         } else {
-            discordWebHookService.callEvent(String.format(AFTER_DISCORD, jobName, status));
+            discordWebHookSender.callEvent(String.format(AFTER_DISCORD, jobName, status));
         }
     }
 }

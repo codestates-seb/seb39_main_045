@@ -1,4 +1,4 @@
-package com.cactusvilleage.server.challenge.config;
+package com.cactusvilleage.server.challenge.web.config;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;

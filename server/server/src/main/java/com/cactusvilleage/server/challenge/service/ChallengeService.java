@@ -1,30 +1,33 @@
 package com.cactusvilleage.server.challenge.service;
 
 import com.cactusvilleage.server.auth.entities.Member;
+import com.cactusvilleage.server.auth.repository.MemberRepository;
 import com.cactusvilleage.server.auth.service.MemberService;
 import com.cactusvilleage.server.auth.util.SecurityUtil;
-import com.cactusvilleage.server.challenge.delegation.DelegationData;
+import com.cactusvilleage.server.challenge.validator.ChallengeValidator;
 import com.cactusvilleage.server.challenge.entities.Challenge;
 import com.cactusvilleage.server.challenge.repository.ChallengeRepository;
 import com.cactusvilleage.server.challenge.web.dto.request.EnrollDto;
-import com.cactusvilleage.server.challenge.web.dto.response.ChallengeInfoResponseDto;
+import com.cactusvilleage.server.challenge.web.dto.response.HistoryInfoResponseDto;
 import com.cactusvilleage.server.challenge.web.dto.response.EnrollResponseDto;
 import com.cactusvilleage.server.challenge.web.dto.response.RankingResponseDto;
 import com.cactusvilleage.server.challenge.web.dto.response.WateringResponseDto;
-import com.cactusvilleage.server.challenge.web.dto.response.impl.ActiveInfoDto;
-import com.cactusvilleage.server.challenge.web.dto.response.impl.AllInfoDto;
+import com.cactusvilleage.server.challenge.web.dto.response.ActiveInfoDto;
+import com.cactusvilleage.server.challenge.web.dto.response.AllInfoDto;
 import com.cactusvilleage.server.global.exception.BusinessLogicException;
 import com.cactusvilleage.server.global.response.SingleResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ResourceUtils;
 
-import java.io.File;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.nio.file.Files;
+import java.io.InputStreamReader;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -41,6 +44,10 @@ public class ChallengeService {
 
     private final MemberService memberService;
     private final ChallengeRepository challengeRepository;
+    private final MemberRepository memberRepository;
+    private final static int RANKER_SIZE = 3;
+    @Value("classpath:/static/water.txt")
+    private Resource fileResource;
 
     public EnrollResponseDto enrollChallenge(EnrollDto enrollDto, String type) {
 
@@ -80,8 +87,8 @@ public class ChallengeService {
     }
 
     public void delete() {
-        DelegationData data = new DelegationData(challengeRepository);
-        Challenge challenge = data.validateChallenge();
+        ChallengeValidator data = new ChallengeValidator(challengeRepository);
+        Challenge challenge = data.validateActiveChallenge();
 
         challenge.setStatus(DELETED);
 
@@ -131,8 +138,8 @@ public class ChallengeService {
             return new ResponseEntity<>(new SingleResponseDto<>(allInfo), HttpStatus.OK);
 
         } else {
-            DelegationData data = new DelegationData(challengeRepository);
-            Challenge challenge = data.validateChallenge();
+            ChallengeValidator data = new ChallengeValidator(challengeRepository);
+            Challenge challenge = data.validateActiveChallenge();
 
             ActiveInfoDto activeInfo = ActiveInfoDto.builder()
                     .challengeType(challenge.getChallengeType().toString().toLowerCase())
@@ -147,24 +154,28 @@ public class ChallengeService {
     }
 
     public ResponseEntity getMessage() {
-        DelegationData data = new DelegationData(challengeRepository);
-        data.validateChallenge();
+        ChallengeValidator data = new ChallengeValidator(challengeRepository);
+        data.validateActiveChallenge();
 
         try {
-            File file = ResourceUtils.getFile(ResourceUtils.CLASSPATH_URL_PREFIX + "water.txt");
-            List<String> lines = Files.readAllLines(file.toPath());
+            BufferedReader br = new BufferedReader(new InputStreamReader(fileResource.getInputStream()));
+
+            List<String> lines = br.lines().collect(Collectors.toList());
             int index = new Random().nextInt(lines.size());
             String text = lines.get(index);
+
             return new ResponseEntity<>(new SingleResponseDto<>(new WateringResponseDto(text)), HttpStatus.OK);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        //default message when can't read static file
+        return new ResponseEntity<>(new SingleResponseDto<>(new WateringResponseDto("선인장 키우기와 함께 해주셔서 감사합니다! 앞으로도 화이팅!")), HttpStatus.OK);
     }
 
     public ResponseEntity getRankInfo() {
         List<Map.Entry<Member, Long>> collect = challengeRepository.findAll().stream()
                 .filter(success -> success.getStatus().equals(SUCCESS))
+                .filter(user -> !user.getMember().isDeleted())
                 .collect(Collectors.groupingBy(Challenge::getMember, Collectors.counting()))
                 .entrySet().stream()
                 .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
@@ -173,8 +184,8 @@ public class ChallengeService {
         Member member = memberService.findMember(SecurityUtil.getCurrentMemberId());
 
         RankingResponseDto response = RankingResponseDto.builder()
-                .rankers(getRankers(collect, 3))
-                .myRanking(getMyRank(collect, member))
+                .rankers(getRankers(collect, RANKER_SIZE))
+                .myRanking(getMyRank(collect, member, RANKER_SIZE))
                 .myStamps(getMyStamps(member))
                 .build();
 
@@ -211,6 +222,40 @@ public class ChallengeService {
 
     private List<RankingResponseDto.Rankers> getRankers(List<Map.Entry<Member, Long>> collect, int index) {
         List<RankingResponseDto.Rankers> rankers = new ArrayList<>();
+
+        if (collect.size() < index) {
+            List<Member> members = memberRepository.findAllByDeleted(false, Sort.by(Sort.Direction.ASC, "id"));
+            if (collect.isEmpty()) {
+                for (int i = 0; i < index; i++) {
+                    RankingResponseDto.Rankers ranker = RankingResponseDto.Rankers.builder()
+                            .rank(i + 1)
+                            .username(members.get(i).getUsername())
+                            .stamps(0)
+                            .build();
+                    rankers.add(ranker);
+                }
+            } else {
+                rankers = getValidRankers(collect, collect.size(), rankers);
+
+                for (int i = 0; i <= index - rankers.size(); i++) {
+                    if (rankers.size() - 1 <= i && rankers.get(i).getUsername().equals(members.get(i).getUsername())) {
+                        continue;
+                    }
+                    RankingResponseDto.Rankers ranker = RankingResponseDto.Rankers.builder()
+                            .rank(i + 1)
+                            .username(members.get(i).getUsername())
+                            .stamps(0)
+                            .build();
+                    rankers.add(ranker);
+                }
+            }
+            return rankers;
+        } else {
+            return getValidRankers(collect, index, rankers);
+        }
+    }
+
+    private List<RankingResponseDto.Rankers> getValidRankers(List<Map.Entry<Member, Long>> collect, int index, List<RankingResponseDto.Rankers> rankers) {
         for (int i = 0; i < index; i++) {
             Member member = collect.get(i).getKey();
             RankingResponseDto.Rankers ranker = RankingResponseDto.Rankers.builder()
@@ -220,17 +265,29 @@ public class ChallengeService {
                     .build();
             rankers.add(ranker);
         }
-
         return rankers;
     }
 
-    private RankingResponseDto.MyRanking getMyRank(List<Map.Entry<Member, Long>> collect, Member member) {
-        Optional<RankingResponseDto.Rankers> any = getRankers(collect, 3).stream()
+
+    private RankingResponseDto.MyRanking getMyRank(List<Map.Entry<Member, Long>> collect, Member member, int index) {
+        Optional<RankingResponseDto.Rankers> rankerMe = getRankers(collect, RANKER_SIZE).stream()
                 .filter(ranker -> ranker.getUsername().equals(member.getUsername()))
                 .findAny();
 
-        if (any.isPresent()) {
+        if (rankerMe.isPresent()) {
             return null;
+        }
+
+        if (collect.size() < index) {
+            List<Member> members = memberRepository.findAllByDeleted(false, Sort.by(Sort.Direction.ASC, "id"));
+
+            int myRank = members.indexOf(member) + 1;
+
+            return RankingResponseDto.MyRanking.builder()
+                    .rank(myRank)
+                    .username(member.getUsername())
+                    .stamps(0)
+                    .build();
         } else {
             return RankingResponseDto.MyRanking.builder()
                     .rank(getRank(collect, member))
@@ -252,11 +309,11 @@ public class ChallengeService {
         }
     }
 
-    private List<ChallengeInfoResponseDto.Histories> setHistoryInfo(Challenge challenge) {
+    private List<HistoryInfoResponseDto> setHistoryInfo(Challenge challenge) {
         AtomicInteger index = new AtomicInteger(1);
 
         return challenge.getHistories().stream()
-                .map(origin -> ActiveInfoDto.Histories.builder()
+                .map(origin -> HistoryInfoResponseDto.builder()
                         .day(index.getAndIncrement())
                         .createdAt(origin.getCreatedAt().toLocalDate().toString())
                         .contents(origin.getContents())

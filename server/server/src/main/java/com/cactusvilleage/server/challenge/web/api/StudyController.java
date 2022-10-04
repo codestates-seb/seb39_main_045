@@ -17,13 +17,13 @@ import java.io.IOException;
 
 
 @RestController
-@RequestMapping("/api/v1/study")
+@RequestMapping("/api/v1/histories")
 @RequiredArgsConstructor
 public class StudyController {
 
     private final HistoryStudyService historyStudyService;
 
-    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PostMapping(path = "/study", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity uploadStudy(@RequestPart @Valid StudyDto request,
                                       @RequestPart @Valid @NotBlank MultipartFile multipartFile) throws IOException {
 

@@ -1,7 +1,7 @@
 package com.cactusvilleage.server.challenge.service;
 
 
-import com.cactusvilleage.server.challenge.delegation.DelegationData;
+import com.cactusvilleage.server.challenge.validator.ChallengeValidator;
 import com.cactusvilleage.server.challenge.entities.Challenge;
 import com.cactusvilleage.server.challenge.entities.History;
 import com.cactusvilleage.server.challenge.repository.ChallengeRepository;
@@ -30,9 +30,9 @@ public class HistoryMorningService {
 
     public HistoryResponseDto uploadMorningHistory(MorningDto morningDto) {
 
-        DelegationData data = new DelegationData(challengeRepository);
+        ChallengeValidator data = new ChallengeValidator(challengeRepository);
 
-        Challenge challenge = data.validateChallenge();
+        Challenge challenge = data.validateActiveChallenge();
 
         Challenge.ChallengeType type = challenge.getChallengeType();
 
@@ -62,6 +62,16 @@ public class HistoryMorningService {
             }
         }
 
+        // 진행도 계산
+        int progress = (int) ((double) challenge.getHistories().size() / challenge.getTargetDate() * 100);
+
+        // 챌린지 완료(진행도 100)하면 status Success, 도장 찍기 1~8 랜덤 숫자
+        if (progress == 100) {
+            challenge.setStatus(SUCCESS);
+            challenge.setStamp(new Random().nextInt(8) + 1);
+            historyRepository.save(history);
+        }
+
         // 클라이언트가 morningDto의 time을 localDateTime을 가공한 String 값으로 온다 (e.g "4:46:41 PM")
         // 시간 부분만 남길 수 있게 처리
         String strTime = morningDto.getTime();
@@ -71,21 +81,15 @@ public class HistoryMorningService {
         //json 문자열을 int로 변환
         int time = Integer.parseInt(timeString);
 
-        // 일일 챌린지 도전과제 -> 실제 도전한 시간을 챌린지 목표 시간과 비교했을 때 같거나 크면 성공(진행중), 그게 아니면 실패
-        if ((time >= challenge.getTargetTime())) {
+        // 일일 모닝 챌린지 도전과제
+        if ((time < challenge.getTargetTime())) {
             challenge.setStatus(IN_PROGRESS);
         } else {
             challenge.setStatus(FAIL);
+            progress = -1;
         }
 
-        // 진행도 계산
-        int progress = (int) ((double) challenge.getHistories().size() / challenge.getTargetDate() * 100);
-
-        // 챌린지 완료(진행도 100)하면 status Success, 도장 찍기 1~8 랜덤 숫자
-        if (progress == 100) {
-            challenge.setStatus(SUCCESS);
-            challenge.setStamp(new Random().nextInt(8) + 1);
-        }
+        historyRepository.save(history);
 
         return HistoryResponseDto.builder()
                 .progress(progress)

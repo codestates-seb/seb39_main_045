@@ -1,5 +1,6 @@
-package com.cactusvilleage.server.challenge.service.batch;
+package com.cactusvilleage.server.global.infra.webhook.impl;
 
+import com.cactusvilleage.server.global.infra.webhook.WebHookSender;
 import lombok.extern.slf4j.Slf4j;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -12,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Slf4j
 @Service
-public class DiscordWebHookService {
+public class DiscordWebHookSender implements WebHookSender {
     @Value("${discord.webhookURL}")
     private String url;
 

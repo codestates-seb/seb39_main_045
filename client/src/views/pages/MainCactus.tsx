@@ -13,6 +13,13 @@ import {
 } from 'views/components/mainpage/main.style';
 import SuccessFailModal from 'views/components/mainpage/SuccessFailModal';
 import { useNavigate } from 'react-router-dom';
+import { TodayTitle } from 'types/mainPageTypes';
+const title: TodayTitle = {
+  study: '공부',
+  morning: '기상',
+  thanks: '감사'
+};
+
 const MainCactus = () => {
   const user = useSelector((state: RootState) => state.user.userInfo);
   const [isOpen, setIsOpen] = useState(false);
@@ -41,7 +48,7 @@ const MainCactus = () => {
             <TodayChallBtn status={user.challengeType} />
           </div>
           <NowPercent>
-            {user.challengeType}챌린지 {user.progress}%
+            {title[user.challengeType]}챌린지 {user.progress}%
           </NowPercent>
         </div>
         <Logout />

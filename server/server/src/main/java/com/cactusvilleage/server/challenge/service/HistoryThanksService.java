@@ -1,7 +1,7 @@
 package com.cactusvilleage.server.challenge.service;
 
 
-import com.cactusvilleage.server.challenge.delegation.DelegationData;
+import com.cactusvilleage.server.challenge.validator.ChallengeValidator;
 import com.cactusvilleage.server.challenge.entities.Challenge;
 import com.cactusvilleage.server.challenge.entities.History;
 import com.cactusvilleage.server.challenge.repository.ChallengeRepository;
@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
-import static com.cactusvilleage.server.challenge.entities.Status.SUCCESS;
+import static com.cactusvilleage.server.challenge.entities.Status.*;
 import static com.cactusvilleage.server.global.exception.ExceptionCode.CHALLENGE_TYPE_MISS_MATCH;
 import static com.cactusvilleage.server.global.exception.ExceptionCode.ENROLL_HISTORY_CANNOT_BE_DUPLICATED;
 
@@ -30,9 +30,9 @@ public class HistoryThanksService {
 
     public HistoryResponseDto uploadThanksHistory(ThanksDto thanksDto) {
 
-        DelegationData data = new DelegationData(challengeRepository);
+        ChallengeValidator data = new ChallengeValidator(challengeRepository);
 
-        Challenge challenge = data.validateChallenge();
+        Challenge challenge = data.validateActiveChallenge();
 
         Challenge.ChallengeType type = challenge.getChallengeType();
 
@@ -61,19 +61,25 @@ public class HistoryThanksService {
                 throw new BusinessLogicException(ENROLL_HISTORY_CANNOT_BE_DUPLICATED);
             }
         }
-
-        // 일일 챌린지 도전과제 성공 여부
-        if (challenge.getHistories().size() == challenge.getTargetDate()) {
-            challenge.setStatus(SUCCESS);
-        }
-
+        // 진행도 계산
         int progress = (int) ((double) challenge.getHistories().size() / challenge.getTargetDate() * 100);
 
         // 챌린지 완료(진행도 100)하면 status Success, 도장 찍기 1~8 랜덤 숫자
         if (progress == 100) {
             challenge.setStatus(SUCCESS);
             challenge.setStamp(new Random().nextInt(8) + 1);
+            historyRepository.save(history);
         }
+
+        // 일일 챌린지 도전과제 성공 여부
+        if (challenge.getHistories().size() == challenge.getTargetDate()) {
+            challenge.setStatus(IN_PROGRESS);
+        } else {
+            challenge.setStatus(FAIL);
+            progress = -1;
+        }
+
+        historyRepository.save(history);
 
         return HistoryResponseDto.builder()
                 .progress(progress)

@@ -1,15 +1,18 @@
-import { postTodayChall, postTodayStudy } from 'utils/challengeApis';
+import {
+  postTodayMorning,
+  postTodayStudy,
+  postTodayThanks
+} from 'utils/challengeApis';
 import { AnyAction, Dispatch } from '@reduxjs/toolkit';
 import { updateUser } from 'feature/profile/user';
-import { setIsSubmit } from 'feature/challenge/form';
+import { setTodayOpen } from 'feature/challenge/form';
 const morningSubmit = async (dispatch: Dispatch<AnyAction>) => {
-  // new Date().toLocaleString('ko-KR');
-  const { data, status } = await postTodayChall({
-    time: new Date().toLocaleString('ko-KR')
+  const { data, status } = await postTodayMorning({
+    time: new Date().toLocaleTimeString('en-US')
   });
   if (status < 300) {
     dispatch(updateUser(data.data));
-    dispatch(setIsSubmit({ isSubmit: true }));
+    dispatch(setTodayOpen(false));
   } else if (status === 401) {
     alert('일일 챌린지 등록에 실패했습니다');
   } else if (status === 403) {
@@ -24,11 +27,11 @@ const thanksSubmit = async (dispatch: Dispatch<AnyAction>, text: string) => {
     return;
   }
 
-  const { data, status } = await postTodayChall({ text });
+  const { data, status } = await postTodayThanks({ text });
   if (status < 300) {
     console.log(data);
     dispatch(updateUser(data.data));
-    dispatch(setIsSubmit({ isSubmit: true }));
+    dispatch(setTodayOpen(false));
   } else if (status === 401) {
     alert('일일 챌린지 등록에 실패했습니다');
   } else if (status === 403) {
@@ -60,7 +63,7 @@ const studySubmit = async (
   const { data, status } = await postTodayStudy(form);
   if (status < 300) {
     dispatch(updateUser(data.data));
-    dispatch(setIsSubmit({ isSubmit: true }));
+    dispatch(setTodayOpen(false));
   } else if (status === 401) {
     alert('일일 챌린지 등록에 실패했습니다');
   } else if (status === 403) {
