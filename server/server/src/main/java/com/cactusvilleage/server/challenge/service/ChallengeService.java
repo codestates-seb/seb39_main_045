@@ -237,10 +237,8 @@ public class ChallengeService {
             } else {
                 rankers = getValidRankers(collect, collect.size(), rankers);
 
-                Member member = memberService.findMember(SecurityUtil.getCurrentMemberId());
-
                 for (int i = 0; i <= index - rankers.size(); i++) {
-                    if (members.get(i).getUsername().equals(member.getUsername())) {
+                    if (rankers.get(i).getUsername().equals(members.get(i).getUsername())) {
                         continue;
                     }
                     RankingResponseDto.Rankers ranker = RankingResponseDto.Rankers.builder()
