@@ -247,7 +247,7 @@ public class ChallengeService {
                             break;
                         }
                     }
-                    if (flag) {
+                    if (!flag) {
                         RankingResponseDto.Rankers dummy = RankingResponseDto.Rankers.builder()
                                 .rank(validRankers.size() + 1)
                                 .username(member.getUsername())
