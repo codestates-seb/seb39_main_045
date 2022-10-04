@@ -18,16 +18,16 @@ export interface Challenges {
 
 export interface PreviousChallenges {
   requestStatus: string | null
-  totalDate: number | null
-  totalChall: number | null
+  totalDate: number
+  totalChall: number
   challenges: Challenges[] | null
 }
 
 const initialTotalChallenges: PreviousChallenges = {
   requestStatus: '',
-  totalDate: null,
-  totalChall: null,
-  challenges: []
+  totalDate: 0,
+  totalChall: 0,
+  challenges: null
 };
 
 export const previousChallengesSlice = createSlice({

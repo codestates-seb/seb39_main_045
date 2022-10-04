@@ -37,8 +37,8 @@ export const BaseArea = styled(Layout.FlexRow)`
   box-shadow: 1px 1px 5px 1px var(--shadow-beige-03);
 `;
 
-export const GreenArea = styled(Layout.FlexRow)`
-  width: calc(100% * 0.5 - 60px);
+export const GreenArea = styled(Layout.FlexRow) <{ progress: string }>`
+  width: ${p => p.progress};
   z-index: 1;
   background-color: var(--graph-bg-green);
   position: absolute;
