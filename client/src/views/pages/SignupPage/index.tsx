@@ -1,4 +1,5 @@
 import React from 'react';
+import type { SignupForm } from 'feature/form';
 import { AuthWrapper, AuthTitle, AuthForm, AuthLabel, AuthInput, AuthLoginBtn } from 'views/components/login/style';
 import { Content } from 'views/components/UI/molecules/text.style';
 import { Icon } from 'views/components/icons';
@@ -10,7 +11,7 @@ import useSignupPageMounted from './useSignupPageMounted';
 
 const Signup = () => {
   useSignupPageMounted();
-  const { isValidEmail, isValidPassword, isValidUserName, requestStatus, error } = useSelectorTyped((state) => state.form.signup_form);
+  const { isValidEmail, isValidPassword, isValidUserName, requestStatus, error }: Partial<SignupForm> = useSelectorTyped((state) => state.form.signup_form);
   const navigate = useNavigate();
   const { doSignup } = useSignupFlows();
   const { onChange } = debouncingChanges();

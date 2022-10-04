@@ -1,4 +1,5 @@
 import React from 'react';
+import type { EditForm } from 'feature/form';
 import { Title, Content } from 'views/components/UI/molecules/text.style';
 import { AuthLabel, AuthInput } from 'views/components/login/style';
 import AlertModal from 'views/components/mainpage/AlertModal';
@@ -14,7 +15,7 @@ const MypageSettings = () => {
   useSettingsPageMounted();
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const { username } = useSelectorTyped(state => state.user.userInfo);
-  const { isValidUserName, isValidPrePassword, isValidNewPassword, requestStatus, error } = useSelectorTyped(state => state.form.edit_form);
+  const { isValidUserName, isValidPrePassword, isValidNewPassword, requestStatus, error }: Partial<EditForm> = useSelectorTyped(state => state.form.edit_form);
   const { onChange } = debouncingChanges();
   const { doEditInfo } = useSettingsFlows();
 
