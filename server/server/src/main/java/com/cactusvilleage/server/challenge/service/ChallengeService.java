@@ -152,7 +152,7 @@ public class ChallengeService {
         data.validateChallenge();
 
         try {
-            File file = ResourceUtils.getFile(ResourceUtils.CLASSPATH_URL_PREFIX + "static/water.txt");
+            File file = ResourceUtils.getFile(ResourceUtils.FILE_URL_PREFIX + "static/water.txt");
             List<String> lines = Files.readAllLines(file.toPath());
             int index = new Random().nextInt(lines.size());
             String text = lines.get(index);
