@@ -25,7 +25,7 @@ const postChall = async (
     .catch((err) => err.response);
 const postTodayStudy = async (challData: FormData) =>
   await instance
-    .post('/histories', challData, {
+    .post('/histories/study', challData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
@@ -33,11 +33,17 @@ const postTodayStudy = async (challData: FormData) =>
     .then((data) => data)
     .catch((err) => err.response);
 
-const postTodayChall = async (challData: { time: string } | { text: string }) =>
+const postTodayThanks = async (challData: { text: string }) =>
   await instance
-    .post('/histories', challData)
+    .post('/histories/thanks', challData)
     .then((data) => data)
     .catch((err) => err.response);
+const postTodayMorning = async (challData: { time: string }) =>
+  await instance
+    .post('/histories/morning', challData)
+    .then((data) => data)
+    .catch((err) => err.response);
+
 const getWater = async () =>
   await instanceV2
     .get('/challenges/water')
@@ -49,13 +55,21 @@ const deleteChall = async () =>
     .then((data) => data)
     .catch((err) => err.response);
 
+const getEnding = async () =>
+  await instanceV2
+    .get('/challenges/ending')
+    .then((data) => data)
+    .catch((err) => err.response);
+
 export {
   getNowChall,
   getTotalChall,
   getRanking,
   postChall,
   postTodayStudy,
-  postTodayChall,
+  postTodayThanks,
+  postTodayMorning,
   getWater,
-  deleteChall
+  deleteChall,
+  getEnding
 };
