@@ -25,10 +25,19 @@ export interface EditForm {
   requestStatus: string
   error: string
 }
+
+export interface ForgotPWForm {
+  email: string
+  username: string
+  isValidEmail: boolean
+  isValidUserName: boolean
+  requestStatus: string
+}
 interface IForm {
   login_form: LoginForm
   signup_form: SignupForm
   edit_form: EditForm
+  forgotPW_form: ForgotPWForm
 }
 
 const initialState: IForm = {
@@ -55,6 +64,13 @@ const initialState: IForm = {
     isValidUserName: false,
     requestStatus: '',
     error: ''
+  },
+  forgotPW_form: {
+    email: '',
+    username: '',
+    isValidEmail: false,
+    isValidUserName: false,
+    requestStatus: ''
   }
 };
 
@@ -175,6 +191,36 @@ export const formSlice = createSlice({
       { payload }: PayloadAction<string>
     ) => {
       state.edit_form.error = payload;
+    },
+    setForgotPWEmail: (
+      state,
+      { payload }: PayloadAction<string>
+    ) => {
+      state.forgotPW_form.email = payload;
+    },
+    setForgotPWUsername: (
+      state,
+      { payload }: PayloadAction<string>
+    ) => {
+      state.forgotPW_form.username = payload;
+    },
+    setForgotPWEmailValidity: (
+      state,
+      { payload }: PayloadAction<boolean>
+    ) => {
+      state.forgotPW_form.isValidEmail = payload;
+    },
+    setForgotPWUsernameValidity: (
+      state,
+      { payload }: PayloadAction<boolean>
+    ) => {
+      state.forgotPW_form.isValidUserName = payload;
+    },
+    setForgotPWRequsetStatus: (
+      state,
+      { payload }: PayloadAction<string>
+    ) => {
+      state.forgotPW_form.requestStatus = payload;
     }
   }
 });
@@ -197,6 +243,11 @@ export const {
   setEditPrePasswordValidity,
   setEditNewPasswordValidity,
   setEditRequestStatus,
-  setEditError
+  setEditError,
+  setForgotPWEmail,
+  setForgotPWUsername,
+  setForgotPWEmailValidity,
+  setForgotPWUsernameValidity,
+  setForgotPWRequsetStatus
 } = formSlice.actions;
 export default formSlice.reducer;
