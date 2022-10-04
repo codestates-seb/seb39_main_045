@@ -166,6 +166,7 @@ public class MemberService {
                     .email(member.getEmail())
                     .username(member.getUsername())
                     .status("none")
+                    .challengeType("none")
                     .providerType(member.getProviderType().toString().toLowerCase())
                     .build();
         } else {
