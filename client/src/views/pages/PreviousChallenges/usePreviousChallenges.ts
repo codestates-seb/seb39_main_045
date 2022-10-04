@@ -2,7 +2,6 @@ import React from 'react';
 import { getData, updateStatus } from 'feature/challenge/previousChallenges';
 import { getTotalChall } from 'utils/challengeApis';
 import { useDispatch } from 'react-redux';
-import axios from 'axios';
 
 const usePreviousChallenges = () => {
   const dispatch = useDispatch();
