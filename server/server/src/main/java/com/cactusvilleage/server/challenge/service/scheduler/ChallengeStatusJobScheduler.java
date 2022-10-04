@@ -23,14 +23,14 @@ public class ChallengeStatusJobScheduler {
     private final JobLauncher jobLauncher;
     private final ChallengeStatusJob challengeStatusJob;
 
-    @Scheduled(cron = "0 0 0 * * *")
+    @Scheduled(cron = "0 0 0 * * *", zone = "Asia/Seoul")
     public void challengeStatusJobSchedule() {
         Map<String, JobParameter> jobParameterMap = new HashMap<>();
         jobParameterMap.put("time", new JobParameter(System.currentTimeMillis()));
         JobParameters parameters = new JobParameters(jobParameterMap);
 
         try {
-            jobLauncher.run(challengeStatusJob.challengeStatusJobJob(), parameters);
+            jobLauncher.run(challengeStatusJob.challengeStatusJob(), parameters);
         } catch (JobExecutionAlreadyRunningException | JobRestartException | JobInstanceAlreadyCompleteException |
                  JobParametersInvalidException e) {
             log.info("스케줄링에서 먼가 터졌습니다", e);

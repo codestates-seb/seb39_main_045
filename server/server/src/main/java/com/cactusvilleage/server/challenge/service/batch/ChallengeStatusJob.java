@@ -38,7 +38,7 @@ public class ChallengeStatusJob {
 
 
     @Bean
-    public Job challengeStatusJobJob() {
+    public Job challengeStatusJob() {
         return jobBuilderFactory.get("challengeStatusJob")
                 .listener(new JobLoggerListener(discordWebHookService))
                 .incrementer(new RunIdIncrementer())
