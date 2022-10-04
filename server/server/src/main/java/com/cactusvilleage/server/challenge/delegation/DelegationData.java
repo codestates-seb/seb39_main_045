@@ -3,7 +3,6 @@ package com.cactusvilleage.server.challenge.delegation;
 
 import com.cactusvilleage.server.auth.util.SecurityUtil;
 import com.cactusvilleage.server.challenge.entities.Challenge;
-import com.cactusvilleage.server.challenge.entities.Status;
 import com.cactusvilleage.server.challenge.repository.ChallengeRepository;
 import com.cactusvilleage.server.global.exception.BusinessLogicException;
 import lombok.Getter;
