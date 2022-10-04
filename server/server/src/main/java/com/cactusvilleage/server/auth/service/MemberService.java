@@ -170,18 +170,14 @@ public class MemberService {
                     .providerType(member.getProviderType().toString().toLowerCase())
                     .build();
         } else {
-            Status status = challenge.getStatus();
-            if (status.equals(SUCCESS) || status.equals(FAIL)) {
-                challenge.setNotified(true);
-                challengeRepository.save(challenge);
-            }
+
             int progress = (int) ((double) challenge.getHistories().size() / challenge.getTargetDate() * 100);
             int now = (int) Duration.between(challenge.getCreatedAt().toLocalDate().atStartOfDay(), LocalDate.now().atStartOfDay()).toDays() + 1;
 
             return MemberInfoResponse.builder()
                     .email(member.getEmail())
                     .username(member.getUsername())
-                    .status(status.toString().toLowerCase())
+                    .status(challenge.getStatus().toString().toLowerCase())
                     .progress(progress)
                     .challengeType(challenge.getChallengeType().toString().toLowerCase())
                     .now(now)
@@ -192,7 +188,7 @@ public class MemberService {
 
     }
 
-    private Challenge getRecentChallenge(Member member) {
+    public Challenge getRecentChallenge(Member member) {
         if (member.getChallenges().isEmpty()) {
             return null;
         }

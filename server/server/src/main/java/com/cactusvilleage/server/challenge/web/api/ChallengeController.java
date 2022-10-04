@@ -18,7 +18,7 @@ import javax.validation.Valid;
 
 
 @RestController
-@RequestMapping("/api/v2/challenges")
+@RequestMapping("/api/v3/challenges")
 @RequiredArgsConstructor
 @Validated
 @Slf4j
@@ -50,5 +50,10 @@ public class ChallengeController {
     @GetMapping("/water")
     public ResponseEntity sendMessage() {
         return challengeService.getMessage();
+    }
+
+    @GetMapping("/ending")
+    public ResponseEntity confirmEnding() {
+        return challengeService.setNotificationStatus();
     }
 }

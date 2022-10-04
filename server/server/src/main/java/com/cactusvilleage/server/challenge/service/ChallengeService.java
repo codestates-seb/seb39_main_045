@@ -181,6 +181,16 @@ public class ChallengeService {
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
+    public ResponseEntity setNotificationStatus() {
+        Long memberId = SecurityUtil.getCurrentMemberId();
+        Member member = memberService.findMember(memberId);
+        Challenge recentChallenge = memberService.getRecentChallenge(member);
+        recentChallenge.setNotified(true);
+        challengeRepository.save(recentChallenge);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     private Integer getRank(List<Map.Entry<Member, Long>> collect, Member member) {
         Optional<Long> optionalRank = collect.stream()
                 .filter(map -> map.getKey().equals(member))
