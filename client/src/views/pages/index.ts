@@ -15,6 +15,7 @@ const PreviousChallengesPage = lazy(
 );
 const LoginPage = lazy(async () => await import('./LoginPage'));
 const SignupPage = lazy(async () => await import('./SignupPage'));
+const NotFoundPage = lazy(async() => await import('./NotFoundPage'));
 
 export const Pages = {
   SettingsPage,
@@ -27,5 +28,6 @@ export const Pages = {
   Mypage,
   PreviousChallengesPage,
   LoginPage,
-  SignupPage
+  SignupPage,
+  NotFoundPage
 };

@@ -1,13 +1,14 @@
 import React, { Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Pages } from './views/pages';
-import Loading from 'views/components/common/Loading';
-import { RootState } from './store/store';
-import { useSelector } from 'react-redux';
+import LoadingPage from 'views/pages/LoadingPage';
+import useSelectorTyped from 'utils/useSelectorTyped';
+
 const RouteModule = () => {
-  const { status } = useSelector((state: RootState) => state.user.userInfo);
+  const { status } = useSelectorTyped((state) => state.user.userInfo);
+
   return (
-    <Suspense fallback={<Loading />}>
+    <Suspense fallback={<LoadingPage />}>
       <Routes>
         <Route path="/" element={<Pages.IntroPage />} />
         <Route
@@ -30,6 +31,7 @@ const RouteModule = () => {
         <Route path="credit" element={<Pages.CreditPage />} />
         <Route path="login" element={<Pages.LoginPage />} />
         <Route path="signup" element={<Pages.SignupPage />} />
+        <Route path="*" element={<Pages.NotFoundPage />} />
       </Routes>
     </Suspense>
   );
