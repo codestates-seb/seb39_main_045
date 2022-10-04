@@ -240,23 +240,21 @@ public class ChallengeService {
                 List<RankingResponseDto.Rankers> validRankers = getValidRankers(collect, collect.size(), new ArrayList<>());
 
                 for (Member member : members) {
-                    for (int i = 0; i < validRankers.size(); i++) {
-                        boolean flag = member.getUsername().equals(validRankers.get(i).getUsername());
+                    boolean flag = false;
+                    for (RankingResponseDto.Rankers validRanker : validRankers) {
+                        flag = member.getUsername().equals(validRanker.getUsername());
                         if (flag) {
                             break;
-                        } else {
-                            RankingResponseDto.Rankers dummy = RankingResponseDto.Rankers.builder()
-                                    .rank(validRankers.size() + 1)
-                                    .username(member.getUsername())
-                                    .stamps(0)
-                                    .build();
-                            validRankers.add(dummy);
-                            if (validRankers.size() == rankerSize) {
-                                break;
-                            }
                         }
                     }
-
+                    if (flag) {
+                        RankingResponseDto.Rankers dummy = RankingResponseDto.Rankers.builder()
+                                .rank(validRankers.size() + 1)
+                                .username(member.getUsername())
+                                .stamps(0)
+                                .build();
+                        validRankers.add(dummy);
+                    }
                     if (validRankers.size() == rankerSize) {
                         break;
                     }
