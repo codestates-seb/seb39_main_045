@@ -29,11 +29,11 @@ public class AllInfoDto {
         private boolean success;
         private String type;
         private int targetDate;
-        private int targetTime;
+        private Integer targetTime;
         private List<HistoryInfoResponseDto> histories = new ArrayList<>();
 
         @Builder
-        public Challenges(String index, boolean success, String type, int targetDate, int targetTime, List<HistoryInfoResponseDto> histories) {
+        public Challenges(String index, boolean success, String type, int targetDate, Integer targetTime, List<HistoryInfoResponseDto> histories) {
             this.index = index;
             this.success = success;
             this.type = type;
