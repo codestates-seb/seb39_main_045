@@ -8,7 +8,15 @@ import { useDispatch } from 'react-redux';
 
 const useSettingsFlows = () => {
   const dispatch = useDispatch();
-  const { username, prePassword, newPassword, isValidUserName, isValidPrePassword, isValidNewPassword }: EditForm = useSelectorTyped((state) => state.form.edit_form);
+  const {
+    username,
+    prePassword,
+    newPassword,
+    isValidUserName,
+    isValidPrePassword,
+    isValidNewPassword
+  }: EditForm =
+    useSelectorTyped((state) => state.form.edit_form);
 
   if (newPassword?.length === 0 || newPassword === null) {
     dispatch(setEditNewPasswordValidity(true));

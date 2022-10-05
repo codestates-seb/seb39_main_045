@@ -31,6 +31,7 @@ const RouteModule = () => {
         <Route path="credit" element={<Pages.CreditPage />} />
         <Route path="login" element={<Pages.LoginPage />} />
         <Route path="signup" element={<Pages.SignupPage />} />
+        <Route path="forgotpw" element={<Pages.ForgotPasswordPage />} />
         <Route path="*" element={<Pages.NotFoundPage />} />
       </Routes>
     </Suspense>

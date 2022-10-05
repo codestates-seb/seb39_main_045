@@ -1,5 +1,6 @@
 import { instance } from './axiosInstance';
 import { SignupData, LoginData, EditInfo } from 'types/userTypes';
+import { ForgotPWForm } from 'feature/form';
 const postLogin = async (loginData: LoginData) =>
   await instance
     .post('/members/login', loginData)
@@ -15,7 +16,7 @@ const postSignup = async (signupData: SignupData) =>
     .post('/members/signup', signupData)
     .then((data) => data)
     .catch((err) => err.response);
-const postFindpw = async (findPwData: LoginData) =>
+const postFindpw = async (findPwData: Partial<ForgotPWForm>) =>
   await instance
     .post('/members/recovery', findPwData)
     .then((data) => data)
