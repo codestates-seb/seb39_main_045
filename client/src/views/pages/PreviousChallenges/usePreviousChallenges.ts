@@ -13,7 +13,7 @@ const usePreviousChallenges = () => {
         dispatch(updateStatus('데이터를 불러오는 데 실패했습니다. 페이지를 새로고침해주세요.'));
         return false;
       }
-      dispatch(updateStatus(null));
+      dispatch(updateStatus(''));
       dispatch(getData(data.data));
     };
 

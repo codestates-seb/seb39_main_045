@@ -15,7 +15,7 @@ const useCurrentChallenge = () => {
         dispatch(updateStatus('데이터를 불러오는 데 실패했습니다. 페이지를 새로고침하여 다시 시도해주세요.'));
         return false;
       }
-      dispatch(updateStatus(null));
+      dispatch(updateStatus(''));
       dispatch(getData(data.data));
       dispatch(setTypeToKorean(labelMap[data.data.challengeType]));
 

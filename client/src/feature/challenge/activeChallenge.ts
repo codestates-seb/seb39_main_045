@@ -8,7 +8,7 @@ export interface SubmitHistories {
 }
 
 export interface ActiveChallenge {
-  requestStatus: string | null
+  requestStatus: string
   challengeType: string | null
   targetDate: number
   progress: number
@@ -33,7 +33,7 @@ export const activeChallengeSlice = createSlice({
       state.targetDate = payload.targetDate;
       state.histories = payload.histories;
     },
-    updateStatus: (state, { payload }: PayloadAction<string | null>) => {
+    updateStatus: (state, { payload }: PayloadAction<string>) => {
       state.requestStatus = payload;
     },
     setTypeToKorean: (state, { payload }: PayloadAction<string | null>) => {

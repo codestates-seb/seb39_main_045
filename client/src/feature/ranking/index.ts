@@ -7,14 +7,14 @@ export interface Ranker {
 }
 
 export interface IRankings {
-  requestStatus: string | null
+  requestStatus: string
   rankers: Ranker[]
   myRanking: Ranker | null
   myStamps: number[]
 }
 
 const InitialRankings: IRankings = {
-  requestStatus: null,
+  requestStatus: '',
   rankers: [],
   myRanking: null,
   myStamps: []
@@ -29,7 +29,7 @@ export const rankingReducer = createSlice({
       state.myRanking = payload.myRanking;
       state.myStamps = payload.myStamps;
     },
-    updateStatus: (state, { payload }: PayloadAction<string | null>) => {
+    updateStatus: (state, { payload }: PayloadAction<string>) => {
       state.requestStatus = payload;
     }
   }

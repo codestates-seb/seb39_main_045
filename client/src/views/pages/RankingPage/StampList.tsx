@@ -1,6 +1,8 @@
 import React from 'react';
 import { StampContiner, IconWrapper } from './RankingsPage.style';
 import { Stamp } from 'views/components/icons/stamps';
+import useSelectorTyped from 'utils/useSelectorTyped';
+import type { IRankings } from 'feature/ranking';
 
 const STAMP_COLOR = [
   {
@@ -32,14 +34,18 @@ const getRandomNumber = (): number => {
 };
 
 const StampList = () => {
-  const dummy = { stamps: [1, 2, 3, 4, 5, 6, 7, 8] };
-  const nums: number[] = Array(dummy.stamps.length).fill(0).map(() => getRandomNumber());
-  // {dummy.stamps.length.toString() + '개'}
+  const { myStamps }: Pick<IRankings, 'myStamps'> = useSelectorTyped(state => state.rankingReducer);
+  const nums: number[] = Array(myStamps.length).fill(0).map(() => getRandomNumber());
+
   return (
     <StampContiner>
-      {dummy.stamps.map((stamp, idx) => {
+      {myStamps.map((stamp, stampIdx) => {
         return (
-          <IconWrapper key={idx} bgColor={STAMP_COLOR[nums[idx]].bgColor} borderColor={STAMP_COLOR[nums[idx]].borderColor}>
+          <IconWrapper
+            key={stampIdx}
+            bgColor={STAMP_COLOR[nums[stampIdx]].bgColor}
+            borderColor={STAMP_COLOR[nums[stampIdx]].borderColor}
+          >
             {iconMap[stamp - 1]}
           </IconWrapper>
         );

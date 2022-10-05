@@ -17,7 +17,7 @@ export interface Challenges {
 }
 
 export interface PreviousChallenges {
-  requestStatus: string | null
+  requestStatus: string
   totalDate: number
   totalChall: number
   challenges: Challenges[] | null
@@ -39,7 +39,7 @@ export const previousChallengesSlice = createSlice({
       state.totalChall = payload.totalChall;
       state.challenges = payload.challenges;
     },
-    updateStatus: (state, { payload }: PayloadAction<string | null>) => {
+    updateStatus: (state, { payload }: PayloadAction<string>) => {
       state.requestStatus = payload;
     }
   }
