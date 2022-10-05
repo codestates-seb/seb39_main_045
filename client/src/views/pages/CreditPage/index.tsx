@@ -4,8 +4,10 @@ import { Title } from 'views/components/UI/molecules/text.style';
 import MyPageNav from 'views/components/common/MyPageNav';
 import Attributions from './Attributions';
 import Members from './Members';
+import useRedirectLogoutUser from 'utils/useRedirectLogoutUser';
 
 const CreditPage = () => {
+  void useRedirectLogoutUser();
   return (
     <Layout.PageContainer>
       <MyPageNav />

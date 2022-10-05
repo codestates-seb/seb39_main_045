@@ -1,5 +1,7 @@
 import React from 'react';
 import type { EditForm } from 'feature/form';
+import type { UserInfoType } from 'feature/profile/user';
+import type { Alert } from 'feature/challenge/form';
 import { Title, Content } from 'views/components/UI/molecules/text.style';
 import { AuthLabel, AuthInput } from 'views/components/login/style';
 import AlertModal from 'views/components/mainpage/AlertModal';
@@ -14,21 +16,19 @@ import { useDispatch } from 'react-redux';
 import { setAlertOpen } from 'feature/challenge/form';
 
 const MypageSettings = () => {
-  useSettingsPageMounted();
-  const { username } = useSelectorTyped((state) => state.user.userInfo);
+  void useSettingsPageMounted();
   const dispatch = useDispatch();
-
-  const { isOpen, status } = useSelectorTyped(
-    (state) => state.chall.alert_modal
-  );
-
   const {
     isValidUserName,
     isValidPrePassword,
     isValidNewPassword,
     requestStatus,
     error
-  }: Partial<EditForm> = useSelectorTyped((state) => state.form.edit_form);
+  }: EditForm = useSelectorTyped((state) => state.form.edit_form);
+  const { username }: Pick<UserInfoType, 'username'> = useSelectorTyped(
+    (state) => state.user.userInfo
+  );
+  const { isOpen, status }: Alert = useSelectorTyped((state) => state.chall.alert_modal);
   const { onChange } = debouncingChanges();
   const { doEditInfo } = useSettingsFlows();
 
@@ -89,7 +89,7 @@ const MypageSettings = () => {
           {error === '' ? '' : `변경 실패 : ${error}`}
         </Content.Error>
         <Content.Status>
-          {requestStatus === '' ? '' : requestStatus}
+          {requestStatus}
         </Content.Status>
         <Btn type="submit">변경하기</Btn>
       </Form>

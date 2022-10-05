@@ -17,9 +17,12 @@ const locaitionSlice = createSlice({
     },
     clickUsers: (state) => {
       state.path = '/mypage';
+    },
+    redirectLogin: (state) => {
+      state.path = '/login';
     }
   }
 });
 
-export const { clickMain, clickUsers } = locaitionSlice.actions;
+export const { clickMain, clickUsers, redirectLogin } = locaitionSlice.actions;
 export default locaitionSlice.reducer;

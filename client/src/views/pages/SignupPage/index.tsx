@@ -1,13 +1,6 @@
 import React from 'react';
 import type { SignupForm } from 'feature/form';
-import {
-  AuthWrapper,
-  AuthTitle,
-  AuthForm,
-  AuthLabel,
-  AuthInput,
-  AuthLoginBtn
-} from 'views/components/login/style';
+import { AuthWrapper, AuthTitle, AuthForm, AuthLabel, AuthInput, AuthLoginBtn } from 'views/components/login/style';
 import { Content } from 'views/components/UI/molecules/text.style';
 import { Icon } from 'views/components/icons';
 import { useNavigate } from 'react-router-dom';
@@ -18,13 +11,7 @@ import useSignupPageMounted from './useSignupPageMounted';
 
 const Signup = () => {
   void useSignupPageMounted();
-  const {
-    isValidEmail,
-    isValidPassword,
-    isValidUserName,
-    requestStatus,
-    error
-  }: Partial<SignupForm> = useSelectorTyped((state) => state.form.signup_form);
+  const { isValidEmail, isValidPassword, isValidUserName, requestStatus, error }: Partial<SignupForm> = useSelectorTyped((state) => state.form.signup_form);
   const navigate = useNavigate();
   const { doSignup } = useSignupFlows();
   const { onChange } = debouncingChanges();
@@ -79,7 +66,7 @@ const Signup = () => {
           {error === '' ? '' : `가입 실패 : ${error}`}
         </Content.Error>
         <Content.Status>
-          {requestStatus === '' ? '' : requestStatus}
+          {requestStatus}
         </Content.Status>
         <AuthLoginBtn type="submit">
           가입하기
