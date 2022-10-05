@@ -41,7 +41,9 @@ const NowChallenge = () => {
         </Layout.AlignCenter>
       </Layout.ContentBox>
       {requestStatus}
-      {submitDays === 0 ? '아직 기록이 없어요' : null}
+      {submitDays === 0 && requestStatus === ''
+        ? '아직 기록이 없어요.'
+        : null}
       <SubmitContents />
     </Layout.PageContainer>
   );

@@ -32,7 +32,7 @@ const MypageRanking = () => {
       {requestStatus}
       {myStamps.length > 0
         ? <StampList myStamps={myStamps} />
-        : <div>아직 도장이 없어요.</div>}
+        : null}
     </Layout.PageContainer>
   );
 };

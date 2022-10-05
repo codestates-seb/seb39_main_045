@@ -22,7 +22,7 @@ const DiaryItem = (props: IDiaryItemProps): React.ReactElement<IDiaryItemProps> 
           const { createdAt, day, contents } = history;
 
           return (
-            <Layout.ChallengeWrapper key={index}>
+            <Layout.ChallengeWrapper key={`${index}_${day}`}>
               <Title.Day>
                 {targetDate}일 챌린지
                 {success ? '성공😎' : '실패🥲'}

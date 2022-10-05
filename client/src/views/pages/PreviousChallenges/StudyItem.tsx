@@ -23,7 +23,7 @@ const StudyItem = (props: IStudyItemProps): React.ReactElement<IStudyItemProps> 
         const { createdAt, day, contents, time } = history;
 
         return (
-          <Layout.ChallengeWrapper key={index}>
+          <Layout.ChallengeWrapper key={`${index}_${day}`}>
             <div>
               <Title.Day>
                 {targetDate}일 챌린지
