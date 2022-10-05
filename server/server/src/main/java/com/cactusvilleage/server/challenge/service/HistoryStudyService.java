@@ -51,21 +51,19 @@ public class HistoryStudyService {
                 .build();
 
         // 진행 중인 챌린지에서 히스토리 가져오기
-        List<History> histories =  challenge.getHistories();
+        List<History> histories = challenge.getHistories();
 
         // 중복 등록 방지
         if (histories.isEmpty()) {
             history.setChallenge(challenge);
             historyRepository.save(history);
-        }
-        else {
-            History recentHistory = histories.get(histories.size() -1 );
+        } else {
+            History recentHistory = histories.get(histories.size() - 1);
             LocalDate date = recentHistory.getCreatedAt().toLocalDate();
-            if (Objects.equals(date, LocalDate.now().minusDays(1))){
+            if (Objects.equals(date, LocalDate.now().minusDays(1))) {
                 history.setChallenge(challenge);
                 historyRepository.save(history);
-            }
-            else {
+            } else {
                 throw new BusinessLogicException(ENROLL_HISTORY_CANNOT_BE_DUPLICATED);
             }
         }
@@ -77,21 +75,20 @@ public class HistoryStudyService {
         if (progress == 100) {
             challenge.setStatus(SUCCESS);
             challenge.setStamp(new Random().nextInt(8) + 1);
+            history.setChallenge(challenge);
             historyRepository.save(history);
         }
 
         //json 문자열을 int로 변환
         int time = Integer.parseInt(studyDto.getTime());
 
-        // 일일 챌린지 도전과제 -> 실제 도전한 시간을 챌린지 목표 시간과 비교했을 때 같거나 크면 성공(진행중), 그게 아니면 실패
-        if ((time >= challenge.getTargetTime())) {
-            challenge.setStatus(IN_PROGRESS);
-        } else {
+        // 일일 챌린지 도전과제 등록 실패 조건 -> 실제 도전한 시간을 챌린지 목표 시간과 비교했을 때 작으면 실패
+        if ((time < challenge.getTargetTime())) {
             challenge.setStatus(FAIL);
             progress = -1;
+            history.setChallenge(challenge);
+            historyRepository.save(history);
         }
-
-        historyRepository.save(history);
 
         // controller responseDto 타입 반환을 위해 매핑
         return HistoryResponseDto.builder()

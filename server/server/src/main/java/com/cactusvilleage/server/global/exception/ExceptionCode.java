@@ -19,12 +19,11 @@ public enum ExceptionCode {
     EXPIRED_ACCESS_CODE(403, "이메일 인증 시간 만료"),
     MEMBER_INFO_EXISTS(400, ""),
     WRONG_REDIRECT_URI(400, "요청 redirect_uri 파라미터가 잘못되었습니다."),
-    ENROLL_CHALLENGE_CANNOT_BE_DUPLICATED(400,"챌린지 등록은 한 번에 하나만 할 수 있습니다"),
+    ENROLL_CHALLENGE_CANNOT_BE_DUPLICATED(403,"챌린지 등록은 한 번에 하나만 할 수 있습니다"),
+    ENROLL_HISTORY_CANNOT_BE_DUPLICATED(403, "히스토리는 하루에 한 번만 등록 가능합니다"),
     CHALLENGE_NOT_FOUND(404, "진행 중인 챌린지를 찾을 수 없습니다"),
     CHALLENGE_TYPE_MISS_MATCH(400, "챌린지 타입이 맞지 않습니다"),
     CHALLENGE_TARGET_TIME_NOT_NULL(400, "목표 시간은 필수 값 입니다"),
-
-    ENROLL_HISTORY_CANNOT_BE_DUPLICATED(400, "히스토리는 하루에 한 번만 등록 가능합니다"),
     NOT_SUPPORTED_PROVIDER(400, "지원하지 않는 소셜 경로입니다.");
 
     @Getter
