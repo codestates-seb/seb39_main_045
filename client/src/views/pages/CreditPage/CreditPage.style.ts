@@ -22,16 +22,8 @@ const Position = styled(Layout.FlexRow)`
 const Profile = styled(Layout.FlexColumn)`
   align-items: center;
   margin: 18px;
-  img {
-    border-radius: 30%;
-    box-shadow: 2px 3px 5px rgba(192, 180, 152, 0.2);
-    width: 150px;
-    margin-bottom: 12px;
-  }
+  margin-top: 24px;
   &:hover {
-    img {
-      width: 180px;
-    }
     > div {
       font-size: 18px;
     }
@@ -41,11 +33,17 @@ const Profile = styled(Layout.FlexColumn)`
 const Description = styled.div`
   ${Statics.MrgTop};
   max-width: 160px;
-  overflow-wrap: break-word;
+  line-height: 24px;
+  img {
+    margin-left: 3px;
+    vertical-align: sub;
+    height: 20px;
+  }
 `;
 
 const Mentos = styled(Layout.AlignCenter)`
   margin: 18px 0;
+  line-height: 20px;
 `;
 
 export const CopyrightWrapper = styled(Layout.FlexColumn)`
@@ -59,6 +57,4 @@ export const CopyrightWrapper = styled(Layout.FlexColumn)`
   }
 `;
 
-export const Credit = {
-  Container, Position, Profile, Description, Mentos
-};
+export const Credit = { Container, Position, Profile, Description, Mentos };
