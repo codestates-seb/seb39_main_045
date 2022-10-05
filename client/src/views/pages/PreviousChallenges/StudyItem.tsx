@@ -35,7 +35,7 @@ const StudyItem = (props: IStudyItemProps): React.ReactElement<IStudyItemProps> 
                 목표: {targetTime}시간 : 오늘은 {time}시간 공부했어요
               </Content.Diary>
             </div>
-            <ImageBox src={`https://api.cactus-villeage.com/api/v1/images/${contents}`} />
+            <ImageBox src={`https://api.cactus-villeage.com/api/v1/images/${contents}`} alt="제출한 공부 기록" />
           </Layout.ChallengeWrapper >
         );
       }

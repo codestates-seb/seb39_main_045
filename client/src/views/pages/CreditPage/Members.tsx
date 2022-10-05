@@ -31,7 +31,7 @@ const Members = () => {
           <Credit.Description>
             김민영
             <a href='https://github.com/y0ungg' target="_blank" rel="noreferrer">
-              <img src={github} />
+              <img src={github} alt="김민영 깃허브 바로가기 아이콘" />
             </a>
             <br /> 프론트엔드
           </Credit.Description>
@@ -47,7 +47,7 @@ const Members = () => {
           <Credit.Description>
             이윤진
             <a href='https://github.com/sweesweett' target="_blank" rel="noreferrer">
-              <img src={github} />
+              <img src={github} alt="이윤진 깃허브 바로가기 아이콘" />
             </a>
             <br />프론트엔드
           </Credit.Description>
@@ -63,7 +63,7 @@ const Members = () => {
           <Credit.Description>
             나강혁
             <a href='https://github.com/Lego79' target="_blank" rel="noreferrer">
-              <img src={github} />
+              <img src={github} alt="나강혁 깃허브 바로가기 아이콘" />
             </a>
             <br />백엔드
           </Credit.Description>
@@ -79,7 +79,7 @@ const Members = () => {
           <Credit.Description>
             박재환
             <a href='https://github.com/jphwany' target="_blank" rel="noreferrer">
-              <img src={github} />
+              <img src={github} alt="박재환 깃허브 바로가기 아이콘" />
             </a>
             <br />백엔드
           </Credit.Description>
@@ -95,7 +95,7 @@ const Members = () => {
           <Credit.Description>
             양아롬
             <a href='https://github.com/romcanrom' target="_blank" rel="noreferrer">
-              <img src={github} />
+              <img src={github} alt="양아롬 깃허브 바로가기 아이콘" />
             </a>
             <br />백엔드
           </Credit.Description>
