@@ -1,16 +1,20 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import useSelectorTyped from 'utils/useSelectorTyped';
 import { redirectLogin } from 'feature/location';
 import { useDispatch } from 'react-redux';
 
-const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
-  const dispatch = useDispatch();
-  const { loginStatus } = useSelectorTyped((state) => state.user);
+interface ProtectedRouteProps {
+  children: JSX.Element
+  isLoggedIn: boolean
+}
 
-  if (!loginStatus) {
+const ProtectedRoute = (props: ProtectedRouteProps) => {
+  const { children, isLoggedIn } = props;
+  const dispatch = useDispatch();
+
+  if (!isLoggedIn) {
     dispatch(redirectLogin());
-    return <Navigate to={'/'} replace />;
+    return <Navigate to="/login" />;
   }
 
   return children;
