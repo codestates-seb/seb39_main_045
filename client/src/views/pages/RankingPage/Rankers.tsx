@@ -18,20 +18,18 @@ const Rankers = () => {
   return (
     <Layout.ContentBox>
       <Layout.AlignCenter>
-        {
-          requestStatus !== null
-            ? requestStatus
-            : rankers.map((ranker: Ranker, rankIdx: number) => {
-              const { rank, username, stamps }: Ranker = ranker;
+        {requestStatus}
+        {rankers.map((ranker: Ranker, rankIdx: number) => {
+          const { rank, username, stamps }: Ranker = ranker;
 
-              return (
-                <RankBox key={rankIdx}>
-                  {iconMap[rank]}
-                  <div>{username}</div>
-                  <div>{stamps}</div>
-                </RankBox>
-              );
-            })}
+          return (
+            <RankBox key={rankIdx}>
+              {iconMap[rank - 1]}
+              <div>{username}</div>
+              <div>{stamps}</div>
+            </RankBox>
+          );
+        })}
         {
           myRanking !== null
             ? (
@@ -43,7 +41,7 @@ const Rankers = () => {
                   <div>{myRanking.stamps}</div>
                 </RankBox>
               </>)
-            : null
+            : <div>축하합니다! Top3에 들어갔어요!</div>
         }
       </Layout.AlignCenter>
     </Layout.ContentBox>

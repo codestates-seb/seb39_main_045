@@ -11,7 +11,13 @@ import useSignupPageMounted from './useSignupPageMounted';
 
 const Signup = () => {
   void useSignupPageMounted();
-  const { isValidEmail, isValidPassword, isValidUserName, requestStatus, error }: Partial<SignupForm> = useSelectorTyped((state) => state.form.signup_form);
+  const {
+    isValidEmail,
+    isValidPassword,
+    isValidUserName,
+    requestStatus,
+    error
+  }: Partial<SignupForm> = useSelectorTyped((state) => state.form.signup_form);
   const navigate = useNavigate();
   const { doSignup } = useSignupFlows();
   const { onChange } = debouncingChanges();

@@ -1,7 +1,7 @@
 import { patchEditInfo } from 'utils/memberApis';
 import type { EditForm } from 'feature/form';
 import useSelectorTyped from 'utils/useSelectorTyped';
-import { setEditError, setEditNewPasswordValidity, setEditRequestStatus } from 'feature/form';
+import { setEditError, setEditRequestStatus } from 'feature/form';
 import { updateUser } from 'feature/profile/user';
 import { EditInfo } from 'types/userTypes';
 import { useDispatch } from 'react-redux';
@@ -15,12 +15,7 @@ const useSettingsFlows = () => {
     isValidUserName,
     isValidPrePassword,
     isValidNewPassword
-  }: EditForm =
-    useSelectorTyped((state) => state.form.edit_form);
-
-  if (newPassword?.length === 0 || newPassword === null) {
-    dispatch(setEditNewPasswordValidity(true));
-  }
+  }: EditForm = useSelectorTyped((state) => state.form.edit_form);
 
   const inputData: EditInfo = { username, prePassword };
   if (typeof newPassword === 'string' && newPassword.length > 0) {

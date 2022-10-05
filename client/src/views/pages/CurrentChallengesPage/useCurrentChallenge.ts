@@ -30,8 +30,8 @@ const useCurrentChallenge = () => {
       dispatch(setTypeToKorean(labelMap[data.data.challengeType]));
 
       const PROGRESS: number = data.data.progress;
-
-      if (PROGRESS <= 20) dispatch(setProgressToString('calc(100% * 0.15)'));
+      if (PROGRESS === 0) dispatch(setProgressToString('0'));
+      if (PROGRESS >= 1 && PROGRESS <= 20) dispatch(setProgressToString('calc(100% * 0.15)'));
       if (PROGRESS >= 31 && PROGRESS <= 40) dispatch(setProgressToString('calc(100% * 0.25)'));
       if (PROGRESS >= 41 && PROGRESS <= 60) dispatch(setProgressToString('calc(100% * 0.4)'));
       if (PROGRESS >= 61 && PROGRESS <= 70) dispatch(setProgressToString('calc(100% * 0.7 - 90px)'));

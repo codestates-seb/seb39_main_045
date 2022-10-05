@@ -8,7 +8,14 @@ import { useDispatch } from 'react-redux';
 const useSignupFlows = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { email, username, password, isValidEmail, isValidPassword, isValidUserName }: SignupForm = useSelectorTyped((state) => state.form.signup_form);
+  const {
+    email,
+    username,
+    password,
+    isValidEmail,
+    isValidPassword,
+    isValidUserName
+  }: SignupForm = useSelectorTyped((state) => state.form.signup_form);
 
   const doSignup = async () => {
     if (!isValidEmail || !isValidPassword || !isValidUserName) {

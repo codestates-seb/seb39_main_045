@@ -25,9 +25,8 @@ const MypageSettings = () => {
     requestStatus,
     error
   }: EditForm = useSelectorTyped((state) => state.form.edit_form);
-  const { username }: Pick<UserInfoType, 'username'> = useSelectorTyped(
-    (state) => state.user.userInfo
-  );
+  const { username }: Pick<UserInfoType, 'username'> =
+    useSelectorTyped((state) => state.user.userInfo);
   const { isOpen, status }: Alert = useSelectorTyped((state) => state.chall.alert_modal);
   const { onChange } = debouncingChanges();
   const { doEditInfo } = useSettingsFlows();
@@ -100,7 +99,7 @@ const MypageSettings = () => {
       >
         선인장 키우기를 떠나실 건가요?
       </Exit>
-      {(Boolean(isOpen)) && status === 'resign' && <AlertModal status="resign" />}
+      {isOpen && status === 'resign' && <AlertModal status="resign" />}
     </Layout.PageContainer>
   );
 };
