@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import useSelectorTyped from 'utils/useSelectorTyped';
-// import { redirectLogin } from 'feature/location';
+import { redirectLogin } from 'feature/location';
 import { useDispatch } from 'react-redux';
 
 const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
@@ -9,7 +9,7 @@ const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   const { loginStatus } = useSelectorTyped((state) => state.user);
 
   if (!loginStatus) {
-    // dispatch(redirectLogin());
+    dispatch(redirectLogin());
     return <Navigate to={'/'} replace />;
   }
 

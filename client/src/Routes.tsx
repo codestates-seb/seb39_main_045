@@ -2,9 +2,9 @@ import React, { Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Pages } from './views/pages';
 import LoadingPage from 'views/pages/LoadingPage';
-
 import ProtectedRoute from 'utils/ProtectRoute';
-
+import useSelectorTyped from 'utils/useSelectorTyped';
+const { status } = useSelectorTyped((state) => state.user.userInfo);
 const RouteModule = () => {
   return (
     <Suspense fallback={<LoadingPage />}>
