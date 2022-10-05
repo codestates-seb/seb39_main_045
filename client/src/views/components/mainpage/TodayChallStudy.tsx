@@ -10,6 +10,7 @@ const Study = () => {
   const handlePreview = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.currentTarget.files !== null) {
       setPicPreview(URL.createObjectURL(e.currentTarget.files[0]));
+      // 아 파일 너무큰거 그거안했당...
     }
   };
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {

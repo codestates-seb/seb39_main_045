@@ -3,6 +3,7 @@ interface LoginForm {
   email: string
   password: string
   isValid: boolean
+  err: string
 }
 
 export interface SignupForm {
@@ -44,7 +45,8 @@ const initialState: IForm = {
   login_form: {
     email: '',
     password: '',
-    isValid: false
+    isValid: true,
+    err: ''
   },
   signup_form: {
     email: '',
@@ -78,10 +80,7 @@ export const formSlice = createSlice({
   name: 'form',
   initialState,
   reducers: {
-    setEmail: (
-      state,
-      { payload }: PayloadAction<Pick<LoginForm, 'email'>>
-    ) => {
+    setEmail: (state, { payload }: PayloadAction<Pick<LoginForm, 'email'>>) => {
       state.login_form = { ...state.login_form, email: payload.email };
     },
     setPassword: (
@@ -90,11 +89,11 @@ export const formSlice = createSlice({
     ) => {
       state.login_form = { ...state.login_form, password: payload.password };
     },
-    setIsValid: (
-      state,
-      { payload }: PayloadAction<LoginForm>
-    ) => {
-      state.login_form = { ...state.login_form, isValid: payload.isValid };
+    setIsValid: (state, { payload }: PayloadAction<Partial<LoginForm>>) => {
+      state.login_form = {
+        ...state.login_form,
+        ...payload
+      };
     },
     setSignupEmail: (
       state,
@@ -124,48 +123,36 @@ export const formSlice = createSlice({
       state,
       { payload }: PayloadAction<Pick<EditForm, 'prePassword'>>
     ) => {
-      state.edit_form = { ...state.edit_form, prePassword: payload.prePassword };
+      state.edit_form = {
+        ...state.edit_form,
+        prePassword: payload.prePassword
+      };
     },
     setEditNewPW: (
       state,
       { payload }: PayloadAction<Pick<EditForm, 'newPassword'>>
     ) => {
-      state.edit_form = { ...state.edit_form, newPassword: payload.newPassword };
+      state.edit_form = {
+        ...state.edit_form,
+        newPassword: payload.newPassword
+      };
     },
-    setSignupEmailValidity: (
-      state,
-      { payload }: PayloadAction<boolean>
-    ) => {
+    setSignupEmailValidity: (state, { payload }: PayloadAction<boolean>) => {
       state.signup_form.isValidEmail = payload;
     },
-    setSignupPasswordValidity: (
-      state,
-      { payload }: PayloadAction<boolean>
-    ) => {
+    setSignupPasswordValidity: (state, { payload }: PayloadAction<boolean>) => {
       state.signup_form.isValidPassword = payload;
     },
-    setSignupUsernameValidity: (
-      state,
-      { payload }: PayloadAction<boolean>
-    ) => {
+    setSignupUsernameValidity: (state, { payload }: PayloadAction<boolean>) => {
       state.signup_form.isValidUserName = payload;
     },
-    setSignupError: (
-      state,
-      { payload }: PayloadAction<string>
-    ) => {
+    setSignupError: (state, { payload }: PayloadAction<string>) => {
       state.signup_form.error = payload;
     },
-    setSignupRequestStatus: (
-      state,
-      { payload }: PayloadAction<string>
-    ) => {
+    setSignupRequestStatus: (state, { payload }: PayloadAction<string>) => {
       state.signup_form.requestStatus = payload;
     },
-    setEditUsernameValidity: (
-      state,
-      { payload }: PayloadAction<boolean>
-    ) => {
+    setEditUsernameValidity: (state, { payload }: PayloadAction<boolean>) => {
       state.edit_form.isValidUserName = payload;
     },
     setEditPrePasswordValidity: (
@@ -180,34 +167,19 @@ export const formSlice = createSlice({
     ) => {
       state.edit_form.isValidNewPassword = payload;
     },
-    setEditRequestStatus: (
-      state,
-      { payload }: PayloadAction<string>
-    ) => {
+    setEditRequestStatus: (state, { payload }: PayloadAction<string>) => {
       state.edit_form.requestStatus = payload;
     },
-    setEditError: (
-      state,
-      { payload }: PayloadAction<string>
-    ) => {
+    setEditError: (state, { payload }: PayloadAction<string>) => {
       state.edit_form.error = payload;
     },
-    setForgotPWEmail: (
-      state,
-      { payload }: PayloadAction<string>
-    ) => {
+    setForgotPWEmail: (state, { payload }: PayloadAction<string>) => {
       state.forgotPW_form.email = payload;
     },
-    setForgotPWUsername: (
-      state,
-      { payload }: PayloadAction<string>
-    ) => {
+    setForgotPWUsername: (state, { payload }: PayloadAction<string>) => {
       state.forgotPW_form.username = payload;
     },
-    setForgotPWEmailValidity: (
-      state,
-      { payload }: PayloadAction<boolean>
-    ) => {
+    setForgotPWEmailValidity: (state, { payload }: PayloadAction<boolean>) => {
       state.forgotPW_form.isValidEmail = payload;
     },
     setForgotPWUsernameValidity: (
@@ -216,10 +188,7 @@ export const formSlice = createSlice({
     ) => {
       state.forgotPW_form.isValidUserName = payload;
     },
-    setForgotPWRequsetStatus: (
-      state,
-      { payload }: PayloadAction<string>
-    ) => {
+    setForgotPWRequsetStatus: (state, { payload }: PayloadAction<string>) => {
       state.forgotPW_form.requestStatus = payload;
     }
   }
