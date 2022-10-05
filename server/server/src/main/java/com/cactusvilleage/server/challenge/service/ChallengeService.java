@@ -220,27 +220,14 @@ public class ChallengeService {
         }
     }
 
-    private List<RankingResponseDto.Rankers> getRankers(List<Map.Entry<Member, Long>> collect, int index) {
+    private List<RankingResponseDto.Rankers> getRankers(List<Map.Entry<Member, Long>> collect, int rankerSize) {
         List<RankingResponseDto.Rankers> rankers = new ArrayList<>();
 
-        if (collect.size() < index) {
+        if (collect.size() < rankerSize) {
             List<Member> members = memberRepository.findAllByDeleted(false, Sort.by(Sort.Direction.ASC, "id"));
-            if (collect.isEmpty()) {
-                for (int i = 0; i < index; i++) {
-                    RankingResponseDto.Rankers ranker = RankingResponseDto.Rankers.builder()
-                            .rank(i + 1)
-                            .username(members.get(i).getUsername())
-                            .stamps(0)
-                            .build();
-                    rankers.add(ranker);
-                }
-            } else {
-                rankers = getValidRankers(collect, collect.size(), rankers);
 
-                for (int i = 0; i <= index - rankers.size(); i++) {
-                    if (rankers.size() - 1 <= i && rankers.get(i).getUsername().equals(members.get(i).getUsername())) {
-                        continue;
-                    }
+            if (collect.isEmpty()) {
+                for (int i = 0; i < rankerSize; i++) {
                     RankingResponseDto.Rankers ranker = RankingResponseDto.Rankers.builder()
                             .rank(i + 1)
                             .username(members.get(i).getUsername())
@@ -248,10 +235,35 @@ public class ChallengeService {
                             .build();
                     rankers.add(ranker);
                 }
+                return rankers;
+            } else {
+                List<RankingResponseDto.Rankers> validRankers = getValidRankers(collect, collect.size(), new ArrayList<>());
+
+                for (Member member : members) {
+                    boolean flag = false;
+                    for (RankingResponseDto.Rankers validRanker : validRankers) {
+                        flag = member.getUsername().equals(validRanker.getUsername());
+                        if (flag) {
+                            break;
+                        }
+                    }
+                    if (!flag) {
+                        RankingResponseDto.Rankers dummy = RankingResponseDto.Rankers.builder()
+                                .rank(validRankers.size() + 1)
+                                .username(member.getUsername())
+                                .stamps(0)
+                                .build();
+                        validRankers.add(dummy);
+                    }
+                    if (validRankers.size() == rankerSize) {
+                        break;
+                    }
+                }
+
+                return validRankers;
             }
-            return rankers;
         } else {
-            return getValidRankers(collect, index, rankers);
+            return getValidRankers(collect, rankerSize, rankers);
         }
     }
 
@@ -279,12 +291,8 @@ public class ChallengeService {
         }
 
         if (collect.size() < index) {
-            List<Member> members = memberRepository.findAllByDeleted(false, Sort.by(Sort.Direction.ASC, "id"));
-
-            int myRank = members.indexOf(member) + 1;
-
             return RankingResponseDto.MyRanking.builder()
-                    .rank(myRank)
+                    .rank(RANKER_SIZE + 1)
                     .username(member.getUsername())
                     .stamps(0)
                     .build();

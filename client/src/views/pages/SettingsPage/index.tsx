@@ -100,7 +100,7 @@ const MypageSettings = () => {
       >
         선인장 키우기를 떠나실 건가요?
       </Exit>
-      {isOpen && status === 'resign' && <AlertModal status="resign" />}
+      {(Boolean(isOpen)) && status === 'resign' && <AlertModal status="resign" />}
     </Layout.PageContainer>
   );
 };

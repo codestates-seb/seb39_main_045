@@ -1,4 +1,5 @@
 import React from 'react';
+import type { IRankings } from 'feature/ranking';
 import { ShareTitle } from './RankingsPage.style';
 import { Title } from 'views/components/UI/molecules/text.style';
 import { Layout } from 'views/components/UI/Layout.style';
@@ -7,14 +8,13 @@ import TwitterShare from './TwitterShare';
 import StampList from './StampList';
 import MyPageNav from 'views/components/common/MyPageNav';
 import Rankers from './Rankers';
-// import axios from 'axios';
+import useRankingPage from './useRankingPage';
+import useSelectorTyped from 'utils/useSelectorTyped';
 
 const MypageRanking = () => {
-  // useEffect(() => {
-  //   axios.get('/rankings', { headers: { accessToken } })
-  //     .then(res => console.log(res.data.data))
-  //     .catch(err => console.log(err));
-  // });
+  void useRankingPage();
+  const { requestStatus }: Partial<IRankings> = useSelectorTyped(state =>
+    state.rankingReducer);
 
   return (
     <Layout.PageContainer>
@@ -22,14 +22,14 @@ const MypageRanking = () => {
       <Title.Main>실시간 도장 랭킹 확인하기</Title.Main>
       <Rankers />
       <ShareTitle>
-        <Title.Sub>총 도장 갯수</Title.Sub>
+        <Title.Sub>나의 도장 모음</Title.Sub>
         <div>
           <KakaoShare />
           <TwitterShare />
           으로 자랑하기✨
         </div>
       </ShareTitle>
-      <StampList />
+      {requestStatus !== null ? requestStatus : <StampList />}
     </Layout.PageContainer>
   );
 };
