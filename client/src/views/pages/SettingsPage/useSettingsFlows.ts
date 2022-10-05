@@ -34,16 +34,15 @@ const useSettingsFlows = () => {
     if (isValidNewPassword === false) {
       dispatch(setEditError('비밀번호 조건을 확인해주세요'));
       return false;
+    }
+    dispatch(setEditRequestStatus('처리중입니다...'));
+    const { data, status } = await patchEditInfo({ ...inputData });
+    if (status < 300) {
+      dispatch(setEditRequestStatus('변경되었습니다.'));
+      dispatch(updateUser(data.username));
     } else {
-      dispatch(setEditRequestStatus('처리중입니다...'));
-      const { data, status } = await patchEditInfo({ ...inputData });
-      if (status < 300) {
-        dispatch(setEditRequestStatus('변경되었습니다.'));
-        dispatch(updateUser(data.username));
-      } else {
-        dispatch(setEditRequestStatus(''));
-        dispatch(setEditError(data.message ?? data.fieldErrors[0].reason));
-      }
+      dispatch(setEditRequestStatus(''));
+      dispatch(setEditError(data.message ?? data.fieldErrors[0].reason));
     }
   };
   return { doEditInfo };
