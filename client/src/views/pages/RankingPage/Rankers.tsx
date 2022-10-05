@@ -42,7 +42,7 @@ const Rankers = () => {
               </>)
             : null}
         <div>
-          {myRanking !== null && requestStatus === ''
+          {myRanking === null && requestStatus === ''
             ? '축하합니다! Top3에 들어갔어요!'
             : null}
         </div>

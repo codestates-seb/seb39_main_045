@@ -3,7 +3,6 @@ import type { IRankings } from 'feature/ranking';
 import { ShareTitle } from './RankingsPage.style';
 import { Title } from 'views/components/UI/molecules/text.style';
 import { Layout } from 'views/components/UI/Layout.style';
-import KakaoShare from './KakaoShare';
 import TwitterShare from './TwitterShare';
 import StampList from './StampList';
 import MyPageNav from 'views/components/common/MyPageNav';
@@ -24,7 +23,6 @@ const MypageRanking = () => {
       <ShareTitle>
         <Title.Sub>나의 도장 모음</Title.Sub>
         <div>
-          <KakaoShare stampsCount={myStamps.length} />
           <TwitterShare stampsCount={myStamps.length} />
           으로 자랑하기✨
         </div>
