@@ -40,10 +40,8 @@ const NowChallenge = () => {
             : null}
         </Layout.AlignCenter>
       </Layout.ContentBox>
-      {requestStatus !== null
-        ? requestStatus
-        : <SubmitContents />
-      }
+      {requestStatus}
+      <SubmitContents />
     </Layout.PageContainer>
   );
 };

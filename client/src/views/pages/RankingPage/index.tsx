@@ -29,7 +29,8 @@ const MypageRanking = () => {
           으로 자랑하기✨
         </div>
       </ShareTitle>
-      {requestStatus !== null ? requestStatus : <StampList />}
+      {requestStatus}
+      <StampList />
     </Layout.PageContainer>
   );
 };
