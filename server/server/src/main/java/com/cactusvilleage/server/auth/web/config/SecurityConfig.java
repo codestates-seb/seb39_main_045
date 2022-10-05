@@ -74,7 +74,8 @@ public class SecurityConfig {
                 .antMatchers("/api/*/members/reissue", "/api/*/members/logout").permitAll()
                 .antMatchers(HttpMethod.DELETE, "/api/*/members").permitAll()
                 .antMatchers("/*/oauth2/**").permitAll()
-                .anyRequest().permitAll()
+                .antMatchers("/").permitAll()
+                .anyRequest().authenticated()
 
                 .and()
                 .addFilterBefore(new ExceptionHandlerFilter(), CorsFilter.class)
