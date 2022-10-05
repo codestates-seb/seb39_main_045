@@ -42,12 +42,12 @@ public class HistoryStudyService {
         }
 
         // multipartFile를 s3Service 서비스의 upload 메소드를 호출해서 담는다
-        String path = s3Service.upload(multipartFile);
+        String fileName = s3Service.upload(multipartFile);
 
         // Dto <--> Entity 매핑 및 서비스 로직에서 Entity 매핑
         History history = History.builder()
                 .time(studyDto.getTime()) // dto <--> entity
-                .contents(path)
+                .contents(fileName)
                 .build();
 
         // 진행 중인 챌린지에서 히스토리 가져오기

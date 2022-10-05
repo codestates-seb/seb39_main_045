@@ -45,11 +45,11 @@ public class S3Service {
         objectMetadata.setContentType(multipartFile.getContentType());
         log.info("[CREATED] created objectMetadata ContentType is {}", objectMetadata);
 
-        // getUrl 메소드로 S3에 업로드된 이미지 Url 가져오는 방식 정의
+        // s3 업로드
         amazonS3.putObject(bucket, s3FileName, multipartFile.getInputStream(), objectMetadata);
         log.debug("[CREATED] created amazonS3 system is {}", amazonS3);
 
-        return amazonS3.getUrl(bucket, s3FileName).toString();
+        return s3FileName;
     }
 
     public ResponseEntity<byte[]> download(String storedFileName) throws IOException {
