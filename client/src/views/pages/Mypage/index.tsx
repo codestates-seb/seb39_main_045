@@ -4,11 +4,9 @@ import { MypageIcon } from 'views/components/icons/mypage';
 import { useNavigate } from 'react-router-dom';
 import { Layout } from 'views/components/UI/Layout.style';
 import useSelectorTyped from 'utils/useSelectorTyped';
-import useRedirectLogoutUser from 'utils/useRedirectLogoutUser';
 import { UserInfoType } from 'feature/profile/user';
 
 const Mypage = () => {
-  void useRedirectLogoutUser();
   const navigate = useNavigate();
   const { username, email }: UserInfoType = useSelectorTyped(state => state.user.userInfo);
 

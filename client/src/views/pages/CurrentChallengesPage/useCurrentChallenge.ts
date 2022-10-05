@@ -1,23 +1,13 @@
 import React from 'react';
-import type { UserType } from 'feature/profile/user';
-import useSelectorTyped from 'utils/useSelectorTyped';
 import { getData, updateStatus, setTypeToKorean, setProgressToString } from 'feature/challenge/activeChallenge';
 import { getNowChall } from 'utils/challengeApis';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { redirectLogin } from 'feature/location';
 
 const useCurrentChallenge = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const labelMap: { [key: string]: string } = { morning: '기상', study: '공부', thanks: '감사일기' };
-  const { loginStatus }: Pick<UserType, 'loginStatus'> = useSelectorTyped(state => state.user);
 
   React.useEffect(() => {
-    if (!loginStatus) {
-      dispatch(redirectLogin());
-      navigate('/login');
-    }
     const getState = async () => {
       dispatch(updateStatus('기록을 불러오고 있어요.'));
       const { data, status } = await getNowChall();
