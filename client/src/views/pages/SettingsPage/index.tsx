@@ -25,8 +25,7 @@ const MypageSettings = () => {
     requestStatus,
     error
   }: EditForm = useSelectorTyped((state) => state.form.edit_form);
-  const { username }: Pick<UserInfoType, 'username'> =
-    useSelectorTyped((state) => state.user.userInfo);
+  const { username }: Pick<UserInfoType, 'username'> = useSelectorTyped((state) => state.user.userInfo);
   const { isOpen, status }: Alert = useSelectorTyped((state) => state.chall.alert_modal);
   const { onChange } = debouncingChanges();
   const { doEditInfo } = useSettingsFlows();
