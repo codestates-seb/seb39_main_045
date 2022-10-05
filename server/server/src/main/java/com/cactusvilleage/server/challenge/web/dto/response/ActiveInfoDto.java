@@ -9,20 +9,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor
 public class ActiveInfoDto {
     private String challengeType;
     private int targetDate;
     private int progress;
-    private String createdAt;
     private List<HistoryInfoResponseDto> histories = new ArrayList<>();
 
     @Builder
-    public ActiveInfoDto(String challengeType, int targetDate, int progress, String createdAt, List<HistoryInfoResponseDto> histories) {
+    public ActiveInfoDto(String challengeType, int targetDate, int progress, List<HistoryInfoResponseDto> histories) {
         this.challengeType = challengeType;
         this.targetDate = targetDate;
         this.progress = progress;
-        this.createdAt = createdAt;
         this.histories = histories;
     }
 }

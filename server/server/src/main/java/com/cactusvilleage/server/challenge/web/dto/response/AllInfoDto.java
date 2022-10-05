@@ -26,7 +26,6 @@ public class AllInfoDto {
     @NoArgsConstructor
     public static class Challenges {
         private String index;
-        private String createdAt;
         private boolean success;
         private String type;
         private int targetDate;
@@ -34,9 +33,8 @@ public class AllInfoDto {
         private List<HistoryInfoResponseDto> histories = new ArrayList<>();
 
         @Builder
-        public Challenges(String index, String createdAt, boolean success, String type, int targetDate, int targetTime, List<HistoryInfoResponseDto> histories) {
+        public Challenges(String index, boolean success, String type, int targetDate, int targetTime, List<HistoryInfoResponseDto> histories) {
             this.index = index;
-            this.createdAt = createdAt;
             this.success = success;
             this.type = type;
             this.targetDate = targetDate;
