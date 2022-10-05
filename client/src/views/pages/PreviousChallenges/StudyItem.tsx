@@ -32,13 +32,11 @@ const StudyItem = (props: IStudyItemProps): React.ReactElement<IStudyItemProps> 
               <Title.Day>{day}일차: {createdAt}</Title.Day>
               <Content.Diary>
                 <TitleIcon className="material-symbols-outlined">edit</TitleIcon>
-                목표: {targetTime}시간
-                <div>{time}시간 공부했어요</div>
+                목표: {targetTime}시간 : 오늘은 {time}시간 공부했어요
               </Content.Diary>
             </div>
-            {/* 이미지 주소 변경할 것 */}
-            <ImageBox src={`https://cactus-villeage.s3.ap-northeast-2.amazonaws.com/${contents}.png`} />
-          </Layout.ChallengeWrapper>
+            <ImageBox src={`https://api.cactus-villeage.com/api/v1/images/${contents}`} />
+          </Layout.ChallengeWrapper >
         );
       }
       )}

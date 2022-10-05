@@ -32,10 +32,8 @@ export const HalfTapMenu = styled(Layout.AlignCenter).withConfig({
   box-shadow: ${p => p.isActive ? '0px 0px 1px rgba(0, 0, 0, 0.05)' : '0px 0px 3px rgba(0, 0, 0, 0.05)'};
 `;
 
-export const ImageBox = styled.img`
-  ${Statics.Border1}
+export const ImageBox = styled(Layout.Image)`
   padding: 12px;
-  object-fit: contain;
   border: 1px solid var(--graph-bg-green);
   margin-top: 24px;
 `;

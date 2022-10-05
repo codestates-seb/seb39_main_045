@@ -45,6 +45,16 @@ const ContentBox = styled.div`
   background-color: var(--mypage-btn-beige);
 `;
 
+const Image = styled.img`
+  ${Statics.Border1}
+  ${Statics.Trans}
+  max-width: 50%;
+  object-fit: contain;
+  @media only screen and (max-width: 400px) {
+    width: 160px;
+  }
+`;
+
 const PageContainer = styled(FlexColumn)`
   background-color: var(--mypage-bg-beige);
   padding: 24px 24px 96px 24px;
@@ -59,5 +69,6 @@ export const Layout = {
   ChallengeWrapper,
   AlignCenter,
   ContentBox,
-  PageContainer
+  PageContainer,
+  Image
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import type { SubmitHistories } from 'feature/challenge/activeChallenge';
+import type { ActiveChallenge, SubmitHistories } from 'feature/challenge/activeChallenge';
 import { Layout } from 'views/components/UI/Layout.style';
 import { NowChallengeGrid } from './CurrentChallengesPage.style';
 import { MypageIcon } from 'views/components/icons/mypage';
@@ -13,6 +13,7 @@ const iconMap: JSX.Element[] = [<MypageIcon.Day1 key='day1' />, <MypageIcon.Day2
 <MypageIcon.Day4 key='day4' />, <MypageIcon.Day5 key='day5' />, <MypageIcon.Day6 key='day6' />, <MypageIcon.Day7 key='day7' />];
 
 const SubmitContents = () => {
+  const { challengeType }: ActiveChallenge = useSelectorTyped(state => state.activeChallenge);
   const { histories }: IHistoriesProps = useSelectorTyped(state => state.activeChallenge);
 
   return (
@@ -23,9 +24,13 @@ const SubmitContents = () => {
           <NowChallengeGrid key={historyIdx}>
             {iconMap[day - 1]}
             <div>{createdAt}</div>
-            <div>{contents}</div>
+            {
+              challengeType === '공부'
+                ? <Layout.Image src={`https://api.cactus-villeage.com/api/v1/images/${contents}`} />
+                : <div>{contents}</div>
+            }
             <div>{time !== null ? `제출 시간: ${time}` : null}</div>
-            {/* <img src='https://yt3.ggpht.com/jNJ6FV83KdlgTHor9nqmxPQi6zDMhXZJl9wBNWHVgixbUUZikFg_TGrxJ9CK7ZXW_2zzWvmi1g=s176-c-k-c0x00ffffff-no-rj'></img> */}
+
           </NowChallengeGrid>
         );
       })}

@@ -4,11 +4,11 @@ import { Layout } from 'views/components/UI/Layout.style';
 export const NowChallengeGrid = styled.div`
   display: grid;
   grid-template-columns: 0.3fr 1.7fr; 
-  grid-template-rows: 1fr 1fr; 
+  grid-template-rows: 20% 70%; 
   grid-template-areas: 
     "number day"
     "number content"
-    "number img"; 
+    "number time"; 
   & :first-child {
     grid-area: number;
   }
@@ -19,7 +19,7 @@ export const NowChallengeGrid = styled.div`
     grid-area: content;
   }
   & :nth-child(4) {
-    grid-area: img;
+    grid-area: time;
   }
   gap: 10px;
   margin: 15px;
