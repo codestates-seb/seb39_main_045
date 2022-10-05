@@ -85,7 +85,8 @@ public class ChallengeStatusJobConfig {
     @Bean
     public ItemProcessor<Challenge, Challenge> challengeProcessor() {
         return challenge -> {
-            boolean due = challenge.getCreatedAt().toLocalDate().plusDays(challenge.getTargetDate()).isBefore(LocalDate.now());
+            LocalDate dueDate = challenge.getCreatedAt().toLocalDate().plusDays(challenge.getTargetDate());
+            boolean due = dueDate.isEqual(LocalDate.now()) || dueDate.isBefore(LocalDate.now());
 
             if (!due) {
                 return null;
