@@ -12,6 +12,3 @@ root.render(
     <App />
   </Provider>
 );
-
-window.Kakao.init(process.env.REACT_APP_KAKAO_JS);
-window.Kakao.isInitialized();

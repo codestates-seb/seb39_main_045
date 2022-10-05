@@ -24,8 +24,8 @@ const MypageRanking = () => {
       <ShareTitle>
         <Title.Sub>나의 도장 모음</Title.Sub>
         <div>
-          <KakaoShare />
-          <TwitterShare />
+          <KakaoShare stampsCount={myStamps.length} />
+          <TwitterShare stampsCount={myStamps.length} />
           으로 자랑하기✨
         </div>
       </ShareTitle>

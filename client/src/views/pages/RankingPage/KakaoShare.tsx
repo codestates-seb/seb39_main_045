@@ -2,13 +2,14 @@ import React from 'react';
 import { KakaoBtn } from './RankingsPage.style';
 import useSelectorTyped from 'utils/useSelectorTyped';
 
-const KakaoShare = () => {
+const KakaoShare = (props: { stampsCount: number }) => {
   const { username } = useSelectorTyped(state => state.user.userInfo);
+
   const handleShareBtn = () => {
     window.Kakao.Share.sendCustom({
       templateId: 83427,
       templateArgs: {
-        description: `벌써 0번의 챌린지에 성공한 ${username}님이 선인장 키우기에 초대하셨어요.`
+        description: `벌써 ${props.stampsCount}번의 챌린지에 성공한 ${username}님이 선인장 키우기에 초대하셨어요.`
       }
     });
   };
