@@ -26,11 +26,11 @@ const MainCactus = () => {
   const { loginStatus } = useSelector((state: RootState) => state.user);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!loginStatus) {
-      navigate('/');
-    }
-  }, [loginStatus]);
+  // useEffect(() => {
+  //   if (!loginStatus) {
+  //     navigate('/');
+  //   }
+  // }, [loginStatus]);
 
   useEffect(() => {
     if (user.status === 'fail' || user.status === 'success') {

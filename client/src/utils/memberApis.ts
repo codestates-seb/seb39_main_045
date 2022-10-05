@@ -38,7 +38,7 @@ const getReissue = async () =>
     .catch((err) => err.response);
 const getMe = async () =>
   await instance
-    .get('/me')
+    .get('/members/me')
     .then((data) => data)
     .catch((err) => err.response);
 

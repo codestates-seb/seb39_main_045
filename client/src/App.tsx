@@ -1,20 +1,23 @@
 import React from 'react';
-import GlobalStyle from 'assets/style/GlobalStyle';
 import { AppContainer } from 'assets/style/App.style';
-import { BrowserRouter } from 'react-router-dom';
 import RouteModule from 'Routes';
 import Nav from 'views/components/common/Nav';
+import { reissue } from 'utils/reissue';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const App = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  React.useEffect(() => {
+    void reissue(dispatch, navigate);
+  }, []);
   return (
-    <div className='App'>
-      <GlobalStyle />
-      <BrowserRouter>
-        <AppContainer>
-          <RouteModule />
-          <Nav />
-        </AppContainer>
-      </BrowserRouter>
+    <div className="App">
+      <AppContainer>
+        <RouteModule />
+        <Nav />
+      </AppContainer>
     </div>
   );
 };
