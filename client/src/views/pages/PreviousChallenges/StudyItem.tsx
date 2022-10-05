@@ -36,8 +36,7 @@ const StudyItem = (props: IStudyItemProps): React.ReactElement<IStudyItemProps> 
                 <div>{time}시간 공부했어요</div>
               </Content.Diary>
             </div>
-            {/* 이미지 주소 변경할 것 */}
-            <ImageBox src={`https://cactus-villeage.s3.ap-northeast-2.amazonaws.com/${contents}.png`} />
+            <ImageBox src={`https://api.cactus-villeage.com/api/v1/images/${contents}`} />
           </Layout.ChallengeWrapper>
         );
       }

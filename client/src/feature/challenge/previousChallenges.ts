@@ -12,7 +12,7 @@ export interface Challenges {
   success: boolean
   type: string
   targetDate: number
-  targetTime: number
+  targetTime: number | null
   histories: TargetChallenge[]
 }
 
