@@ -32,12 +32,11 @@ const StudyItem = (props: IStudyItemProps): React.ReactElement<IStudyItemProps> 
               <Title.Day>{day}일차: {createdAt}</Title.Day>
               <Content.Diary>
                 <TitleIcon className="material-symbols-outlined">edit</TitleIcon>
-                목표: {targetTime}시간
-                <div>{time}시간 공부했어요</div>
+                목표: {targetTime}시간 : 오늘은 {time}시간 공부했어요
               </Content.Diary>
             </div>
             <ImageBox src={`https://api.cactus-villeage.com/api/v1/images/${contents}`} />
-          </Layout.ChallengeWrapper>
+          </Layout.ChallengeWrapper >
         );
       }
       )}

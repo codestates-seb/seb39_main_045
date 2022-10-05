@@ -27,7 +27,7 @@ const SubmitContents = () => {
             {
               challengeType === '공부'
                 ? <Layout.Image src={`https://api.cactus-villeage.com/api/v1/images/${contents}`} />
-                : <div>contents</div>
+                : <div>{contents}</div>
             }
             <div>{time !== null ? `제출 시간: ${time}` : null}</div>
 
