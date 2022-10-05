@@ -16,6 +16,9 @@ const useRankingPage = () => {
       dispatch(redirectLogin());
       navigate('/login');
     }
+    window.Kakao.init(process.env.REACT_APP_KAKAO_JS);
+    window.Kakao.isInitialized();
+
     const getState = async () => {
       dispatch(updateStatus('순위를 불러오고 있어요'));
       const { data, status } = await getRanking();
