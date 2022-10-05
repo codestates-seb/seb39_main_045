@@ -41,7 +41,7 @@ public class HistoryMorningService {
         }
 
         History history = History.builder()
-                .time(morningDto.getTime())
+                .time(morningDto.getTime()) // History 엔티티 <--> morningDto 매핑
                 .build();
 
         // 진행 중인 챌린지에서 히스토리 가져오기
@@ -69,6 +69,7 @@ public class HistoryMorningService {
         if (progress == 100) {
             challenge.setStatus(SUCCESS);
             challenge.setStamp(new Random().nextInt(8) + 1);
+            history.setChallenge(challenge);
             historyRepository.save(history);
         }
 
@@ -81,15 +82,13 @@ public class HistoryMorningService {
         //json 문자열을 int로 변환
         int time = Integer.parseInt(timeString);
 
-        // 일일 모닝 챌린지 도전과제
+        // 일일 모닝 챌린지 도전과제 실패 조건
         if ((time < challenge.getTargetTime())) {
-            challenge.setStatus(IN_PROGRESS);
-        } else {
             challenge.setStatus(FAIL);
             progress = -1;
+            history.setChallenge(challenge);
+            historyRepository.save(history);
         }
-
-        historyRepository.save(history);
 
         return HistoryResponseDto.builder()
                 .progress(progress)

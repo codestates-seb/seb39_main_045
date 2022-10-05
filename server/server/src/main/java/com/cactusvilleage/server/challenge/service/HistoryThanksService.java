@@ -48,16 +48,16 @@ public class HistoryThanksService {
         List<History> histories = challenge.getHistories();
 
         // 중복 등록 방지
-        if (histories.isEmpty()) {
+        if (histories.isEmpty()) { // 처음 진행하는 히스토리 등록
             history.setChallenge(challenge);
             historyRepository.save(history);
-        } else {
+        } else { // 그게 아닌 경우, 가장 최근 히스토리를 가져와서 어제날짜와 비교해 같으면 등록
             History recentHistory = histories.get(histories.size() - 1);
             LocalDate date = recentHistory.getCreatedAt().toLocalDate();
             if (Objects.equals(date, LocalDate.now().minusDays(1))) {
                 history.setChallenge(challenge);
                 historyRepository.save(history);
-            } else {
+            } else { // 그 외의 경우는 중복 등록이라 판단
                 throw new BusinessLogicException(ENROLL_HISTORY_CANNOT_BE_DUPLICATED);
             }
         }
@@ -68,18 +68,9 @@ public class HistoryThanksService {
         if (progress == 100) {
             challenge.setStatus(SUCCESS);
             challenge.setStamp(new Random().nextInt(8) + 1);
+            history.setChallenge(challenge);
             historyRepository.save(history);
         }
-
-        // 일일 챌린지 도전과제 성공 여부
-        if (challenge.getHistories().size() == challenge.getTargetDate()) {
-            challenge.setStatus(IN_PROGRESS);
-        } else {
-            challenge.setStatus(FAIL);
-            progress = -1;
-        }
-
-        historyRepository.save(history);
 
         return HistoryResponseDto.builder()
                 .progress(progress)
