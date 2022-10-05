@@ -19,10 +19,8 @@ import {
   AuthDefaultBtn
 } from 'views/components/login/style';
 import { useDispatch } from 'react-redux';
-import { setPassword, setEmail } from '../../../feature/form';
+import { setPassword, setEmail, clearValid } from '../../../feature/form';
 import useSelectorTyped from 'utils/useSelectorTyped';
-// 해보시고 알려주세용.
-
 const Login = () => {
   const dispatch = useDispatch();
   const [isVisible, setIsVisible] = useState(false);
@@ -32,7 +30,11 @@ const Login = () => {
     e.preventDefault();
     void doLogin();
   };
-
+  React.useEffect(() => {
+    return () => {
+      dispatch(clearValid());
+    };
+  }, []);
   return (
     <AuthWrapper>
       <AuthTitle>로그인</AuthTitle>

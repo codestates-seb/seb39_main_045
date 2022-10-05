@@ -95,6 +95,10 @@ export const formSlice = createSlice({
         ...payload
       };
     },
+    clearValid: (state) => {
+      state.login_form.isValid = true;
+      state.login_form.err = '';
+    },
     setSignupEmail: (
       state,
       { payload }: PayloadAction<Pick<SignupForm, 'email'>>
@@ -197,6 +201,7 @@ export const {
   setEmail,
   setPassword,
   setIsValid,
+  clearValid,
   setSignupEmail,
   setSignupUsername,
   setSignupPassword,
