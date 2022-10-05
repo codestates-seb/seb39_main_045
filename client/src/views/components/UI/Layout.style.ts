@@ -16,7 +16,7 @@ const ScrollContainer = styled(FlexColumn)`
   padding: 10px;
   ::-webkit-scrollbar {
     width: 8px;
-    background: green;
+    /* background: green; */
   }
   ::-webkit-scrollbar-thumb {
     height: 30%;
