@@ -8,7 +8,7 @@ interface Challenge {
 interface Submit {
   isOpen: boolean
 }
-interface Alert {
+export interface Alert {
   isOpen: boolean
   status: string
 }

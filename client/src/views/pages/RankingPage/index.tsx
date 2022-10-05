@@ -13,7 +13,7 @@ import useSelectorTyped from 'utils/useSelectorTyped';
 
 const MypageRanking = () => {
   void useRankingPage();
-  const { requestStatus }: Partial<IRankings> = useSelectorTyped(state =>
+  const { requestStatus, myStamps }: Partial<IRankings> = useSelectorTyped(state =>
     state.rankingReducer);
 
   return (
@@ -30,7 +30,9 @@ const MypageRanking = () => {
         </div>
       </ShareTitle>
       {requestStatus}
-      <StampList />
+      {myStamps.length > 0
+        ? <StampList myStamps={myStamps} />
+        : <div>아직 도장이 없어요.</div>}
     </Layout.PageContainer>
   );
 };

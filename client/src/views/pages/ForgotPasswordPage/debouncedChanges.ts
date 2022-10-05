@@ -1,6 +1,12 @@
 import debounce from 'utils/debounce';
 import { useDispatch } from 'react-redux';
-import { setForgotPWEmail, setForgotPWUsername, setForgotPWEmailValidity, setForgotPWUsernameValidity, setForgotPWRequsetStatus } from 'feature/form';
+import {
+  setForgotPWEmail,
+  setForgotPWUsername,
+  setForgotPWEmailValidity,
+  setForgotPWUsernameValidity,
+  setForgotPWRequsetStatus
+} from 'feature/form';
 import { emailValidate, userNameValidate } from 'utils/validates';
 
 const handleDebouncedChange = () => {

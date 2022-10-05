@@ -1,13 +1,6 @@
 import React from 'react';
 import type { SignupForm } from 'feature/form';
-import {
-  AuthWrapper,
-  AuthTitle,
-  AuthForm,
-  AuthLabel,
-  AuthInput,
-  AuthLoginBtn
-} from 'views/components/login/style';
+import { AuthWrapper, AuthTitle, AuthForm, AuthLabel, AuthInput, AuthLoginBtn } from 'views/components/login/style';
 import { Content } from 'views/components/UI/molecules/text.style';
 import { Icon } from 'views/components/icons';
 import { useNavigate } from 'react-router-dom';
@@ -79,7 +72,7 @@ const Signup = () => {
           {error === '' ? '' : `가입 실패 : ${error}`}
         </Content.Error>
         <Content.Status>
-          {requestStatus === '' ? '' : requestStatus}
+          {requestStatus}
         </Content.Status>
         <AuthLoginBtn type="submit">
           가입하기

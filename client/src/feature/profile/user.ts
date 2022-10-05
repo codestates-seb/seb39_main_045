@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface UserInfoType {
+export interface UserInfoType {
   // [index: string]: string | number
   email: string | null
   username: string
@@ -12,7 +12,7 @@ interface UserInfoType {
   targetDate: number
 }
 
-interface UserType {
+export interface UserType {
   loginStatus: boolean
   userInfo: UserInfoType
 }
