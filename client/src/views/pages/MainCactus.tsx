@@ -12,7 +12,6 @@ import {
   NowPercent
 } from 'views/components/mainpage/main.style';
 import SuccessFailModal from 'views/components/mainpage/SuccessFailModal';
-import { useNavigate } from 'react-router-dom';
 import { TodayTitle } from 'types/mainPageTypes';
 const title: TodayTitle = {
   study: '공부',
@@ -23,15 +22,6 @@ const title: TodayTitle = {
 const MainCactus = () => {
   const user = useSelector((state: RootState) => state.user.userInfo);
   const [isOpen, setIsOpen] = useState(false);
-  const { loginStatus } = useSelector((state: RootState) => state.user);
-  const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   if (!loginStatus) {
-  //     navigate('/');
-  //   }
-  // }, [loginStatus]);
-
   useEffect(() => {
     if (user.status === 'fail' || user.status === 'success') {
       setIsOpen(true);

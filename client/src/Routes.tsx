@@ -2,33 +2,79 @@ import React, { Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Pages } from './views/pages';
 import LoadingPage from 'views/pages/LoadingPage';
-import useSelectorTyped from 'utils/useSelectorTyped';
+
+import ProtectedRoute from 'utils/ProtectRoute';
 
 const RouteModule = () => {
-  const { status } = useSelectorTyped((state) => state.user.userInfo);
-
   return (
     <Suspense fallback={<LoadingPage />}>
       <Routes>
         <Route path="/" element={<Pages.IntroPage />} />
+
         <Route
           path="main"
           element={
-            status === 'none' ? <Pages.MainNoCactus /> : <Pages.MainCactus />
+            <ProtectedRoute>
+              {status === 'none'
+                ? (
+                <Pages.MainNoCactus />
+                  )
+                : (
+                <Pages.MainCactus />
+                  )}
+            </ProtectedRoute>
           }
         />
-        <Route path="mypage" element={<Pages.Mypage />} />
-        <Route path="settings" element={<Pages.SettingsPage />} />
+
+        <Route
+          path="mypage"
+          element={
+            <ProtectedRoute>
+              <Pages.Mypage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="settings"
+          element={
+            <ProtectedRoute>
+              <Pages.SettingsPage />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="previous-challenges"
-          element={<Pages.PreviousChallengesPage />}
+          element={
+            <ProtectedRoute>
+              <Pages.PreviousChallengesPage />
+            </ProtectedRoute>
+          }
         />
         <Route
           path="active-challenges"
-          element={<Pages.CurrentChallengesPage />}
+          element={
+            <ProtectedRoute>
+              <Pages.CurrentChallengesPage />
+            </ProtectedRoute>
+          }
         />
-        <Route path="rankings" element={<Pages.RankingsPage />} />
-        <Route path="credit" element={<Pages.CreditPage />} />
+        <Route
+          path="rankings"
+          element={
+            <ProtectedRoute>
+              <Pages.RankingsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="credit"
+          element={
+            <ProtectedRoute>
+              <Pages.CreditPage />
+            </ProtectedRoute>
+          }
+        />
         <Route path="login" element={<Pages.LoginPage />} />
         <Route path="signup" element={<Pages.SignupPage />} />
         <Route path="forgotpw" element={<Pages.ForgotPasswordPage />} />
