@@ -42,7 +42,7 @@ const NowChallenge = () => {
       </Layout.ContentBox>
       {requestStatus}
       {submitDays === 0 && requestStatus === ''
-        ? '아직 기록이 없어요'
+        ? '아직 기록이 없어요.'
         : null}
       <SubmitContents />
     </Layout.PageContainer>

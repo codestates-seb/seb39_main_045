@@ -18,7 +18,6 @@ const Rankers = () => {
   return (
     <Layout.ContentBox>
       <Layout.AlignCenter>
-        {requestStatus}
         {rankers.map((ranker: Ranker, rankIdx: number) => {
           const { rank, username, stamps }: Ranker = ranker;
 
