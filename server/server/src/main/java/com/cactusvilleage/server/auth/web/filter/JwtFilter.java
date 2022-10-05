@@ -34,7 +34,8 @@ public class JwtFilter extends OncePerRequestFilter {
             "/api/v1/members/reissue",
             "/api/v1/members/logout",
             "/login/oauth2/code/kakao",
-            "/login/oauth2/code/google"
+            "/login/oauth2/code/google",
+            "/"
     );
 
     @Override
