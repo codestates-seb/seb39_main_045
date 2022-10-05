@@ -124,7 +124,6 @@ public class ChallengeService {
                     .challenges(done.stream()
                             .map(cEntity -> AllInfoDto.Challenges.builder()
                                     .index(cEntity.getUuid().toString())
-                                    .createdAt(cEntity.getCreatedAt().toLocalDate().toString())
                                     .success(cEntity.getStatus().equals(SUCCESS))
                                     .type(cEntity.getChallengeType().toString().toLowerCase())
                                     .targetDate(cEntity.getTargetDate())
@@ -139,13 +138,18 @@ public class ChallengeService {
 
         } else {
             ChallengeValidator data = new ChallengeValidator(challengeRepository);
+            try {
+                data.validateActiveChallenge();
+            } catch (BusinessLogicException e) {
+                return new ResponseEntity<>(new SingleResponseDto<>(new ActiveInfoDto()), HttpStatus.OK);
+            }
+
             Challenge challenge = data.validateActiveChallenge();
 
             ActiveInfoDto activeInfo = ActiveInfoDto.builder()
                     .challengeType(challenge.getChallengeType().toString().toLowerCase())
                     .targetDate(challenge.getTargetDate())
                     .progress((int) ((double) challenge.getHistories().size() / challenge.getTargetDate() * 100))
-                    .createdAt(challenge.getCreatedAt().toLocalDate().toString())
                     .histories(setHistoryInfo(challenge))
                     .build();
 
