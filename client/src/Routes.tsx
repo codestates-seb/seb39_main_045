@@ -4,8 +4,10 @@ import { Pages } from './views/pages';
 import LoadingPage from 'views/pages/LoadingPage';
 import ProtectedRoute from 'utils/ProtectRoute';
 import useSelectorTyped from 'utils/useSelectorTyped';
-const { status } = useSelectorTyped((state) => state.user.userInfo);
 const RouteModule = () => {
+  // 셀렉터는 import { createSelector } from '@reduxjs/toolkit'; 를 사용하여 만들어야 한다.
+  const status = useSelectorTyped((state) => state.user.userInfo.status);
+  const isLoggedIn = useSelectorTyped((state) => state.user.loginStatus);
   return (
     <Suspense fallback={<LoadingPage />}>
       <Routes>
@@ -14,7 +16,7 @@ const RouteModule = () => {
         <Route
           path="main"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute isLoggedIn={isLoggedIn}>
               {status === 'none'
                 ? (
                 <Pages.MainNoCactus />
@@ -29,7 +31,7 @@ const RouteModule = () => {
         <Route
           path="mypage"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute isLoggedIn={isLoggedIn}>
               <Pages.Mypage />
             </ProtectedRoute>
           }
@@ -38,7 +40,7 @@ const RouteModule = () => {
         <Route
           path="settings"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute isLoggedIn={isLoggedIn}>
               <Pages.SettingsPage />
             </ProtectedRoute>
           }
@@ -46,7 +48,7 @@ const RouteModule = () => {
         <Route
           path="previous-challenges"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute isLoggedIn={isLoggedIn}>
               <Pages.PreviousChallengesPage />
             </ProtectedRoute>
           }
@@ -54,7 +56,7 @@ const RouteModule = () => {
         <Route
           path="active-challenges"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute isLoggedIn={isLoggedIn}>
               <Pages.CurrentChallengesPage />
             </ProtectedRoute>
           }
@@ -62,7 +64,7 @@ const RouteModule = () => {
         <Route
           path="rankings"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute isLoggedIn={isLoggedIn}>
               <Pages.RankingsPage />
             </ProtectedRoute>
           }
@@ -70,7 +72,7 @@ const RouteModule = () => {
         <Route
           path="credit"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute isLoggedIn={isLoggedIn}>
               <Pages.CreditPage />
             </ProtectedRoute>
           }

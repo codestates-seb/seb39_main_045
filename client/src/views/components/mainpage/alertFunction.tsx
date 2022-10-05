@@ -6,7 +6,7 @@ import { setAlertOpen } from 'feature/challenge/form';
 
 const doLogout = async (dispatch: Dispatch<AnyAction>): Promise<void> => {
   const { status } = await postLogout();
-  if (status < 300) {
+  if (status < 500) {
     dispatch(logoutUser());
     dispatch(setAlertOpen({ isOpen: false, status: 'none' }));
   } else {
