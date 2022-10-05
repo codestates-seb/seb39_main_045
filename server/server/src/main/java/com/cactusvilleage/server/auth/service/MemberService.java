@@ -117,14 +117,14 @@ public class MemberService {
         String email = recoveryDto.getEmail();
         String tempPassword = getTempPassword();
 
-        foundMember.setPassword(passwordEncoder.encode(tempPassword));
-        memberRepository.save(foundMember);
-
         Context context = new Context();
         context.setVariable("username", recoveryDto.getUsername());
         context.setVariable("tempPassword", tempPassword);
 
         awsSesSender.singleEmailRequest(email, "선인장 키우기의 임시 비밀번호입니다", "recovery", context);
+
+        foundMember.setPassword(passwordEncoder.encode(tempPassword));
+        memberRepository.save(foundMember);
     }
 
     public void delete(HttpServletRequest request, HttpServletResponse response) {
