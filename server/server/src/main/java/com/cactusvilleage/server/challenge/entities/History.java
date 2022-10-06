@@ -6,6 +6,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Getter
 @Entity
@@ -18,7 +19,7 @@ public class History {
     @Column(name = "HISTORY_ID")
     private Long id;
 
-    private LocalDateTime createdAt;
+    private ZonedDateTime createdAt;
 
     @Column(updatable = false)
     private String time; // 공부시간, 기상시간
@@ -28,7 +29,7 @@ public class History {
 
 
     @Builder
-    public History(LocalDateTime createdAt, String time, String contents) {
+    public History(ZonedDateTime createdAt, String time, String contents) {
         this.createdAt = createdAt;
         this.time = time;
         this.contents = contents;

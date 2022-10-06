@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
@@ -41,8 +43,9 @@ public class HistoryThanksService {
             throw new BusinessLogicException(CHALLENGE_TYPE_MISS_MATCH);
         }
 
+
         History history = History.builder()
-                .createdAt(LocalDateTime.now())
+                .createdAt(ZonedDateTime.now(ZoneId.of("Asia/Seoul")))
                 .contents(thanksDto.getText())
                 .build();
 
