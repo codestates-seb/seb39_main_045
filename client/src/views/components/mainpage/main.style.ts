@@ -101,7 +101,7 @@ export const Messages = styled.div`
   word-break: break-all;
   letter-spacing: 2px;
   line-height: 20px;
-  animation: animate 1.2s forwards 1 ease-out;
+  animation: animate 2s forwards 1 ease-out;
   position: absolute;
   top: 130px;
   left: 50%;
@@ -114,12 +114,13 @@ export const Messages = styled.div`
     }
     30%,
     50%,
-    80% {
+    70% {
       transform: translateX(-50%) scale(1);
       opacity: 1;
     }
 
     100% {
+       transform: translateX(-50%) scale(0.8);
       opacity: 0;
     }
   }

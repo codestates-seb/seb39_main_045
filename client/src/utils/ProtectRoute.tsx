@@ -11,7 +11,6 @@ interface ProtectedRouteProps {
 const ProtectedRoute = (props: ProtectedRouteProps) => {
   const { children, isLoggedIn } = props;
   const dispatch = useDispatch();
-
   if (!isLoggedIn) {
     dispatch(redirectLogin());
     return <Navigate to="/login" />;

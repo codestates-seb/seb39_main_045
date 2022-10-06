@@ -6,21 +6,30 @@ import { reissue } from 'utils/reissue';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import useSelectorTyped from 'utils/useSelectorTyped';
+import LoadingPage from 'views/pages/LoadingPage';
 
 const App = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isLoggedIn = useSelectorTyped((state) => state.user.loginStatus);
-
+  const [isPending, setIsPending] = React.useState(true);
   React.useEffect(() => {
-    void reissue(dispatch, navigate);
+    void reissue(dispatch, navigate, setIsPending);
   }, []);
 
   return (
     <div className="App">
       <AppContainer>
-        <RouteModule />
-        <Nav isLoggedIn={isLoggedIn} />
+        {isPending
+          ? (
+          <LoadingPage />
+            )
+          : (
+          <>
+            <RouteModule />
+            <Nav isLoggedIn={isLoggedIn} />
+          </>
+            )}
       </AppContainer>
     </div>
   );

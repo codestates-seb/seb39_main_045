@@ -69,8 +69,10 @@ const confirmSuccessFail = async (
       })
     );
     setIsOpen(false);
+  } else if (status === 401) {
+    dispatch(logoutUser());
   } else {
-    alert('확인이 안먹혀요;;');
+    alert('알 수 없는 에러가 발생했습니다.');
   }
 };
 export { doLogout, giveUp, handleGiveWater, confirmSuccessFail, resign };
