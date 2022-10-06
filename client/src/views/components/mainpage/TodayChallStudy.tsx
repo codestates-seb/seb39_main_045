@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ModalBtn, TimeDiv, ModalContentWithPic } from './modal.style';
-import { studySubmit } from './todayChallFunctions';
+import { studySubmit, photoPreview } from './todayChallFunctions';
 import previewImg from '../../../assets/img/preview.png';
 import { useDispatch } from 'react-redux';
 
@@ -9,8 +9,7 @@ const Study = () => {
   const dispatch = useDispatch();
   const handlePreview = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.currentTarget.files !== null) {
-      setPicPreview(URL.createObjectURL(e.currentTarget.files[0]));
-      // 아 파일 너무큰거 그거안했당...
+      photoPreview(e.currentTarget.files[0], setPicPreview);
     }
   };
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {

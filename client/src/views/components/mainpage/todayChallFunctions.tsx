@@ -4,7 +4,7 @@ import {
   postTodayThanks
 } from 'utils/challengeApis';
 import { AnyAction, Dispatch } from '@reduxjs/toolkit';
-import { updateUser } from 'feature/profile/user';
+import { logoutUser, updateUser } from 'feature/profile/user';
 import { setTodayOpen } from 'feature/challenge/form';
 const morningSubmit = async (dispatch: Dispatch<AnyAction>) => {
   const { data, status } = await postTodayMorning({
@@ -14,7 +14,7 @@ const morningSubmit = async (dispatch: Dispatch<AnyAction>) => {
     dispatch(updateUser(data.data));
     dispatch(setTodayOpen(false));
   } else if (status === 401) {
-    alert('일일 챌린지 등록에 실패했습니다');
+    dispatch(logoutUser());
   } else if (status === 403) {
     alert('챌린지 등록은 하루에 한번만 가능합니다');
   } else {
@@ -33,7 +33,7 @@ const thanksSubmit = async (dispatch: Dispatch<AnyAction>, text: string) => {
     dispatch(updateUser(data.data));
     dispatch(setTodayOpen(false));
   } else if (status === 401) {
-    alert('일일 챌린지 등록에 실패했습니다');
+    dispatch(logoutUser());
   } else if (status === 403) {
     alert('챌린지 등록은 하루에 한번만 가능합니다');
   } else {
@@ -48,6 +48,10 @@ const studySubmit = async (
 ) => {
   if (image === undefined || time === 0) {
     alert('사진과 시간 기입은 필수입니다');
+    return;
+  }
+  if (image.size > 1000000) {
+    alert('1mb이하인 사진을 등록해주세요');
     return;
   }
   const form = new FormData();
@@ -65,11 +69,18 @@ const studySubmit = async (
     dispatch(updateUser(data.data));
     dispatch(setTodayOpen(false));
   } else if (status === 401) {
-    alert('일일 챌린지 등록에 실패했습니다');
+    dispatch(logoutUser());
   } else if (status === 403) {
     alert('챌린지 등록은 하루에 한번만 가능합니다');
   } else {
     alert('챌린지 등록 중에 예상치 못한 에러가 발생했습니다');
   }
 };
-export { thanksSubmit, morningSubmit, studySubmit };
+const photoPreview = (file: File, setPicPreview: (state: string) => void) => {
+  if (file.size > 1000000) {
+    alert('사이즈가 너무 큽니다 1mb이하의 사진을 넣어주세요');
+    return;
+  }
+  setPicPreview(URL.createObjectURL(file));
+};
+export { thanksSubmit, morningSubmit, studySubmit, photoPreview };
