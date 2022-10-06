@@ -2,7 +2,7 @@ import { patchEditInfo } from 'utils/memberApis';
 import type { EditForm } from 'feature/form';
 import useSelectorTyped from 'utils/useSelectorTyped';
 import { setEditError, setEditRequestStatus } from 'feature/form';
-import { updateUser } from 'feature/profile/user';
+import { updateUser, logoutUser } from 'feature/profile/user';
 import { EditInfo } from 'types/userTypes';
 import { useDispatch } from 'react-redux';
 
@@ -40,6 +40,8 @@ const useSettingsFlows = () => {
     if (status < 300) {
       dispatch(setEditRequestStatus('변경되었습니다.'));
       dispatch(updateUser(data.username));
+    } else if (status === 401) {
+      dispatch(logoutUser());
     } else {
       dispatch(setEditRequestStatus(''));
       dispatch(setEditError(data.message ?? data.fieldErrors[0].reason));
