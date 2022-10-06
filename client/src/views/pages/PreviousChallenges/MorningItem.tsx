@@ -19,7 +19,7 @@ const MorningItem = (props: IMorningItemProps): React.ReactElement<IMorningItemP
   return (
     <>
       {histories.map((history: TargetChallenge) => {
-        const { createdAt, day, contents } = history;
+        const { createdAt, day, time } = history;
 
         return (
           <Layout.ChallengeWrapper key={`${index}_${day}`}>
@@ -31,7 +31,7 @@ const MorningItem = (props: IMorningItemProps): React.ReactElement<IMorningItemP
             <Content.Diary>
               <TitleIcon className="material-symbols-outlined">wb_sunny</TitleIcon>
               목표: {targetTime}시
-              <div>{contents}에 일어났어요</div>
+              <div>{time}에 일어났어요</div>
             </Content.Diary>
           </Layout.ChallengeWrapper>
         );
