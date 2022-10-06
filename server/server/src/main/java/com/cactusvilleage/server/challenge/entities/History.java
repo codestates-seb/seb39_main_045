@@ -11,30 +11,19 @@ import java.time.ZonedDateTime;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-//public class History extends Auditable {
-public class History {
+public class History extends Auditable {
+//public class History {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "HISTORY_ID")
     private Long id;
 
-    private LocalDateTime createdAt;
-
     @Column(updatable = false)
     private String time; // 공부시간, 기상시간
 
     @Column(updatable = false, columnDefinition = "TEXT")
     private String contents; // 감사 일기 text, s3에 업로드된 Multipart/form-data 이미지 url
-
-    private String testTime;
-
-    @Builder
-    public History(String time, String contents, String testTime) {
-        this.time = time;
-        this.contents = contents;
-        this.testTime = testTime;
-    }
 
     @Builder
     public History(String time, String contents) {
