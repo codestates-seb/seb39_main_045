@@ -32,6 +32,7 @@ public class Member extends Auditable {
     private Authority authority;
     @Enumerated(EnumType.STRING)
     private ProviderType providerType;
+    @Column(unique = true)
     private String providerId;
 
     @Builder
@@ -59,10 +60,11 @@ public class Member extends Auditable {
         this.password = password;
     }
 
-    public void deleteMember(String email, String username, boolean deleted) {
+    public void deleteMember(boolean deleted, String email, String username, String providerId) {
         this.email = email;
         this.username = username;
         this.deleted = deleted;
+        this.providerId = providerId;
     }
 
     public void addChallenge(Challenge challenge) {

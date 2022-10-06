@@ -39,6 +39,8 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static com.cactusvilleage.server.auth.entities.oauth.ProviderType.GOOGLE;
+import static com.cactusvilleage.server.auth.entities.oauth.ProviderType.KAKAO;
 import static com.cactusvilleage.server.challenge.entities.Status.DELETED;
 import static com.cactusvilleage.server.global.exception.ExceptionCode.*;
 
@@ -133,12 +135,28 @@ public class MemberService {
 
         Long memberId = Long.parseLong(refreshToken.getMemberId());
         Member foundMember = findMember(memberId);
-        String dummy = getEncodedMemberId(memberId);
-        foundMember.deleteMember(foundMember.getEmail() + dummy, foundMember.getUsername() + dummy, true);
-        memberRepository.save(foundMember);
+        Member deletedMember = deleteByType(foundMember);
+
+        memberRepository.save(deletedMember);
 
         jwtCookieUtil.deleteCookie(request, response, "access_token");
         jwtCookieUtil.deleteCookie(request, response, "refresh_token");
+    }
+
+    private Member deleteByType(Member member) {
+        String dummy = getEncodedMemberId(member.getId());
+        ProviderType providerType = member.getProviderType();
+
+        if (providerType.equals(KAKAO) || providerType.equals(GOOGLE)) {
+            if (member.getEmail() == null) {
+                member.deleteMember(true, null, member.getUsername() + dummy, member.getProviderId() + dummy);
+            } else {
+                member.deleteMember(true, member.getEmail() + dummy, member.getUsername() + dummy, member.getProviderId() + dummy);
+            }
+        } else {
+            member.deleteMember(true, member.getEmail() + dummy, member.getUsername() + dummy, null);
+        }
+        return member;
     }
 
     public ResponseEntity reissue(HttpServletRequest request, HttpServletResponse response) {
