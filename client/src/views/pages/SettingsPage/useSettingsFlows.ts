@@ -39,7 +39,7 @@ const useSettingsFlows = () => {
     const { data, status } = await patchEditInfo({ ...inputData });
     if (status < 300) {
       dispatch(setEditRequestStatus('변경되었습니다.'));
-      dispatch(updateUser(data.username));
+      dispatch(updateUser({ username: data.username }));
     } else if (status === 401) {
       dispatch(logoutUser());
     } else {
