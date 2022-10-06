@@ -8,7 +8,7 @@ import { logoutUser, updateUser } from 'feature/profile/user';
 import { setTodayOpen } from 'feature/challenge/form';
 const morningSubmit = async (dispatch: Dispatch<AnyAction>) => {
   const { data, status } = await postTodayMorning({
-    time: new Date().toLocaleTimeString('en-US')
+    time: new Date().toLocaleTimeString('en-US', { hour12: false })
   });
   if (status < 300) {
     dispatch(updateUser(data.data));
