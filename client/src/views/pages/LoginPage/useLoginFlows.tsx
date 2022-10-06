@@ -23,7 +23,6 @@ const useLoginFlows = (next: string) => {
 
     const { data, status } = await postLogin({ email, password });
     if (status < 300) {
-      console.log(data);
       dispatch(loginUser(data.data));
       dispatch(clickMain());
     } else if (status === 400) {

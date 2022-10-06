@@ -29,7 +29,6 @@ const thanksSubmit = async (dispatch: Dispatch<AnyAction>, text: string) => {
 
   const { data, status } = await postTodayThanks({ text });
   if (status < 300) {
-    console.log(data);
     dispatch(updateUser(data.data));
     dispatch(setTodayOpen(false));
   } else if (status === 401) {
