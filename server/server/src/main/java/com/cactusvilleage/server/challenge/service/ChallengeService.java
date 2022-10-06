@@ -24,6 +24,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -40,6 +41,7 @@ import static com.cactusvilleage.server.global.exception.ExceptionCode.ENROLL_CH
 @Service
 @Slf4j
 @RequiredArgsConstructor
+@Transactional
 public class ChallengeService {
 
     private final MemberService memberService;
