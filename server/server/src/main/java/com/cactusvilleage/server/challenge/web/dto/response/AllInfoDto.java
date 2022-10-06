@@ -1,6 +1,5 @@
 package com.cactusvilleage.server.challenge.web.dto.response;
 
-import com.cactusvilleage.server.challenge.web.dto.response.HistoryInfoResponseDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
