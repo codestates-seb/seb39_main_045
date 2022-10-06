@@ -20,17 +20,15 @@ const SubmitContents = () => {
     <Layout.FlexColumn>
       {histories.map((history, historyIdx) => {
         const { day, createdAt, contents, time }: SubmitHistories = history;
+
         return (
           <NowChallengeGrid key={historyIdx}>
             {iconMap[day - 1]}
             <div>{createdAt}</div>
-            {
-              challengeType === '공부'
-                ? <Layout.Image src={`https://api.cactus-villeage.com/api/v1/images/${contents}`} alt="제출한 공부 기록" />
-                : <div>{contents}</div>
-            }
+            {challengeType === '공부'
+              ? <Layout.Image src={`https://api.cactus-villeage.com/api/v1/images/${contents}`} alt="제출한 공부 기록" />
+              : <div>{contents}</div>}
             <div>{time !== null ? `제출 시간: ${time}` : null}</div>
-
           </NowChallengeGrid>
         );
       })}
