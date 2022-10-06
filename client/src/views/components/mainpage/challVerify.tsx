@@ -22,6 +22,7 @@ const challSubmit = async (
     dispatch(setTodayOpen(false));
     dispatch(clearChooseForm());
   } else if (status === 401) {
+    dispatch(setTodayOpen(false));
     dispatch(logoutUser());
   } else {
     alert('챌린지 등록에 실패했습니다 다시 시도해 주세요');
