@@ -5,14 +5,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class History extends Auditable {
-//public class History {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +20,7 @@ public class History extends Auditable {
     private String time; // 공부시간, 기상시간
 
     @Column(updatable = false, columnDefinition = "TEXT")
-    private String contents; // 감사 일기 text, s3에 업로드된 Multipart/form-data 이미지 url
+    private String contents; // 감사 일기 text, s3에 업로드된 Multipart/form-data 이미지 fileName
 
     @Builder
     public History(String time, String contents) {
