@@ -7,6 +7,16 @@ export const reissue = async (
   navigate: NavigateFunction,
   setIsPending: (state: boolean) => void
 ) => {
+  const path = window.location.pathname;
+  if (
+    path === '/' ||
+    path === '/login' ||
+    path === '/signup' ||
+    path === '/forgotpw'
+  ) {
+    setIsPending(false);
+    return;
+  }
   const { status } = await getReissue();
   if (status < 300) {
     setTimeout(() => {
