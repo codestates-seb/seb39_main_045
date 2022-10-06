@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
@@ -41,6 +42,7 @@ public class HistoryThanksService {
         }
 
         History history = History.builder()
+                .createdAt(LocalDateTime.now())
                 .contents(thanksDto.getText())
                 .build();
 
