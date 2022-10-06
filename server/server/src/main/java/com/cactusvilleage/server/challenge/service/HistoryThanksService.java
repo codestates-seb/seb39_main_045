@@ -43,10 +43,8 @@ public class HistoryThanksService {
             throw new BusinessLogicException(CHALLENGE_TYPE_MISS_MATCH);
         }
 
-
         History history = History.builder()
                 .contents(thanksDto.getText())
-                .testTime(LocalDateTime.now().toString())
                 .build();
 
         // 진행 중인 챌린지에서 히스토리 가져오기
