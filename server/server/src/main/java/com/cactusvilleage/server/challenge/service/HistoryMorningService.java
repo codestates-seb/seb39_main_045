@@ -83,7 +83,8 @@ public class HistoryMorningService {
         int time = Integer.parseInt(timeString);
 
         // 일일 모닝 챌린지 도전과제 실패 조건
-        if ((time < challenge.getTargetTime())) {
+        // 현재 시간이 목표한 기상 시간보다 커버리면 실패
+        if ((time > challenge.getTargetTime())) {
             challenge.setStatus(FAIL);
             progress = -1;
             history.setChallenge(challenge);
