@@ -14,10 +14,12 @@ ${reset}
     box-sizing: border-box;
     
 }
+
 html,body{
     font-family: 'ChosunGu';
     display:flex;
     justify-content:center;
+    height : 100vh;
 
 
 }

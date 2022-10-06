@@ -26,15 +26,18 @@ const giveUp = async (dispatch: Dispatch<AnyAction>): Promise<void> => {
       })
     );
     dispatch(setAlertOpen({ isOpen: false, status: 'none' }));
+  } else if (status === 401) {
+    dispatch(setAlertOpen({ isOpen: false, status: 'none' }));
+    dispatch(logoutUser());
   } else {
     alert('챌린지 삭제에 실패했습니다. ');
   }
 };
 const resign = async (dispatch: Dispatch<AnyAction>): Promise<void> => {
   const { status } = await deleteUser();
-  if (status < 300) {
-    dispatch(logoutUser());
+  if (status < 500) {
     dispatch(setAlertOpen({ isOpen: false, status: 'none' }));
+    dispatch(logoutUser());
   } else {
     alert('챌린지 삭제에 실패했습니다. ');
   }
@@ -70,6 +73,7 @@ const confirmSuccessFail = async (
     );
     setIsOpen(false);
   } else if (status === 401) {
+    setIsOpen(false);
     dispatch(logoutUser());
   } else {
     alert('알 수 없는 에러가 발생했습니다.');

@@ -14,6 +14,7 @@ const morningSubmit = async (dispatch: Dispatch<AnyAction>) => {
     dispatch(updateUser(data.data));
     dispatch(setTodayOpen(false));
   } else if (status === 401) {
+    dispatch(setTodayOpen(false));
     dispatch(logoutUser());
   } else if (status === 403) {
     alert('챌린지 등록은 하루에 한번만 가능합니다');
@@ -32,6 +33,7 @@ const thanksSubmit = async (dispatch: Dispatch<AnyAction>, text: string) => {
     dispatch(updateUser(data.data));
     dispatch(setTodayOpen(false));
   } else if (status === 401) {
+    dispatch(setTodayOpen(false));
     dispatch(logoutUser());
   } else if (status === 403) {
     alert('챌린지 등록은 하루에 한번만 가능합니다');
@@ -68,6 +70,7 @@ const studySubmit = async (
     dispatch(updateUser(data.data));
     dispatch(setTodayOpen(false));
   } else if (status === 401) {
+    dispatch(setTodayOpen(false));
     dispatch(logoutUser());
   } else if (status === 403) {
     alert('챌린지 등록은 하루에 한번만 가능합니다');
