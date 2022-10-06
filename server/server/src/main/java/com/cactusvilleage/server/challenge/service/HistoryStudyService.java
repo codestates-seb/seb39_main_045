@@ -10,6 +10,7 @@ import com.cactusvilleage.server.challenge.web.dto.response.HistoryResponseDto;
 import com.cactusvilleage.server.global.exception.BusinessLogicException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -23,6 +24,7 @@ import static com.cactusvilleage.server.global.exception.ExceptionCode.*;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class HistoryStudyService {
     private final HistoryRepository historyRepository;
     private final ChallengeRepository challengeRepository;
