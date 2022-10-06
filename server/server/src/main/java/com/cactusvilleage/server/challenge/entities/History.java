@@ -19,7 +19,7 @@ public class History {
     @Column(name = "HISTORY_ID")
     private Long id;
 
-    private String createdAt;
+    private LocalDateTime createdAt;
 
     @Column(updatable = false)
     private String time; // 공부시간, 기상시간
@@ -27,12 +27,13 @@ public class History {
     @Column(updatable = false, columnDefinition = "TEXT")
     private String contents; // 감사 일기 text, s3에 업로드된 Multipart/form-data 이미지 url
 
+    private String testTime;
 
     @Builder
-    public History(String createdAt, String time, String contents) {
-        this.createdAt = createdAt;
+    public History(String time, String contents, String testTime) {
         this.time = time;
         this.contents = contents;
+        this.testTime = testTime;
     }
 
     @Builder

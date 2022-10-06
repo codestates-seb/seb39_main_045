@@ -45,8 +45,8 @@ public class HistoryThanksService {
 
 
         History history = History.builder()
-                .createdAt(LocalDateTime.now().toString())
                 .contents(thanksDto.getText())
+                .testTime(LocalDateTime.now().toString())
                 .build();
 
         // 진행 중인 챌린지에서 히스토리 가져오기
@@ -57,14 +57,14 @@ public class HistoryThanksService {
             history.setChallenge(challenge);
             historyRepository.save(history);
         } else { // 그게 아닌 경우, 가장 최근 히스토리를 가져와서 어제날짜와 비교해 같으면 등록
-//            History recentHistory = histories.get(histories.size() - 1);
-//            LocalDate date = recentHistory.getCreatedAt().toLocalDate();
-//            if (Objects.equals(date, LocalDate.now().minusDays(1))) {
-//                history.setChallenge(challenge);
-//                historyRepository.save(history);
-//            } else { // 그 외의 경우는 중복 등록이라 판단
-//                throw new BusinessLogicException(ENROLL_HISTORY_CANNOT_BE_DUPLICATED);
-//            }
+            History recentHistory = histories.get(histories.size() - 1);
+            LocalDate date = recentHistory.getCreatedAt().toLocalDate();
+            if (Objects.equals(date, LocalDate.now().minusDays(1))) {
+                history.setChallenge(challenge);
+                historyRepository.save(history);
+            } else { // 그 외의 경우는 중복 등록이라 판단
+                throw new BusinessLogicException(ENROLL_HISTORY_CANNOT_BE_DUPLICATED);
+            }
         }
         // 진행도 계산
         int progress = (int) ((double) challenge.getHistories().size() / challenge.getTargetDate() * 100);
