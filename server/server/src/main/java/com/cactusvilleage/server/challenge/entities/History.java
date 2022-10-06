@@ -19,7 +19,7 @@ public class History {
     @Column(name = "HISTORY_ID")
     private Long id;
 
-    private ZonedDateTime createdAt;
+    private String createdAt;
 
     @Column(updatable = false)
     private String time; // 공부시간, 기상시간
@@ -29,7 +29,7 @@ public class History {
 
 
     @Builder
-    public History(ZonedDateTime createdAt, String time, String contents) {
+    public History(String createdAt, String time, String contents) {
         this.createdAt = createdAt;
         this.time = time;
         this.contents = contents;

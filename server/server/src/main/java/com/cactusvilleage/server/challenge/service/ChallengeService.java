@@ -327,7 +327,7 @@ public class ChallengeService {
         return challenge.getHistories().stream()
                 .map(origin -> HistoryInfoResponseDto.builder()
                         .day(index.getAndIncrement())
-                        .createdAt(origin.getCreatedAt().toString())
+                        .createdAt(origin.getCreatedAt())
                         .contents(origin.getContents())
                         .time(origin.getTime())
                         .build())
