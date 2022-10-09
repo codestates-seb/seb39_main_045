@@ -21,7 +21,7 @@
 
 - **화면 설계** : [선인장키우기 피그마](https://www.figma.com/file/RygJ4nv0wDwdrroYN2HmBu/%EC%84%A0%EC%9D%B8%EC%9E%A5%ED%82%A4%EC%9A%B0%EA%B8%B0?node-id=64%3A1744)
 
-- **배포 링크** :
+- **배포 링크** : https://www.cactus-villeage.com/
 
 <br />
 <br />
