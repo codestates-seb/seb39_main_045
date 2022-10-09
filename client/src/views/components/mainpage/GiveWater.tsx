@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { handleGiveWater } from './alertFunction';
+import { handleGiveWater } from '../mainpageModal/alertFunction';
 import { MainBtn, Messages } from './main.style';
 const GiveWater = () => {
   const [giveWater, setGiveWater] = useState(false);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ModalBtn, SuccessFailWrapper } from './modal.style';
+import { ModalBtn, SuccessFailWrapper } from '../mainpage/modal.style';
 import { AlertProps, SuccessFail } from '../../../types/mainPageTypes';
 import { useDispatch } from 'react-redux';
 import { confirmSuccessFail } from './alertFunction';

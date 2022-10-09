@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { ModalBtn, TextArea, ModalContent } from './modal.style';
+import { ModalBtn, TextArea, ModalContent } from '../mainpage/modal.style';
 import { thanksSubmit } from './todayChallFunctions';
 const Thanks = () => {
   const dispatch = useDispatch();

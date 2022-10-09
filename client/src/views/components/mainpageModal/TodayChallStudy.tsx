@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
-import { ModalBtn, TimeDiv, ModalContentWithPic } from './modal.style';
+import {
+  ModalBtn,
+  TimeDiv,
+  ModalContentWithPic
+} from '../mainpage/modal.style';
 import { studySubmit, photoPreview } from './todayChallFunctions';
 import previewImg from '../../../assets/img/preview.png';
 import { useDispatch } from 'react-redux';

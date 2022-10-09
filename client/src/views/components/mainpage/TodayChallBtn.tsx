@@ -1,6 +1,6 @@
 import React from 'react';
 import { MainBtn } from './main.style';
-import TodayChallModal from './TodayChallModal';
+import TodayChallModal from '../mainpageModal/TodayChallModal';
 import { setTodayOpen } from 'feature/challenge/form';
 import { useDispatch } from 'react-redux';
 import useSelectorTyped from 'utils/useSelectorTyped';

@@ -29,9 +29,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.cactusvilleage.server.challenge.entities.Status.*;
 import static com.cactusvilleage.server.global.exception.ExceptionCode.CHALLENGE_TARGET_TIME_NOT_NULL;
@@ -114,11 +116,19 @@ public class ChallengeService {
                 return new ResponseEntity<>(new SingleResponseDto<>(allInfo), HttpStatus.OK);
             }
 
-            int totalDate = done.stream()
+            int failAtOneDay = (int) done.stream()
+                    .filter(oneDay -> oneDay.getHistories().size() == 1)
+                    .map(duplicate -> duplicate.getCreatedAt().toLocalDate())
+                    .distinct()
+                    .count();
+            int sum = done.stream()
                     .map(Challenge::getHistories)
                     .map(List::size)
+                    .filter(size -> size != 1)
                     .mapToInt(i -> i)
                     .sum();
+
+            int totalDate = failAtOneDay + sum;
 
             AllInfoDto allInfo = AllInfoDto.builder()
                     .totalDate(totalDate)

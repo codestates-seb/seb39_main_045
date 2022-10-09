@@ -21,7 +21,7 @@
 
 - **화면 설계** : [선인장키우기 피그마](https://www.figma.com/file/RygJ4nv0wDwdrroYN2HmBu/%EC%84%A0%EC%9D%B8%EC%9E%A5%ED%82%A4%EC%9A%B0%EA%B8%B0?node-id=64%3A1744)
 
-- **배포 링크** :
+- **배포 링크** : https://www.cactus-villeage.com/
 
 <br />
 <br />
@@ -36,9 +36,6 @@
 <br />
 <br />
 
-## 🌈 서비스 소개
-
--
 
 <br />
 <br />
@@ -58,6 +55,9 @@
 ![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)
 ![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white)
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+
+![image](https://user-images.githubusercontent.com/75547467/194750486-50be6ac4-4e28-45ac-bdfc-385d93434329.png)
+
 
 <br />
 <br />

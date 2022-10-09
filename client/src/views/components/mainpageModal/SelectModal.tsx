@@ -8,7 +8,7 @@ import {
   Label,
   ModalBtn,
   SelectModalContent
-} from './modal.style';
+} from '../mainpage/modal.style';
 import { setChall, setDate, setTodayOpen } from 'feature/challenge/form';
 import challVerify from './challVerify';
 import useSelectorTyped from 'utils/useSelectorTyped';

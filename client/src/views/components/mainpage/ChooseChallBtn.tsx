@@ -1,6 +1,6 @@
 import React from 'react';
 import { MainBtn } from './main.style';
-import SelectModal from './SelectModal';
+import SelectModal from '../mainpageModal/SelectModal';
 import { useDispatch } from 'react-redux';
 import { setTodayOpen } from 'feature/challenge/form';
 import useSelectorTyped from 'utils/useSelectorTyped';
