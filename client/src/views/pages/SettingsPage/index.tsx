@@ -67,12 +67,13 @@ const MypageSettings = () => {
           autoComplete="false"
           id="prePassword"
           type="password"
-          required
           maxLength={20}
           onChange={onChange}
         />
         <Content.Check>
-          {isValidPrePassword ? '' : '필수 입력 항목입니다.'}
+          {isValidPrePassword ?? false
+            ? ''
+            : '자체 회원 필수 입력 항목입니다.'}
         </Content.Check>
         <AuthLabel htmlFor="newPassword">새 비밀번호</AuthLabel>
         <AuthInput

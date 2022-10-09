@@ -17,13 +17,16 @@ const useSettingsFlows = () => {
     isValidNewPassword
   }: EditForm = useSelectorTyped((state) => state.form.edit_form);
 
-  const inputData: EditInfo = { username, prePassword };
+  const inputData: EditInfo = { username };
+  if (typeof prePassword === 'string' && prePassword.length > 0) {
+    inputData.prePassword = prePassword;
+  }
   if (typeof newPassword === 'string' && newPassword.length > 0) {
     inputData.newPassword = newPassword;
   }
 
   const doEditInfo = async () => {
-    if (!isValidPrePassword) {
+    if (isValidPrePassword === false) {
       dispatch(setEditError('기존 비밀번호를 확인해주세요'));
       return false;
     }
@@ -39,7 +42,7 @@ const useSettingsFlows = () => {
     const { data, status } = await patchEditInfo({ ...inputData });
     if (status < 300) {
       dispatch(setEditRequestStatus('변경되었습니다.'));
-      dispatch(updateUser({ username: data.username }));
+      dispatch(updateUser({ username: data.data.username }));
     } else if (status === 401) {
       dispatch(logoutUser());
     } else {
