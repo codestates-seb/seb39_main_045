@@ -101,7 +101,7 @@ export const Cards = styled.ul`
 export const Card = styled.li<Active>`
   padding: 20px 0;
   width: 100%;
-  word-break: break-all;
+  word-break: break-word;
 
   flex-basis: ${(props) => (props.active ? '100' : '0')};
   display: ${(props) => (props.active ? 'block' : 'none')};
@@ -216,7 +216,7 @@ export const ModalContents = styled.div`
   & > div:nth-last-child(2) {
     margin: 10px;
     padding: 5px;
-    word-break: break-all;
+    word-break: break-word;
     font-weight: 600;
     text-align: center;
     white-space: pre-wrap;
