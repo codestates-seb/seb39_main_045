@@ -18,10 +18,10 @@ export interface SignupForm {
 }
 export interface EditForm {
   username: string
-  prePassword: string
+  prePassword: string | null
   newPassword: string | null
   isValidUserName: boolean
-  isValidPrePassword: boolean
+  isValidPrePassword?: boolean
   isValidNewPassword?: boolean
   requestStatus: string
   error: string
@@ -60,9 +60,8 @@ const initialState: IForm = {
   },
   edit_form: {
     username: '',
-    prePassword: '',
+    prePassword: null,
     newPassword: null,
-    isValidPrePassword: false,
     isValidUserName: false,
     requestStatus: '',
     error: ''
