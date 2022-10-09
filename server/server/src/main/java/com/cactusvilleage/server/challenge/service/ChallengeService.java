@@ -114,11 +114,10 @@ public class ChallengeService {
                 return new ResponseEntity<>(new SingleResponseDto<>(allInfo), HttpStatus.OK);
             }
 
-            int totalDate = done.stream()
-                    .map(Challenge::getHistories)
-                    .map(List::size)
-                    .mapToInt(i -> i)
-                    .sum();
+            int totalDate = (int) done.stream()
+                    .map(date -> date.getCreatedAt().toLocalDate())
+                    .distinct()
+                    .count();
 
             AllInfoDto allInfo = AllInfoDto.builder()
                     .totalDate(totalDate)
