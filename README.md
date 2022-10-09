@@ -36,9 +36,6 @@
 <br />
 <br />
 
-## 🌈 서비스 소개
-
--
 
 <br />
 <br />
@@ -58,6 +55,9 @@
 ![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)
 ![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white)
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+
+![image](https://user-images.githubusercontent.com/75547467/194750486-50be6ac4-4e28-45ac-bdfc-385d93434329.png)
+
 
 <br />
 <br />
