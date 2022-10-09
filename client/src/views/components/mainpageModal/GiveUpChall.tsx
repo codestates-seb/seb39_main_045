@@ -1,6 +1,6 @@
 import React from 'react';
 import AlertModal from './AlertModal';
-import { GiveUp } from './main.style';
+import { GiveUp } from '../mainpage//main.style';
 import { useDispatch } from 'react-redux';
 import { setAlertOpen } from 'feature/challenge/form';
 import useSelectorTyped from 'utils/useSelectorTyped';

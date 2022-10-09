@@ -1,5 +1,3 @@
-import { AnyAction, Dispatch } from '@reduxjs/toolkit';
-
 export interface AlertProps extends DefaultProps {
   status: string
 }

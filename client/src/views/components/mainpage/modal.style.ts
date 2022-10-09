@@ -1,4 +1,8 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+
+interface Active {
+  active: boolean
+}
 export const SuccessFailWrapper = styled.div`
   position: absolute;
   top: 0;
@@ -84,6 +88,30 @@ export const ModalContentWrapper = styled.div`
     }
   }
 `;
+export const Cards = styled.ul`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  max-width: 350px;
+  height: 250px;
+  overflow: hidden;
+  margin: auto;
+`;
+export const Card = styled.li<Active>`
+  padding: 20px 0;
+  width: 100%;
+  word-break: break-all;
+
+  flex-basis: ${(props) => (props.active ? '100' : '0')};
+  display: ${(props) => (props.active ? 'block' : 'none')};
+  text-align: center;
+  line-height: 20px;
+  transition: all 0.5s ease-out;
+  p {
+    margin: 10px 0;
+  }
+`;
 
 const SubmitBtn = styled.button`
   width: 80%;
@@ -107,7 +135,7 @@ const CloseBtn = styled.button`
   box-shadow: none;
   font-size: 1.5rem;
 `;
-const SelectBtn = styled.button<{ active: boolean }>`
+const SelectBtn = styled.button<Active>`
   background-color: ${(props) =>
     props.active ? 'var(--main-emp-green)' : ' var(--main-btn-green)'};
   border-radius: 12px;
@@ -124,12 +152,22 @@ const ConfirmBtn = styled(SubmitBtn)`
     background-color: var(--main-emp-green);
   }
 `;
-export const ModalBtn = {
-  submit: SubmitBtn,
-  select: SelectBtn,
-  close: CloseBtn,
-  confirm: ConfirmBtn
-};
+export const Navigate = css`
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+`;
+export const NavigateLeft = styled.button`
+  ${Navigate}
+  left:0
+`;
+export const NavigateRight = styled.button`
+  ${Navigate}
+  right: 0;
+`;
 
 export const TimeDiv = styled.div`
   padding: 5px 10px;
@@ -287,4 +325,9 @@ export const ModalContentWithPic = styled(ModalContent)`
     padding: 10px;
   }
 `;
-// SuccessFailModal
+export const ModalBtn = {
+  submit: SubmitBtn,
+  select: SelectBtn,
+  close: CloseBtn,
+  confirm: ConfirmBtn
+};

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import Logout from 'views/components/mainpage/Logout';
-import GiveUpChall from 'views/components/mainpage/GiveUpChall';
+import GiveUpChall from 'views/components/mainpageModal/GiveUpChall';
 import Cactus from 'views/components/mainpage/Cactus';
 import TodayChallBtn from 'views/components/mainpage/TodayChallBtn';
 import GiveWater from 'views/components/mainpage/GiveWater';
@@ -11,7 +11,7 @@ import {
   NavBtns,
   NowPercent
 } from 'views/components/mainpage/main.style';
-import SuccessFailModal from 'views/components/mainpage/SuccessFailModal';
+import SuccessFailModal from 'views/components/mainpageModal/SuccessFailModal';
 import { TodayTitle } from 'types/mainPageTypes';
 const title: TodayTitle = {
   study: '공부',
