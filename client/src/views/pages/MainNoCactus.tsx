@@ -6,8 +6,10 @@ import {
   CactusWrapper,
   NavBtns,
   NoCactusSpan,
-  CactusStyle
+  CactusStyle,
+  NoCactusRight
 } from 'views/components/mainpage/main.style';
+import Explanation from 'views/components/mainpage/Explanation';
 
 const MainNoCactus = () => {
   return (
@@ -20,7 +22,10 @@ const MainNoCactus = () => {
           </div>
           <ChooseChall />
         </div>
-        <Logout />
+        <NoCactusRight>
+          <Explanation />
+          <Logout />
+        </NoCactusRight>
       </NavBtns>
       <CactusStyle>
         <Cactus />

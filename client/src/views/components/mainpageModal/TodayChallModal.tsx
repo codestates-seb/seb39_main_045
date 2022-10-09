@@ -1,6 +1,6 @@
 import React from 'react';
 import ModalPortal from './ModalPortal';
-import { ModalWrapper, ModalContentWrapper } from './modal.style';
+import { ModalWrapper, ModalContentWrapper } from '../mainpage/modal.style';
 import { TodayEl } from '../../../types/mainPageTypes';
 import Study from './TodayChallStudy';
 import Thanks from './TodayChallThanks';

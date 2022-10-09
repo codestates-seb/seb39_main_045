@@ -1,5 +1,5 @@
 import React from 'react';
-import { TimeDiv, Label } from './modal.style';
+import { TimeDiv, Label } from '../mainpage/modal.style';
 import { useDispatch } from 'react-redux';
 import { setTime } from 'feature/challenge/form';
 

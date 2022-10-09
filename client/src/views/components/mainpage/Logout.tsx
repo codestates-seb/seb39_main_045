@@ -1,5 +1,5 @@
 import React from 'react';
-import AlertModal from './AlertModal';
+import AlertModal from '../mainpageModal/AlertModal';
 import { MainBtn } from './main.style';
 import { useDispatch } from 'react-redux';
 import { setAlertOpen } from 'feature/challenge/form';

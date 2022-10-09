@@ -41,6 +41,18 @@ const LBtn = styled(MBtn)`
     background-color: var(--main-emp-green);
   }
 `;
+const EBtn = styled(LBtn)`
+  background-color: rgba(255, 255, 255, 0.3);
+  color: black;
+  :active {
+    background-color: rgba(0, 0, 0, 0.3);
+    color: white;
+  }
+  :hover {
+    background-color: rgba(0, 0, 0, 0.3);
+    color: white;
+  }
+`;
 // else(layout etc)
 export const NavBtns = styled.div`
   display: flex;
@@ -74,6 +86,9 @@ export const NoCactusSpan = styled.span`
   background-color: var(--main-btn-brown);
   border-radius: 50%;
   user-select: none;
+`;
+export const NoCactusRight = styled.div`
+  display: flex;
 `;
 
 export const NowPercent = styled.div`
@@ -120,7 +135,7 @@ export const Messages = styled.div`
     }
 
     100% {
-       transform: translateX(-50%) scale(0.8);
+      transform: translateX(-50%) scale(0.8);
       opacity: 0;
     }
   }
@@ -158,5 +173,6 @@ export const MainBtn = {
   today: TBtn,
   choose: CBtn,
   water: GBtn,
-  logout: LBtn
+  logout: LBtn,
+  explain: EBtn
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import SadCactus from '../icons/modal/SadCactus';
-import { ModalWrapper, ModalContents } from './modal.style';
+import { ModalWrapper, ModalContents } from '../mainpage/modal.style';
 import ModalPortal from './ModalPortal';
 import { AlertMsg } from '../../../types/mainPageTypes';
 import { useDispatch } from 'react-redux';

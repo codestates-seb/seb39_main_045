@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { ModalBtn, ModalContentDiv } from './modal.style';
+import { ModalBtn, ModalContentDiv } from '../mainpage/modal.style';
 import { morningSubmit } from './todayChallFunctions';
 const MorningTime = () => {
   const [time, setTime] = useState(new Date());
