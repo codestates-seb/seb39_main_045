@@ -33,7 +33,7 @@ public class JobLoggerListener implements JobExecutionListener {
         log.info(AFTER_LOG, jobName, status);
 
         if (jobExecution.getStatus() == BatchStatus.FAILED) {
-            log.warn("잡이 실패했슈");
+            log.warn("Job failed");
             discordWebHookSender.callEvent(String.format(FAIL_DISCORD, jobName));
         } else {
             discordWebHookSender.callEvent(String.format(AFTER_DISCORD, jobName, status));

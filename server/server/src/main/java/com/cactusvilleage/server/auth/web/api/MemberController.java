@@ -42,29 +42,29 @@ public class MemberController {
 
     @PatchMapping
     public ResponseEntity edit(@RequestBody @Valid EditDto editDto) {
-        return memberService.edit(editDto);
+        return memberService.editMember(editDto);
     }
 
     @PostMapping("/recovery")
     public ResponseEntity recovery(@RequestBody @Valid RecoveryDto recoveryDto) {
-        memberService.recovery(recoveryDto);
+        memberService.recoveryMember(recoveryDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping
     public ResponseEntity delete(HttpServletRequest request, HttpServletResponse response) {
-        memberService.delete(request, response);
+        memberService.deleteMember(request, response);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/reissue")
     public ResponseEntity reissue(HttpServletRequest request, HttpServletResponse response) {
-        return memberService.reissue(request, response);
+        return memberService.reissueAccessToken(request, response);
     }
 
     @GetMapping("/me")
     public ResponseEntity me() {
-        return memberService.memberInfo();
+        return memberService.getMemberInfo();
     }
 
 }
