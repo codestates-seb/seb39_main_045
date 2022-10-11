@@ -4,7 +4,6 @@ import com.cactusvilleage.server.global.exception.BusinessLogicException;
 import com.cactusvilleage.server.global.response.ErrorResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
@@ -18,7 +17,7 @@ import java.io.PrintWriter;
 
 import static com.cactusvilleage.server.global.exception.ExceptionCode.ONLY_FOR_ADMIN;
 import static com.cactusvilleage.server.global.exception.ExceptionCode.ONLY_FOR_MEMBER;
-import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 @Slf4j
 @Component

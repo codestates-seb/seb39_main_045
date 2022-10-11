@@ -4,16 +4,11 @@ import com.cactusvilleage.server.auth.entities.Member;
 import com.cactusvilleage.server.auth.repository.MemberRepository;
 import com.cactusvilleage.server.auth.service.MemberService;
 import com.cactusvilleage.server.auth.util.SecurityUtil;
-import com.cactusvilleage.server.challenge.validator.ChallengeValidator;
 import com.cactusvilleage.server.challenge.entities.Challenge;
 import com.cactusvilleage.server.challenge.repository.ChallengeRepository;
+import com.cactusvilleage.server.challenge.validator.ChallengeValidator;
 import com.cactusvilleage.server.challenge.web.dto.request.EnrollDto;
-import com.cactusvilleage.server.challenge.web.dto.response.HistoryInfoResponseDto;
-import com.cactusvilleage.server.challenge.web.dto.response.EnrollResponseDto;
-import com.cactusvilleage.server.challenge.web.dto.response.RankingResponseDto;
-import com.cactusvilleage.server.challenge.web.dto.response.WateringResponseDto;
-import com.cactusvilleage.server.challenge.web.dto.response.ActiveInfoDto;
-import com.cactusvilleage.server.challenge.web.dto.response.AllInfoDto;
+import com.cactusvilleage.server.challenge.web.dto.response.*;
 import com.cactusvilleage.server.global.exception.BusinessLogicException;
 import com.cactusvilleage.server.global.response.SingleResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -29,11 +24,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static com.cactusvilleage.server.challenge.entities.Status.*;
 import static com.cactusvilleage.server.global.exception.ExceptionCode.CHALLENGE_TARGET_TIME_NOT_NULL;
@@ -99,7 +92,7 @@ public class ChallengeService {
         challengeRepository.save(challenge);
     }
 
-    public ResponseEntity getRecords(String active) {
+    public ResponseEntity getChallengeRecords(String active) {
         if (active == null) {
             List<Challenge> all = challengeRepository.findAllByMemberId(SecurityUtil.getCurrentMemberId());
             List<Challenge> done = all.stream()
@@ -243,10 +236,10 @@ public class ChallengeService {
             List<Member> members = memberRepository.findAllByDeleted(false, Sort.by(Sort.Direction.ASC, "id"));
 
             if (collect.isEmpty()) {
-                for (int i = 0; i < rankerSize; i++) {
+                for (int rank = 0; rank < rankerSize; rank++) {
                     RankingResponseDto.Rankers ranker = RankingResponseDto.Rankers.builder()
-                            .rank(i + 1)
-                            .username(members.get(i).getUsername())
+                            .rank(rank + 1)
+                            .username(members.get(rank).getUsername())
                             .stamps(0)
                             .build();
                     rankers.add(ranker);
@@ -283,13 +276,13 @@ public class ChallengeService {
         }
     }
 
-    private List<RankingResponseDto.Rankers> getValidRankers(List<Map.Entry<Member, Long>> collect, int index, List<RankingResponseDto.Rankers> rankers) {
-        for (int i = 0; i < index; i++) {
-            Member member = collect.get(i).getKey();
+    private List<RankingResponseDto.Rankers> getValidRankers(List<Map.Entry<Member, Long>> collect, int validRankerSize, List<RankingResponseDto.Rankers> rankers) {
+        for (int rank = 0; rank < validRankerSize; rank++) {
+            Member member = collect.get(rank).getKey();
             RankingResponseDto.Rankers ranker = RankingResponseDto.Rankers.builder()
                     .rank(getRank(collect, member))
                     .username(member.getUsername())
-                    .stamps(collect.get(i).getValue().intValue())
+                    .stamps(collect.get(rank).getValue().intValue())
                     .build();
             rankers.add(ranker);
         }
@@ -297,16 +290,16 @@ public class ChallengeService {
     }
 
 
-    private RankingResponseDto.MyRanking getMyRank(List<Map.Entry<Member, Long>> collect, Member member, int index) {
-        Optional<RankingResponseDto.Rankers> rankerMe = getRankers(collect, RANKER_SIZE).stream()
+    private RankingResponseDto.MyRanking getMyRank(List<Map.Entry<Member, Long>> collect, Member member, int rankerSize) {
+        Optional<RankingResponseDto.Rankers> amIRanker = getRankers(collect, RANKER_SIZE).stream()
                 .filter(ranker -> ranker.getUsername().equals(member.getUsername()))
                 .findAny();
 
-        if (rankerMe.isPresent()) {
+        if (amIRanker.isPresent()) {
             return null;
         }
 
-        if (collect.size() < index) {
+        if (collect.size() < rankerSize) {
             return RankingResponseDto.MyRanking.builder()
                     .rank(RANKER_SIZE + 1)
                     .username(member.getUsername())

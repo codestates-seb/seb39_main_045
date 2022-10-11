@@ -43,8 +43,8 @@ public class ChallengeController {
     }
 
     @GetMapping
-    public ResponseEntity getChallengeRecords(@RequestParam @Nullable @ChallengeStatus String active) {
-        return challengeService.getRecords(active);
+    public ResponseEntity sendChallengeRecords(@RequestParam @Nullable @ChallengeStatus String active) {
+        return challengeService.getChallengeRecords(active);
     }
 
     @GetMapping("/water")
