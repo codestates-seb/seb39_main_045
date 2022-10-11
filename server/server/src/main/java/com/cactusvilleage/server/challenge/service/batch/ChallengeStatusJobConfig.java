@@ -15,7 +15,9 @@ import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.data.RepositoryItemWriter;
 import org.springframework.batch.item.data.builder.RepositoryItemWriterBuilder;
+import org.springframework.batch.item.database.JpaCursorItemReader;
 import org.springframework.batch.item.database.JpaPagingItemReader;
+import org.springframework.batch.item.database.builder.JpaCursorItemReaderBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -62,30 +64,9 @@ public class ChallengeStatusJobConfig {
 
     @StepScope
     @Bean
-    public JpaPagingItemReader<Challenge> challengeReader() {
-        CustomItemReader<Challenge> reader = new CustomItemReader<>();
-
-        reader.setName("challengeReader");
-        reader.setEntityManagerFactory(entityManagerFactory);
-        reader.setPageSize(CHUNK_SIZE);
-        reader.setQueryString("select c from Challenge c where c.status = :status");
-        reader.setParameterValues(Map.of("status", IN_PROGRESS));
-
-        return reader;
-    }
-
-    private static class CustomItemReader<Challenge> extends JpaPagingItemReader<Challenge> {
-        @Override
-        public int getPage() {
-            return 0;
-        }
-    }
-
-    @StepScope
-    @Bean
     public ItemProcessor<Challenge, Challenge> challengeProcessor() {
         return challenge -> {
-            LocalDate dueDate = challenge.getCreatedAt().toLocalDate().plusDays(challenge.getTargetDate());
+            LocalDate dueDate = challenge.getCreatedAt().toLocalDate().plusDays(challenge.getTargetDate() - 1);
             boolean due = dueDate.isEqual(LocalDate.now()) || dueDate.isBefore(LocalDate.now());
 
             if (!due) {
@@ -103,6 +84,18 @@ public class ChallengeStatusJobConfig {
         };
     }
 
+
+    @StepScope
+    @Bean
+    public JpaCursorItemReader<Challenge> challengeReader() {
+        return new JpaCursorItemReaderBuilder<Challenge>()
+                .name("challengeReader")
+                .entityManagerFactory(entityManagerFactory)
+                .queryString("select c from Challenge c where c.status = :status")
+                .parameterValues(Map.of("status", IN_PROGRESS))
+                .build();
+    }
+
     @StepScope
     @Bean
     public RepositoryItemWriter<Challenge> challengeWriter() {
@@ -111,4 +104,26 @@ public class ChallengeStatusJobConfig {
                 .build();
     }
 
+
+    //    @StepScope
+    //    @Bean
+    public JpaPagingItemReader<Challenge> challengePagingReader() {
+        CustomItemReader<Challenge> reader = new CustomItemReader<>();
+
+        reader.setName("challengeReader");
+        reader.setEntityManagerFactory(entityManagerFactory);
+        reader.setPageSize(CHUNK_SIZE);
+        reader.setQueryString("select c from Challenge c where c.status = :status");
+        reader.setParameterValues(Map.of("status", IN_PROGRESS));
+
+        return reader;
+    }
+
+    private static class CustomItemReader<Challenge> extends JpaPagingItemReader<Challenge> {
+
+        @Override
+        public int getPage() {
+            return 0;
+        }
+    }
 }
