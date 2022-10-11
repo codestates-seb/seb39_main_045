@@ -51,7 +51,7 @@ public class ChallengeStatusJobConfig {
     @JobScope
     @Bean
     public Step challengeStatusStep() {
-        log.info("스텝 시작");
+        log.info("Step starts");
         return stepBuilderFactory.get("challengeStatusStep")
                 .<Challenge, Challenge>chunk(CHUNK_SIZE)
                 .reader(challengeReader())
