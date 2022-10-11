@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html"; charset="UTF-8">
+</head>
+<body>
+<div style="font-size: 15px">
+
+    <h1 style="color:black">선인장 키우기의 임시 비밀번호입니다.</h1>
+
+    <p style="color: black">안녕하세요, <span th:text="${username}" style="font-weight: bold"></span>님!</p>
+    <p style="color: black">발급 받으신 임시 비밀번호로 로그인 해주세요.</p>
+
+    <div class="pw" style="margin: 20px; padding: 30px; border: 10px solid orange; box-sizing: border-box; font-weight: bold">임시 비밀번호: <span th:text="${tempPassword}"></span></div>
+
+    <a href="https://dev.cactus-villeage.com/login">지금 바로 로그인 페이지로 이동하기!</a>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,79 @@
+{
+  "taskDefinitionArn": "arn:aws:ecs:ap-northeast-2:668861671559:task-definition/task-def-webapi-cluster:2",
+  "containerDefinitions": [
+    {
+      "name": "ecs-webapi",
+      "image": "668861671559.dkr.ecr.ap-northeast-2.amazonaws.com/ecs-webapi:latest",
+      "cpu": 0,
+      "links": [],
+      "portMappings": [
+        {
+          "containerPort": 8080,
+          "hostPort": 0,
+          "protocol": "tcp"
+        }
+      ],
+      "essential": true,
+      "entryPoint": [],
+      "command": [],
+      "environment": [],
+      "mountPoints": [],
+      "volumesFrom": [],
+      "dnsServers": [],
+      "dnsSearchDomains": [],
+      "dockerSecurityOptions": [],
+      "dockerLabels": {},
+      "systemControls": []
+    }
+  ],
+  "family": "task-def-webapi-cluster",
+  "taskRoleArn": "arn:aws:iam::668861671559:role/ecsTaskExecutionRole",
+  "executionRoleArn": "arn:aws:iam::668861671559:role/ecsTaskExecutionRole",
+  "networkMode": "bridge",
+  "revision": 2,
+  "volumes": [],
+  "status": "ACTIVE",
+  "requiresAttributes": [
+    {
+      "name": "com.amazonaws.ecs.capability.ecr-auth"
+    },
+    {
+      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.17"
+    },
+    {
+      "name": "com.amazonaws.ecs.capability.task-iam-role"
+    },
+    {
+      "name": "ecs.capability.execution-role-ecr-pull"
+    },
+    {
+      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
+    }
+  ],
+  "placementConstraints": [],
+  "compatibilities": [
+    "EXTERNAL",
+    "EC2"
+  ],
+  "requiresCompatibilities": [
+    "EC2"
+  ],
+  "cpu": "256",
+  "memory": "465",
+  "runtimePlatform": {
+    "cpuArchitecture": "X86_64",
+    "operatingSystemFamily": "LINUX"
+  },
+  "registeredAt": "2022-09-26T05:50:11.823Z",
+  "registeredBy": "arn:aws:iam::668861671559:root",
+  "tags": [
+    {
+      "key": "ecs:taskDefinition:createdFrom",
+      "value": "ecs-console-v2"
+    },
+    {
+      "key": "ecs:taskDefinition:stackId",
+      "value": "arn:aws:cloudformation:ap-northeast-2:668861671559:stack/ECS-Console-V2-TaskDefinition-07326a61-720b-49d9-84ca-a1b029db2d1a/c3e68ec0-3d48-11ed-bed4-0af1ed9e8946"
+    }
+  ]
+}
