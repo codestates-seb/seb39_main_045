@@ -33,7 +33,7 @@ public class ChallengeStatusJobScheduler {
             jobLauncher.run(challengeStatusJobConfig.challengeStatusJob(), parameters);
         } catch (JobExecutionAlreadyRunningException | JobRestartException | JobInstanceAlreadyCompleteException |
                  JobParametersInvalidException e) {
-            log.info("스케줄링에서 먼가 터졌습니다", e);
+            log.info("Scheduling went wrong", e);
             e.printStackTrace();
         }
     }

@@ -69,7 +69,7 @@ public class MemberService {
         tokenRepository.checkRefreshToken(memberId);
         Member member = findMember(Long.parseLong(memberId));
 
-        MemberInfoResponseDto memberInfo = getMemberInfo(member);
+        MemberInfoResponseDto memberInfo = setMemberInfo(member);
         jwtCookieUtil.generateTokenCookies(request, response, authentication);
 
         return new ResponseEntity<>(new SingleResponseDto<>(memberInfo), HttpStatus.OK);
@@ -83,7 +83,7 @@ public class MemberService {
         jwtCookieUtil.deleteCookie(request, response, "refresh_token");
     }
 
-    public ResponseEntity edit(EditDto editDto) {
+    public ResponseEntity editMember(EditDto editDto) {
         Long memberId = SecurityUtil.getCurrentMemberId();
         Member foundMember = findMember(memberId);
 
@@ -108,7 +108,7 @@ public class MemberService {
         }
     }
 
-    public void recovery(RecoveryDto recoveryDto) {
+    public void recoveryMember(RecoveryDto recoveryDto) {
         Member foundMember = memberRepository.findByEmail(recoveryDto.getEmail())
                 .orElseThrow(() -> new BusinessLogicException(MEMBER_NOT_FOUND));
 
@@ -129,7 +129,7 @@ public class MemberService {
         memberRepository.save(foundMember);
     }
 
-    public void delete(HttpServletRequest request, HttpServletResponse response) {
+    public void deleteMember(HttpServletRequest request, HttpServletResponse response) {
         RefreshToken refreshToken = getRefreshToken(request);
         tokenRepository.deleteById(refreshToken.getTokenId());
 
@@ -141,6 +141,20 @@ public class MemberService {
 
         jwtCookieUtil.deleteCookie(request, response, "access_token");
         jwtCookieUtil.deleteCookie(request, response, "refresh_token");
+    }
+
+    public ResponseEntity reissueAccessToken(HttpServletRequest request, HttpServletResponse response) {
+        RefreshToken refreshToken = getRefreshToken(request);
+        jwtCookieUtil.generateAccessCookie(request, response, refreshToken);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    public ResponseEntity getMemberInfo() {
+        Long memberId = SecurityUtil.getCurrentMemberId();
+        Member member = findMember(memberId);
+        MemberInfoResponseDto memberInfo = setMemberInfo(member);
+        return new ResponseEntity<>(new SingleResponseDto<>(memberInfo), HttpStatus.OK);
     }
 
     private Member deleteByType(Member member) {
@@ -159,21 +173,7 @@ public class MemberService {
         return member;
     }
 
-    public ResponseEntity reissue(HttpServletRequest request, HttpServletResponse response) {
-        RefreshToken refreshToken = getRefreshToken(request);
-        jwtCookieUtil.generateAccessCookie(request, response, refreshToken);
-
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    public ResponseEntity memberInfo() {
-        Long memberId = SecurityUtil.getCurrentMemberId();
-        Member member = findMember(memberId);
-        MemberInfoResponseDto memberInfo = getMemberInfo(member);
-        return new ResponseEntity<>(new SingleResponseDto<>(memberInfo), HttpStatus.OK);
-    }
-
-    private MemberInfoResponseDto getMemberInfo(Member member) {
+    private MemberInfoResponseDto setMemberInfo(Member member) {
         Challenge challenge = getRecentChallenge(member);
         if (challenge == null || challenge.getStatus().equals(DELETED) || challenge.isNotified()) {
             return MemberInfoResponseDto.builder()
@@ -236,7 +236,7 @@ public class MemberService {
         }
     }
 
-    public UsernamePasswordAuthenticationToken toAuthentication(String email, String password) {
+    private UsernamePasswordAuthenticationToken toAuthentication(String email, String password) {
         return new UsernamePasswordAuthenticationToken(email, password);
     }
 
