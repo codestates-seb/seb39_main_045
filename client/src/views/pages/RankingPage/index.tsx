@@ -9,7 +9,6 @@ import MyPageNav from 'views/components/common/MyPageNav';
 import Rankers from './Rankers';
 import useRankingPage from './useRankingPage';
 import useSelectorTyped from 'utils/useSelectorTyped';
-import KakaoShare from './KakaoShare';
 
 const MypageRanking = () => {
   void useRankingPage();
@@ -24,7 +23,6 @@ const MypageRanking = () => {
       <ShareTitle>
         <Title.Sub>나의 도장 모음</Title.Sub>
         <div>
-          <KakaoShare stampsCount={myStamps.length} />
           <TwitterShare stampsCount={myStamps.length} />
           으로 자랑하기✨
         </div>
