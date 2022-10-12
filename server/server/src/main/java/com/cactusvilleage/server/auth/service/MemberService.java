@@ -1,5 +1,6 @@
 package com.cactusvilleage.server.auth.service;
 
+import com.cactusvilleage.server.auth.entities.Authority;
 import com.cactusvilleage.server.auth.entities.Member;
 import com.cactusvilleage.server.auth.entities.RefreshToken;
 import com.cactusvilleage.server.auth.entities.oauth.ProviderType;
@@ -66,8 +67,10 @@ public class MemberService {
         Authentication authentication = verifyPassword(loginDto.getEmail(), loginDto.getPassword());
 
         String memberId = authentication.getName();
-        tokenRepository.checkRefreshToken(memberId);
         Member member = findMember(Long.parseLong(memberId));
+        if (member.getAuthority().equals(Authority.ROLE_USER)) {
+            tokenRepository.checkRefreshToken(memberId);
+        }
 
         MemberInfoResponseDto memberInfo = setMemberInfo(member);
         jwtCookieUtil.generateTokenCookies(request, response, authentication);
