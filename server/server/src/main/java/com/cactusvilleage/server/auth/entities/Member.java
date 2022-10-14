@@ -21,10 +21,11 @@ public class Member extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MEMBER_ID")
     private Long id;
-    @Column(unique = true)
+    @Column(unique = true, length = 512)
     private String email;
+    @Column(length = 128)
     private String password;
-    @Column(unique = true)
+    @Column(unique = true, length = 512, nullable = false)
     private String username;
     @Column(columnDefinition = "TINYINT", length = 1)
     private boolean deleted;
@@ -32,7 +33,7 @@ public class Member extends Auditable {
     private Authority authority;
     @Enumerated(EnumType.STRING)
     private ProviderType providerType;
-    @Column(unique = true)
+    @Column(unique = true, length = 512)
     private String providerId;
 
     @Builder
