@@ -37,7 +37,7 @@ public class ChallengeStatusJobConfig {
     private final ChallengeRepository challengeRepository;
     private final EntityManagerFactory entityManagerFactory;
     private final DiscordWebHookSender discordWebHookSender;
-    private static final int CHUNK_SIZE = 5;
+    private static final int CHUNK_SIZE = 10;
 
 
     @Bean
@@ -66,7 +66,7 @@ public class ChallengeStatusJobConfig {
     @Bean
     public ItemProcessor<Challenge, Challenge> challengeProcessor() {
         return challenge -> {
-            LocalDate dueDate = challenge.getCreatedAt().toLocalDate().plusDays(challenge.getTargetDate() - 1);
+            LocalDate dueDate = challenge.getCreatedAt().toLocalDate().plusDays(challenge.getTargetDate());
             boolean due = dueDate.isEqual(LocalDate.now()) || dueDate.isBefore(LocalDate.now());
 
             if (!due) {
