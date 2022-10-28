@@ -5,6 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public interface RefreshTokenRepository extends CrudRepository<RefreshToken, String> {
@@ -15,6 +16,7 @@ public interface RefreshTokenRepository extends CrudRepository<RefreshToken, Str
     default void checkRefreshToken(String memberId) {
         List<RefreshToken> all = findAll();
         List<RefreshToken> duplicateRefreshToken = all.stream()
+                .filter(Objects::nonNull)
                 .filter(refreshToken -> refreshToken.getMemberId().equals(memberId))
                 .collect(Collectors.toList());
         if (!duplicateRefreshToken.isEmpty()) {
