@@ -28,6 +28,7 @@ public class PlainSignupDto {
     @NotBlank
     @UsernameNotDuplicate
     @SpaceCantBeAtBeginOrEnd
+    @Size(min = 2, max = 8, message = "닉네임 길이는 2 이상 8 이하여야 합니다.")
     private String username;
 
     @NotBlank
