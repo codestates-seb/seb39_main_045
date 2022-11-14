@@ -1,23 +1,30 @@
-version: "2"
+version: "3"
 services:
   redis:
     image: redis:alpine
+    container_name: redis-prod
     ports:
       - "6379:6379"
   webapi:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: 668861671559.dkr.ecr.ap-northeast-2.amazonaws.com/cactus-v2:latest
     container_name: server
     ports:
       - "8080:8080"
-  nginx:
-    build:
-      context: .
-      dockerfile: Dockerfile-nginx
-    ports:
-      - "80:80"
-    restart: always
     depends_on:
-      - webapi
-
+      - redis
+      - db
+  db:
+    image: mysql:8
+    container_name: db-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: qwerty
+      MYSQL_USER: jp
+      MYSQL_PASSWORD: jh0523
+      MYSQL_DATABASE: cactus-prod
+      TZ: Asia/Seoul
+    command:
+      - '--character-set-server=utf8mb4'
+      - '--collation-server=utf8mb4_unicode_ci'
+    ports:
+      - "3306:3306"

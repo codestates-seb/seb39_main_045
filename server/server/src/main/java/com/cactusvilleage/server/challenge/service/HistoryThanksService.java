@@ -28,13 +28,11 @@ import static com.cactusvilleage.server.global.exception.ExceptionCode.ENROLL_HI
 public class HistoryThanksService {
 
     private final HistoryRepository historyRepository;
-    private final ChallengeRepository challengeRepository;
+    private final ChallengeValidator challengeValidator;
 
     public HistoryResponseDto uploadThanksHistory(ThanksDto thanksDto) {
 
-        ChallengeValidator data = new ChallengeValidator(challengeRepository);
-
-        Challenge challenge = data.validateActiveChallenge();
+        Challenge challenge = challengeValidator.validateActiveChallenge();
 
         Challenge.ChallengeType type = challenge.getChallengeType();
 

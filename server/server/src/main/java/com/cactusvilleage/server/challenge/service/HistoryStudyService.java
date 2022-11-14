@@ -27,15 +27,13 @@ import static com.cactusvilleage.server.global.exception.ExceptionCode.*;
 @Transactional
 public class HistoryStudyService {
     private final HistoryRepository historyRepository;
-    private final ChallengeRepository challengeRepository;
+    private final ChallengeValidator challengeValidator;
     private final S3Service s3Service;
 
     public HistoryResponseDto uploadStudyHistory(StudyDto studyDto,
                                                  MultipartFile multipartFile) throws IOException {
 
-        ChallengeValidator data = new ChallengeValidator(challengeRepository);
-
-        Challenge challenge = data.validateActiveChallenge();
+        Challenge challenge = challengeValidator.validateActiveChallenge();
 
         Challenge.ChallengeType type = challenge.getChallengeType();
 
