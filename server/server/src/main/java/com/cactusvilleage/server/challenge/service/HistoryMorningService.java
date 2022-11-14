@@ -4,7 +4,6 @@ package com.cactusvilleage.server.challenge.service;
 import com.cactusvilleage.server.challenge.validator.ChallengeValidator;
 import com.cactusvilleage.server.challenge.entities.Challenge;
 import com.cactusvilleage.server.challenge.entities.History;
-import com.cactusvilleage.server.challenge.repository.ChallengeRepository;
 import com.cactusvilleage.server.challenge.repository.HistoryRepository;
 import com.cactusvilleage.server.challenge.web.dto.request.MorningDto;
 import com.cactusvilleage.server.challenge.web.dto.response.HistoryResponseDto;
@@ -28,13 +27,11 @@ import static com.cactusvilleage.server.global.exception.ExceptionCode.ENROLL_HI
 public class HistoryMorningService {
 
     private final HistoryRepository historyRepository;
-    private final ChallengeRepository challengeRepository;
+    private final ChallengeValidator challengeValidator;
 
     public HistoryResponseDto uploadMorningHistory(MorningDto morningDto) {
 
-        ChallengeValidator data = new ChallengeValidator(challengeRepository);
-
-        Challenge challenge = data.validateActiveChallenge();
+        Challenge challenge = challengeValidator.validateActiveChallenge();
 
         Challenge.ChallengeType type = challenge.getChallengeType();
 

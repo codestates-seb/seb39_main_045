@@ -41,8 +41,9 @@ public class ChallengeService {
 
     private final MemberService memberService;
     private final ChallengeRepository challengeRepository;
+    private final ChallengeValidator challengeValidator;
     private final MemberRepository memberRepository;
-    private final static int RANKER_SIZE = 3;
+    private static final int RANKER_SIZE = 3;
     @Value("classpath:/static/water.txt")
     private Resource fileResource;
 
@@ -84,11 +85,9 @@ public class ChallengeService {
     }
 
     public void delete() {
-        ChallengeValidator data = new ChallengeValidator(challengeRepository);
-        Challenge challenge = data.validateActiveChallenge();
 
+        Challenge challenge = challengeValidator.validateActiveChallenge();
         challenge.setStatus(DELETED);
-
         challengeRepository.save(challenge);
     }
 
@@ -142,14 +141,13 @@ public class ChallengeService {
             return new ResponseEntity<>(new SingleResponseDto<>(allInfo), HttpStatus.OK);
 
         } else {
-            ChallengeValidator data = new ChallengeValidator(challengeRepository);
             try {
-                data.validateActiveChallenge();
+                challengeValidator.validateActiveChallenge();
             } catch (BusinessLogicException e) {
                 return new ResponseEntity<>(new SingleResponseDto<>(new ActiveInfoDto()), HttpStatus.OK);
             }
 
-            Challenge challenge = data.validateActiveChallenge();
+            Challenge challenge = challengeValidator.validateActiveChallenge();
 
             ActiveInfoDto activeInfo = ActiveInfoDto.builder()
                     .challengeType(challenge.getChallengeType().toString().toLowerCase())
@@ -163,9 +161,7 @@ public class ChallengeService {
     }
 
     public ResponseEntity getMessage() {
-        ChallengeValidator data = new ChallengeValidator(challengeRepository);
-        data.validateActiveChallenge();
-
+        challengeValidator.validateActiveChallenge();
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(fileResource.getInputStream()));
 
